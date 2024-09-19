@@ -1,1 +1,2 @@
-Un fichier readme (en français, lisez-moi) est un fichier contenant des informations sur les autres fichiers du même répertoire. Un tel fichier est généralement un fichier texte appelé « README.
+Le fichier readme n'a aucune action  particulière a effectuer il donne des infos sur les autres codes et peut servir de documentation sur les erreurs et avancées du code exemple
+19/09/2024 Création du fichier Readme
