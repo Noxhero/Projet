@@ -1,3 +1,148 @@
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f5f7fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 2em;
+    color: #4a90e2;
+    animation: fadeIn 2s ease-in-out;
+}
+
+form {
+    width: 50%;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+form label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="time"],
+form input[type="submit"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
+}
+
+form input[type="submit"] {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+form input[type="submit"]:hover {
+    background: #357abd;
+}
+
+form input:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+th, td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #4a90e2;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+td input[type="text"],
+td input[type="time"] {
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 6px;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+td input[type="text"]:focus,
+td input[type="time"]:focus {
+    border-color: #4a90e2;
+}
+
+button {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin-right: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+button:hover {
+    background: #c0392b;
+}
+
+button#modifier {
+    background: #27ae60;
+}
+
+button#modifier:hover {
+    background: #1e8449;
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+@media (max-width: 768px) {
+    form, table {
+        width: 90%;
+    }
+
+    form input[type="text"],
+    form input[type="time"],
+    form input[type="submit"],
+    td input[type="text"],
+    td input[type="time"] {
+        width: calc(100% - 20px);
+    }
+}
+
+
 .dropdown {
     position: relative;
     display: inline-block;
