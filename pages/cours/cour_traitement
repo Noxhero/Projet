@@ -1,0 +1,44 @@
+<?php
+
+include '../../includes/haut.inc.php';
+
+
+if (isset($_POST['action']) && $_POST['action'] === 'modifier') {
+  
+    $idCours = $_POST["idcours"];
+    $nomCours = $_POST["libcours"]; 
+    $horaireDebut = $_POST["horairedebut"]; 
+    $horaireFin = $_POST["horairefin"]; 
+    $jour = $_POST["jour"]; 
+
+    $unCours = new Cours($idCours, $nomCours, $horaireDebut, $horaireFin, $jour);
+
+    $unCours->UpdateCours(); 
+    header('Location: cours.php');
+    exit();
+}
+
+if (isset($_POST["nom"]) && isset($_POST["debut"]) && isset($_POST["fin"]) && isset($_POST["Jour"])) {
+    $nom = $_POST["nom"];
+    $debut = $_POST["debut"]; 
+    $fin = $_POST["fin"];
+    $jour = $_POST["Jour"]; 
+
+    $unCours = new Cours(null, $nom, $debut, $fin, $jour);
+    $unCours->InsertCours();
+    header("Location: cours.php");
+exit(); 
+}
+
+
+if (isset($_POST["supprimer"])) {
+    $idCours = $_POST["supprimer"]; 
+    $unCours = new Cours($idCours, null, null, null, null); // Crée un objet Cours avec seulement l'ID
+    $unCours->DeleteCours($idCours);
+    header("Location: cours.php");
+exit(); 
+}
+
+
+
+?>
