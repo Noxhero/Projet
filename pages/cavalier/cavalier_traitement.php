@@ -10,7 +10,6 @@ function communeExists($con, $idcommune) {
     return $stmt->fetchColumn() > 0;
 }
 
-// Fonction pour vérifier si un galop existe
 function galopExists($con, $idgalop) {
     $sql = "SELECT COUNT(*) FROM galop WHERE idgalop = :idgalop";
     $stmt = $con->prepare($sql);
@@ -25,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $idcommune = $_POST['idcommune'];
         $idgalop = $_POST['idgalop'];
 
-        // Vérifier si la commune et le galop existent
         if (!communeExists($con, $idcommune)) {
             echo "Erreur : La commune avec l'ID $idcommune n'existe pas.";
             exit();
@@ -57,35 +55,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Modification d'un cavalier
     if (isset($_POST['modifier'])) {
         $idcavalier = $_POST['idcavalier'];
-        $idcommune = $_POST['idcommune'];
+        $idcommune = $_POST['idcommune']; // Récupération de l'ID de la commune
         $idgalop = $_POST['idgalop'];
-
-        // Vérifier si la commune et le galop existent
+    
         if (!communeExists($con, $idcommune)) {
             echo "Erreur : La commune avec l'ID $idcommune n'existe pas.";
             exit();
         }
-        
+    
         if (!galopExists($con, $idgalop)) {
             echo "Erreur : Le galop avec l'ID $idgalop n'existe pas.";
             exit();
         }
-
+    
         $nomcavalier = $_POST['nomcavalier'];
         $prenomcavalier = $_POST['prenomcavalier'];
-
-        $unCavalier = new Cavalier(null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-        $unCavalier->Modifier($idcavalier, $nomcavalier, $prenomcavalier);
+        $datenaissancecavalier = $_POST['datenaissancecavalier'] ?? null; // Assurez-vous que ça vient bien de votre formulaire
+        $nomresponsable = $_POST['nomresponsable'] ?? null;
+        $rueresponsable = $_POST['rueresponsable'] ?? null;
+        $telresponsable = $_POST['telresponsable'] ?? null;
+        $emailresponsable = $_POST['emailresponsable'] ?? null;
+        $password = $_POST['password'] ?? null;
+        $numlicence = $_POST['numlicence'] ?? null;
+        $numassurance = $_POST['numassurance'] ?? null;
+        
+        $unCavalier = new Cavalier(null, null,
+        null, null,
+        null, null,
+        null, null,
+        null, null, 
+        null, null, 
+        null, null);
+        
+        $unCavalier->Cavalier_modifier($idcavalier,
+        $nomcavalier, 
+        $prenomcavalier, 
+        $datenaissancecavalier, 
+        $nomresponsable, 
+        $rueresponsable, 
+        $telresponsable, 
+        $emailresponsable, 
+        $password, $numlicence, 
+        $numassurance, $idcommune, 
+        $idgalop);
         
         header("Location: cavalier.php");
         exit();
-    }
-
-    if (isset($_POST["supprimer"])) {
-        $idAnnonce = $_POST["supprimer"];
-        $uneAnnonce = new Cavalier(null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-        $uneAnnonce->Cavalier_supp($idAnnonce);    
-    }
+    
 }
-
+}
 ?>

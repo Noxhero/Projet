@@ -84,8 +84,7 @@ class Cavalier
 
     public function getIdCommune()
     {
-        $oCommune = new Commune('','','');
-        return $macommune = $oCommune->getIdCommune();
+        return $this->idcommune;
     }
 
     public function getIdGalop() {
@@ -183,7 +182,11 @@ class Cavalier
         return $cavaliers;
     }
         
-    public function Cavalier_ajout($nomcavalier, $prenomcavalier, $datenaissancecavalier, $nomresponsable, $rueresponsable, $telresponsable, $emailresponsable, $password, $numlicence, $numassurance, $idcommune, $idgalop) {
+    public function Cavalier_ajout($nomcavalier, 
+    $prenomcavalier, $datenaissancecavalier, 
+    $nomresponsable, $rueresponsable, $telresponsable, 
+    $emailresponsable, $password, $numlicence, 
+    $numassurance, $idcommune, $idgalop) {
         global $con;
         $data = [
             ":nomcavalier" => $nomcavalier,
@@ -205,23 +208,52 @@ class Cavalier
         $stmt->execute($data);
     }
         
-    public function Modifier($idcavalier, $nomcavalier, $prenomcavalier) {
-        global $con;
-        $data = [
-            ":nomcavalier" => $nomcavalier,
-            ":prenomcavalier" => $prenomcavalier
-        ];
-        $sql = "UPDATE cavalier SET nomcavalier = :nomcavalier, prenomcavalier = :prenomcavalier WHERE idcavalier = :idcavalier";
-        $stmt = $con->prepare($sql);
-        $stmt->bindParam(':idcavalier', $idcavalier);
-        $stmt->execute($data);
+    public function Cavalier_modifier($idcavalier, $nomcavalier, 
+    $prenomcavalier, $datenaissancecavalier, 
+    $nomresponsable, $rueresponsable, $telresponsable, 
+    $emailresponsable, $password, $numlicence, $numassurance, 
+    $idcommune, $idgalop) {
+    global $con;
+    $data = [
+        ":nomcavalier" => $nomcavalier,
+        ":prenomcavalier" => $prenomcavalier,
+        ":datenaissancecavalier" => $datenaissancecavalier,
+        ":nomresponsable" => $nomresponsable,
+        ":rueresponsable" => $rueresponsable,
+        ":telresponsable" => $telresponsable,
+        ":emailresponsable" => $emailresponsable,
+        ":password" => $password,
+        ":numlicence" => $numlicence,
+        ":numassurance" => $numassurance,
+        ":idcommune" => $idcommune,
+        ":idgalop" => $idgalop,
+        ":idcavalier" => $idcavalier // Ajouté ici
+    ];
+    $sql = "UPDATE cavalier SET 
+        nomcavalier = :nomcavalier, 
+        prenomcavalier = :prenomcavalier, 
+        datenaissancecavalier = :datenaissancecavalier, 
+        nomresponsable = :nomresponsable, 
+        rueresponsable = :rueresponsable, 
+        telresponsable = :telresponsable, 
+        emailresponsable = :emailresponsable, 
+        password = :password, 
+        numlicence = :numlicence, 
+        numassurance = :numassurance, 
+        idcommune = :idcommune, 
+        idgalop = :idgalop 
+        WHERE idcavalier = :idcavalier";
+
+    $stmt = $con->prepare($sql);
+    $stmt->execute($data); // Exécute la requête avec tous les paramètres
     }
-    public function Cavalier_supp($idcavalier) {
+
+        public function Cavalier_supp($idcavalier) {
         global $con;
         $sql = "UPDATE cavalier SET afficher = False WHERE idcavalier = :idcavalier";
         $stmt = $con->prepare($sql);
         $stmt->bindParam(':idcavalier', $idcavalier);
-        $stmt->execute();  
+        $stmt->execute();     
     }
         
 }
