@@ -3,28 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un cheval</title>
+    <title>Gestion de la Cavalerie</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
-    <h2>Ajouter un cheval à la Cavalerie</h2>
 
-    <form action="traitement_cavalerie.php" method="POST"> <!-- Assurez-vous que l'action pointe vers le bon fichier -->
-        <label for="nomcheval">Nom du cheval :</label>
-        <input type="text" id="nomcheval" name="nomcheval" required><br><br>
+<?php
+include '../../includes/haut.inc.php';
 
-        <label for="datenaissancecheval">Date de naissance :</label>
-        <input type="date" id="datenaissancecheval" name="datenaissancecheval" required><br><br>
+// Récupérer la liste des chevaux
+$oCavalerie = new Cavalerie(null, null, null, null, null, null);
+$listeChevaux = $oCavalerie->selectChevaux();
+?>
 
-        <label for="garot">Garrot (en cm) :</label>
-        <input type="number" id="garot" name="garot" min="0" required><br><br>
+<h1>Ajouter un Cheval</h1>
 
-        <label for="idrobe">Robe :</label>
-        <input type="number" id="idrobe" name="idrobe" min="0" required><br><br>
+<form action="traitement_cavalerie.php" method="POST">
+    <label for="nomcheval">Nom du Cheval:</label>
+    <input type="text" name="nomcheval" required><br>
 
-        <label for="idrace">Race :</label>
-        <input type="number" id="idrace" name="idrace" min="0" required><br><br>
+    <label for="datenaissancecheval">Date de Naissance:</label>
+    <input type="date" name="datenaissancecheval" required><br>
 
-        <button type="submit">Ajouter le cheval</button>
-    </form>
+    <label for="garot">Garot:</label>
+    <input type="number" name="garot" required><br>
+
+    <label for="idrobe">ID de la Robe:</label>
+    <input type="number" name="idrobe" required><br>
+
+    <label for="idrace">ID de la Race:</label>
+    <input type="number" name="idrace" required><br>
+
+    <input type="submit" value="Ajouter">
+</form>
+
+<h2>Liste des Chevaux</h2>
+<table id="CavalerieTable" class="display">
+    <thead>
+        <tr>
+            <th>Numéro SIRE</th>
+            <th>Nom</th>
+            <th>Date de Naissance</th>
+            <th>Garot</th>
+            <th>ID Robe</th>²
+            <th>ID Race</th>
+            <th>Modifier</th>
+            <th>Supprimer</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($listeChevaux as $cheval) : ?>
+            <tr id="row-<?= $cheval->getNumsire() ?>">
+                <td><?= htmlspecialchars($cheval->getNumsire()) ?></td>
+                <td>
+                    <span class="static-field"><?= htmlspecialchars($cheval->getnomcheval()) ?></span>
+                    <input type="text" class="edit-field" name="nomcheval" value="<?= htmlspecialchars($cheval->getnomcheval()) ?>" style="display:none;">
+                </td>
+                <td>
+                    <span class="static-field"><?= htmlspecialchars($cheval->getdatenaissancecheval()) ?></span>
+                    <input type="date" class="edit-field" name="datenaissancecheval" value="<?= htmlspecialchars($cheval->getdatenaissancecheval()) ?>" style="display:none;">
+                </td>
+                <td>
+                    <span class="static-field"><?= htmlspecialchars($cheval->getgarot()) ?></span>
+                    <input type="number" class="edit-field" name="garot" value="<?= htmlspecialchars($cheval->getgarot()) ?>" style="display:none;">
+                </td>
+                <td><?= htmlspecialchars($cheval->getidrobe()) ?></td>
+                <td><?= htmlspecialchars($cheval->getidrace()) ?></td>
+                <td>
+                    <button class="modifier-btn" data-id="<?= $cheval->getNumsire() ?>">Modifier</button>
+                    <button class="confirmer-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Confirmer</button>
+                    <button class="annuler-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Annuler</button>
+                </td>
+                <td>
+                    <form action="traitement_cavalerie.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cheval?');">
+                        <input type="hidden" name="supprimer" value="<?= $cheval->getNumsire() ?>">
+                        <button type="submit">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function() {
+        $('#CavalerieTable').DataTable();
+    });
+
+    document.querySelectorAll('.modifier-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const row = document.getElementById('row-' + id);
+            row.querySelectorAll('.static-field').forEach(field => field.style.display = 'none');
+            row.querySelectorAll('.edit-field').forEach(field => field.style.display = 'inline');
+            row.querySelector('.modifier-btn').style.display = 'none';
+            row.querySelector('.confirmer-btn').style.display = 'inline';
+            row.querySelector('.annuler-btn').style.display = 'inline';
+        });
+    });
+
+    document.querySelectorAll('.annuler-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const row = document.getElementById('row-' + id);
+            row.querySelectorAll('.static-field').forEach(field => field.style.display = 'inline');
+            row.querySelectorAll('.edit-field').forEach(field => field.style.display = 'none');
+            row.querySelector('.modifier-btn').style.display = 'inline';
+            row.querySelector('.confirmer-btn').style.display = 'none';
+            row.querySelector('.annuler-btn').style.display = 'none';
+        });
+    });
+</script>
+
 </body>
 </html>
