@@ -1,13 +1,11 @@
 <?php
 
-
 class Cours
 {
     private $idCours;
     private $libCours;
     private $horaireDebut;
-    private $horaireFin; 
-   
+    private $horaireFin;
     private $jour; 
 
     function __construct($idCours, $libCours, $horaireDebut, $horaireFin, $jour)
@@ -16,7 +14,7 @@ class Cours
         $this->libCours = $libCours;
         $this->horaireDebut = $horaireDebut;
         $this->horaireFin = $horaireFin;
-        $this->jour = $jour; 
+        $this->jour = $jour;
     }
 
     public function getIdCours()
@@ -63,15 +61,18 @@ class Cours
         $this->jour = $jour;
     }
 
-
-    public function InsertCours()
+    public function InsertCours($date)
     {
         global $con;
-       
+        
+        // Convertir l'heure début et fin en timestamp SQL
+        $dateDebut = $date . ' ' . $this->horaireDebut . ':00';
+        $dateFin = $date . ' ' . $this->horaireFin . ':00';
+        
         $data = [   
             ':lc' => $this->libCours,
-            ':hd' =>  $this->horaireDebut,
-            ':hf' => $this->horaireFin,
+            ':hd' => $dateDebut,
+            ':hf' => $dateFin,
             ':j' => $this->jour
         ];
 
@@ -80,10 +81,8 @@ class Cours
         $stmt = $con->prepare($sql);
 
         if ($stmt->execute($data)) {
-            echo "Bien inséré";
             return $con->lastInsertId();
         } else {
-            echo implode(", ", $stmt->errorInfo()); 
             return false;
         }
     }
@@ -112,13 +111,7 @@ class Cours
         $sql = "UPDATE  cours SET afficher = false WHERE idcours = :id";
         $stmt = $con->prepare($sql);
 
-        if ($stmt->execute($data)) {
-            echo "Suppression réussie";
-            return true;
-        } else {
-            echo "Erreur lors de la suppression : " . implode(", ", $stmt->errorInfo());
-            return false;
-        }
+        return $stmt->execute($data);
     }
 
     public function UpdateCours()
@@ -132,20 +125,13 @@ class Cours
             ':j' => $this->jour
         ];
 
-        $sql = "UPDATE cours	
+        $sql = "UPDATE cours    
                 SET libcours = :lc, horairedebut = :hd, horairefin = :hf, jour = :j
                 WHERE idcours = :idc;";
         $stmt = $con->prepare($sql);
 
-        if ($stmt->execute($data)) {
-            echo "Bien modifié";
-            return true;
-        } else {
-            echo implode(", ", $stmt->errorInfo());
-            return false;
-        }
+        return $stmt->execute($data);
     }
 }
+
 ?>
-
-
