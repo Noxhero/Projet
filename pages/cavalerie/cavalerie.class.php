@@ -1,94 +1,122 @@
 <?php
-include 'bdd.inc.php';
+
 class Cavalerie {
+    private $numsire;
     private $nomcheval;
     private $datenaissancecheval;
     private $garot;
     private $idrobe;
     private $idrace;
+    private $pdo;
 
-    function __construct($nc, $dnc, $gt, $idro, $idra) {
-        $this->nomcheval = $nc;
-        $this->datenaissancecheval = $dnc;
-        $this->garot = $gt;
-        $this->idrobe = $idro;
-        $this->idrace = $idra;
+    public function __construct($numsire, $nomcheval, $datenaissancecheval, $garot, $idrobe, $idrace) {
+        $this->numsire = $numsire;
+        $this->nomcheval = $nomcheval;
+        $this->datenaissancecheval = $datenaissancecheval;
+        $this->garot = $garot;
+        $this->idrobe = $idrobe;
+        $this->idrace = $idrace;
     }
 
-    public function getnomcheval() {
+    public function getNumsire() {
+        return $this->numsire;
+    }
+
+    public function getNomCheval() {
         return $this->nomcheval;
     }
 
-    public function getdatenaissancecheval() {
+    public function setNomCheval($nomcheval) {
+        $this->nomcheval = $nomcheval;
+    }
+
+    public function getDateNaissanceCheval() {
         return $this->datenaissancecheval;
     }
 
-    public function getgarot() {
+    public function setDateNaissanceCheval($datenaissancecheval) {
+        $this->datenaissancecheval = $datenaissancecheval;
+    }
+
+    public function getGarot() {
         return $this->garot;
     }
 
-    public function getidrobe() {
+    public function setGarot($garot) {
+        $this->garot = $garot;
+    }
+
+    public function getIdRobe() {
         return $this->idrobe;
     }
 
-    public function getidrace() {
+    public function setIdRobe($idrobe) {
+        $this->idrobe = $idrobe;
+    }
+
+    public function getIdRace() {
         return $this->idrace;
     }
 
-    public function setnomcheval($nc) {
-        $this->nomcheval = $nc;
+    public function setIdRace($idrace) {
+        $this->idrace = $idrace;
     }
 
-    public function setdatenaissancecheval($dnc) {
-        $this->datenaissancecheval = $dnc;
-    }
-
-    public function setgarot($gt) {
-        $this->garot = $gt;
-    }
-
-    public function setidrobe($idro) {
-        $this->idrobe = $idro;
-    }
-
-    public function setidrace($idra) {
-        $this->idrace = $idra;
-    }
-
-    public function cavalerieALL() {
-        $con = connexionPDO();
-        $sql = "SELECT * FROM cavalerie";
-        $executesql = $con->prepare($sql);
-        $executesql->execute();
-        $opcavaleries = [];
-
-        foreach ($executesql->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            $opcavalerie = new Cavalerie($row['nomcheval'], $row['datenaissancecheval'], $row['garot'], $row['idrobe'], $row['idrace']);
-            $opcavaleries[] = $opcavalerie;
-        }
-
-        return $opcavaleries;
-    }
-
-    public function cavalerie_ajout($nomcheval, $datenaissancecheval, $garot, $idrobe, $idrace) {
-        $con = connexionPDO();
+    public function insertCheval() {
+        global $con;
         $data = [
-            ':nomcheval' => $nomcheval,
-            ':datenaissancecheval' => $datenaissancecheval,
-            ':garot' => $garot,
-            ':idrobe' => $idrobe,
-            ':idrace' => $idrace,
+            ':numsire' => $this->numsire,
+            ':nomcheval' => $this->nomcheval,
+            ':datenaissancecheval' => $this->datenaissancecheval,
+            ':garot' => $this->garot,
+            ':idrobe' => $this->idrobe,
+            ':idrace' => $this->idrace,
         ];
 
-        $sql = "INSERT INTO cavalerie (nomcheval, datenaissancecheval, garot, idrobe, idrace) VALUES (:nomcheval, :datenaissancecheval, :garot, :idrobe, :idrace)";
+        $sql = "INSERT INTO cavalerie (numsire, nomcheval, datenaissancecheval, garot, idrobe, idrace) 
+                VALUES (:numsire, :nomcheval, :datenaissancecheval, :garot, :idrobe, :idrace)";
+        $stmt = $con->prepare($sql);
+        
+        return $stmt->execute($data);
+    }
+
+    public function selectChevaux() {
+        global $con;
+        $sql = "SELECT * FROM cavalerie";
+        $stmt = $con->query($sql);
+        $chevaux = [];
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $cheval = new Cavalerie($row['numsire'], $row['nomcheval'], $row['datenaissancecheval'], $row['garot'], $row['idrobe'], $row['idrace']);
+            $chevaux[] = $cheval;
+        }
+        return $chevaux;
+    }
+
+    public function deleteCheval($numsire) {
+        global $con;
+        $sql = "DELETE FROM cavalerie WHERE numsire = :numsire";
+        $stmt = $con->prepare($sql);
+        return $stmt->execute([':numsire' => $numsire]);
+    }
+
+    public function updateCheval() {
+        global $con;
+        $data = [
+            ':numsire' => $this->numsire,
+            ':nomcheval' => $this->nomcheval,
+            ':datenaissancecheval' => $this->datenaissancecheval,
+            ':garot' => $this->garot,
+            ':idrobe' => $this->idrobe,
+            ':idrace' => $this->idrace,
+        ];
+
+        $sql = "UPDATE cavalerie 
+                SET nomcheval = :nomcheval, datenaissancecheval = :datenaissancecheval, garot = :garot, idrobe = :idrobe, idrace = :idrace
+                WHERE numsire = :numsire";
         $stmt = $con->prepare($sql);
 
-        if ($stmt->execute($data)) {
-            echo "Cavalerie insérée";
-            return $con->lastInsertId();
-        } else {
-            echo $stmt->errorInfo();
-            return false;
-        }
+        return $stmt->execute($data);
     }
 }
+?>
