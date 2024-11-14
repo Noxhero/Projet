@@ -59,7 +59,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
             <th>Nom</th>
             <th>Date de Naissance</th>
             <th>Garot</th>
-            <th>ID Robe</th>²
+            <th>ID Robe</th>
             <th>ID Race</th>
             <th>Modifier</th>
             <th>Supprimer</th>
@@ -125,6 +125,32 @@ $listeChevaux = $oCavalerie->selectChevaux();
             row.querySelector('.modifier-btn').style.display = 'inline';
             row.querySelector('.confirmer-btn').style.display = 'none';
             row.querySelector('.annuler-btn').style.display = 'none';
+        });
+    });
+
+    document.querySelectorAll('.confirmer-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const row = document.getElementById('row-' + id);
+            
+            const nomcheval = row.querySelector('input[name="nomcheval"]').value;
+            const datenaissancecheval = row.querySelector('input[name="datenaissancecheval"]').value;
+            const garot = row.querySelector('input[name="garot"]').value;
+
+            const form = document.createElement('form');
+            form.action = 'traitement.cavalerie.php';
+            form.method = 'POST';
+
+            form.innerHTML = `
+                <input type="hidden" name="numsire" value="${id}">
+                <input type="hidden" name="nomcheval" value="${nomcheval}">
+                <input type="hidden" name="datenaissancecheval" value="${datenaissancecheval}">
+                <input type="hidden" name="garot" value="${garot}">
+                <input type="hidden" name="action" value="modifier">
+            `;
+
+            document.body.appendChild(form);
+            form.submit();
         });
     });
 </script>
