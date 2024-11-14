@@ -20,7 +20,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
 
 <h1>Ajouter un Cheval</h1>
 
-<form action="traitement_cavalerie.php" method="POST">
+<form action="traitement.cavalerie.php" method="POST">
     <label for="nomcheval">Nom du Cheval:</label>
     <input type="text" name="nomcheval" required><br>
 
@@ -28,13 +28,25 @@ $listeChevaux = $oCavalerie->selectChevaux();
     <input type="date" name="datenaissancecheval" required><br>
 
     <label for="garot">Garot:</label>
-    <input type="number" name="garot" required><br>
+    <input type="text" name="garot" required><br>
 
-    <label for="idrobe">ID de la Robe:</label>
-    <input type="number" name="idrobe" required><br>
+    <label for="nomrobe">Robe :</label>
+    <div class="content">
+        <div class="input_container">
+            <input type="text" name='nomrobe' id="nom_idrobe" placeholder="Robe du cheval" onkeyup="autocompletrobe()">
+            <input type="hidden" name='idrobe' id="idrobe" >
+            <ul id="nom_list_idrobe"></ul>
+        </div>
+    </div>
 
-    <label for="idrace">ID de la Race:</label>
-    <input type="number" name="idrace" required><br>
+    <label for="nomrace">Race :</label>
+    <div class="content">
+        <div class="input_container">
+            <input type="text" name='nomrace' id="nom_idrace" placeholder="Race du cheval" onkeyup="autocompletrace()">
+            <input type="hidden" name='idrace' id="idrace" >
+            <ul id="nom_list_idrace"></ul>
+        </div>
+    </div>
 
     <input type="submit" value="Ajouter">
 </form>
@@ -77,7 +89,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
                     <button class="annuler-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Annuler</button>
                 </td>
                 <td>
-                    <form action="traitement_cavalerie.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cheval?');">
+                    <form action="traitement.cavalerie.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cheval?');">
                         <input type="hidden" name="supprimer" value="<?= $cheval->getNumsire() ?>">
                         <button type="submit">Supprimer</button>
                     </form>
