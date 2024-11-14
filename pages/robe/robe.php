@@ -1,77 +1,130 @@
-<?php
-require_once 'robe_class.php'; // Inclure la classe Robe
-require_once '../../includes/bdd.inc.php'; // Inclure la fonction de connexion à la base de données
-
-// Récupérer toutes les robes
-$robeObj = new Robe(null, null);
-$robes = $robeObj->robeAll();
-?>
-
-<!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Robes</title>
-    <link href="../../css/style.css" rel="stylesheet">
+    <title>Robe</title>
 </head>
 <body>
-    <h1>Gestion des Robes</h1>
 
-    <h2>Ajouter une Robe</h2>
-    <form action="traitement_robe.php" method="POST">
-        <input type="hidden" name="action" value="ajouter">
-        <label for="librobe">Couleur de la Robe :</label>
-        <input type="text" id="librobe" name="librove" required><br><br>
-        <button type="submit">Ajouter une robe</button>
-    </form>
+<?php
+include '../../includes/haut.inc.php';
+include_once '../../pages/robe/robe.class.php';
+//SELECT BDD 
+//ROBE.PHP
+$stmt = $con->query('SELECT idrobe, librobe FROM robe');
+$robetableaux = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$oRobe = new Robe(null, null);
+$ReqRobe = $oRobe->selectRobe();
 
-    <h2>Liste des Robes</h2>
-    <table>
+?>
+
+<h1>Créer une Robe</h1>
+
+<form action="traitement_robe.php" method="post">
+    <label for="nom">Nom de la robe:</label>
+    <input type="text" name="nom" required><br>
+    <input type="submit">
+</form>
+
+<table id="RobeTable" class="display">
+    <thead>
         <tr>
             <th>ID</th>
-            <th>Couleur</th>
-            <th>Actions</th>
+            <th>Nom de la robe</th> 
+            <th>Modifier</th>
+            <th>Supprimer</th>  
         </tr>
-        <?php foreach ($robes as $robe): ?>
-            <tr>
-                <td><?php echo $robe->getidrobe(); ?></td>
-                <td><?php echo $robe->getlibrobe(); ?></td>
-                <td>
-                    <button type="button" onclick="showModifyForm(<?php echo $robe->getidrobe(); ?>, '<?php echo $robe->getlibrobe(); ?>')">Modifier</button>
-                    <form action="traitement_robe.php" method="POST" style="display:inline;">
-                        <input type="hidden" name="action" value="supprimer">
-                        <input type="hidden" name="idrobe" value="<?php echo $robe->getidrobe(); ?>">
-                        <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette robe ?');">Supprimer</button>
-                    </form>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </table>
+    </thead>
+    <tbody>
+    <?php foreach ($robetableaux as $robetableau) : ?>
+    <tr id="row-<?= $robetableau['idrobe'] ?>">
+        <td><?= htmlspecialchars($robetableau['idrobe']) ?></td>
+        <td>
+            <span class="static-field"><?= htmlspecialchars($robetableau['librobe']) ?></span>
+            <input type="text" class="edit-field" name="librobe" value="<?= htmlspecialchars($robetableau['librobe']) ?>" style="display:none;">
+        </td>
+        
+        <td>
+            <button id='modifier' class="modifier-btn" data-id="<?= $robetableau['idrobe'] ?>">Modifier</button>
+            <button id='modifier' class="confirmer-btn" data-id="<?= $robetableau['idrobe'] ?>" style="display:none;">Confirmer</button>
+            <button class="annuler-btn" data-id="<?= $robetableau['idrobe'] ?>" style="display:none;">Annuler</button>
+        </td>
+        <td>
+            <form action="robe_traitement.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette robe?');">
+                <input type="hidden" name="supprimer" value="<?= $robetableau['idrobe'] ?>">
+                <button type="submit">Supprimer</button>
+            </form>
+        </td>
+    </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
 
-    <!-- Formulaire de modification -->
-    <div id="modifyForm" class="modify-form">
-        <h2>Modifier une Robe</h2>
-        <form action="traitement_robe.php" method="POST">
-            <input type="hidden" name="action" value="modifier">
-            <input type="hidden" id="modifyId" name="idrobe" value="">
-            <label for="modifyLibrobe">Nouvelle Couleur de la Robe :</label>
-            <input type="text" id="modifyLibrobe" name="librove" required><br><br>
-            <button type="submit">Modifier</button>
-            <button type="button" onclick="hideModifyForm()">Annuler</button>
-        </form>
-    </div>
+<script>
+    // Activation de DataTables sur la table
+    $(document).ready(function() {
+        $('#RobeTable').DataTable();
+    });
 
-    <script>
-        function showModifyForm(id, librobe) {
-            document.getElementById('modifyId').value = id;
-            document.getElementById('modifyLibrobe').value = librobe;
-            document.getElementById('modifyForm').style.display = 'block';
-        }
+    // Quand le bouton "Modifier" est cliqué
+    document.querySelectorAll('.modifier-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const row = document.getElementById('row-' + id);
+            
+            // Masquer les champs statiques et afficher les champs modifiables
+            row.querySelectorAll('.static-field').forEach(field => field.style.display = 'none');
+            row.querySelectorAll('.edit-field').forEach(field => field.style.display = 'inline');
 
-        function hideModifyForm() {
-            document.getElementById('modifyForm').style.display = 'none';
-        }
-    </script>
+            // Afficher les boutons "Confirmer" et "Annuler"
+            row.querySelector('.modifier-btn').style.display = 'none';
+            row.querySelector('.confirmer-btn').style.display = 'inline';
+            row.querySelector('.annuler-btn').style.display = 'inline';
+        });
+    });
+
+    // Quand le bouton "Confirmer" est cliqué
+    document.querySelectorAll('.confirmer-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const row = document.getElementById('row-' + id);
+            
+            // Récupérer les valeurs modifiées
+            const librobe = row.querySelector('input[name="librobe"]').value;
+
+            // Créer un formulaire caché pour soumettre les données modifiées
+            const form = document.createElement('form');
+            form.action = 'robe_traitement.php';
+            form.method = 'POST';
+
+            form.innerHTML = `
+                <input type="hidden" name="idrobe" value="${id}">
+                <input type="hidden" name="librobe" value="${librobe}">
+                <input type="hidden" name="action" value="modifier">
+            `;
+
+            document.body.appendChild(form);
+            form.submit();
+        });
+    });
+
+    // Quand le bouton "Annuler" est cliqué
+    document.querySelectorAll('.annuler-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const row = document.getElementById('row-' + id);
+            
+            // Réinitialiser les champs modifiables et retourner aux champs statiques
+            row.querySelectorAll('.static-field').forEach(field => field.style.display = 'inline');
+            row.querySelectorAll('.edit-field').forEach(field => field.style.display = 'none');
+
+            // Cacher les boutons "Confirmer" et "Annuler", afficher "Modifier"
+            row.querySelector('.modifier-btn').style.display = 'inline';
+            row.querySelector('.confirmer-btn').style.display = 'none';
+            row.querySelector('.annuler-btn').style.display = 'none';
+        });
+    });
+</script>
+
 </body>
 </html>
