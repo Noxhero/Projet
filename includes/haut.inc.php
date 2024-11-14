@@ -84,7 +84,7 @@ if (isset($_SESSION['user_id'])) {
 //include '../../pages/cavalerie/cavalerie.class.php';
 include '../../pages/cavalier/cavalier.class.php';
 include '../../pages/commune/commune.class.php';
-include '../../pages/cours/cour.class.php';
+include '../../pages/cours/cours.class.php';
 //include '../../pages/evenement/evenement.class.php';
 include '../../pages/galop/galop.class.php';
 //include '../../pages/participation/participation.class.php';
