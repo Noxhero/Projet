@@ -73,8 +73,8 @@ class Cavalerie {
             ':idrace' => $this->idrace,
         ];
 
-        $sql = "INSERT INTO cavalerie (numsire, nomcheval, datenaissancecheval, garot, idrobe, idrace) 
-                VALUES (:numsire, :nomcheval, :datenaissancecheval, :garot, :idrobe, :idrace)";
+        $sql = "INSERT INTO cavalerie (numsire, nomcheval, datenaissancecheval, garot, idrobe, idrace, afficher) 
+                VALUES (:numsire, :nomcheval, :datenaissancecheval, :garot, :idrobe, :idrace, true)";
         $stmt = $con->prepare($sql);
         
         return $stmt->execute($data);
@@ -82,7 +82,7 @@ class Cavalerie {
 
     public function selectChevaux() {
         global $con;
-        $sql = "SELECT * FROM cavalerie";
+        $sql = "SELECT * FROM cavalerie WHERE afficher = 1";
         $stmt = $con->query($sql);
         $chevaux = [];
 
@@ -93,11 +93,20 @@ class Cavalerie {
         return $chevaux;
     }
 
-    public function deleteCheval($numsire) {
+    public function DeleteCavalerie($id)
+    {
         global $con;
-        $sql = "DELETE FROM cavalerie WHERE numsire = :numsire";
+        $data = [':id' => $id];
+        $sql = "UPDATE cavalerie  set afficher = 0 WHERE numsire = :id";
         $stmt = $con->prepare($sql);
-        return $stmt->execute([':numsire' => $numsire]);
+
+        if ($stmt->execute($data)) {
+            echo "Suppression réussie";
+            return true;
+        } else {
+            echo "Erreur lors de la suppression : " . implode(", ", $stmt->errorInfo());
+            return false;
+        }
     }
 
     public function updateCheval() {
