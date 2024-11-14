@@ -1,39 +1,50 @@
 <?php
 include 'bdd.inc.php';
 session_start();
-if (isset( $_SESSION['user_id'])) {
 
-    $session_idcompte =  $_SESSION['user_id'];
+// Vérification de la session utilisateur
+if (isset($_SESSION['user_id'])) {
 
+    $session_idcompte = $_SESSION['user_id'];
     
+    // Requête pour vérifier si l'utilisateur existe toujours
     $query = $con->prepare("SELECT COUNT(*) FROM compte WHERE idcompte = :idcompte");
     $query->bindParam(':idcompte', $session_idcompte);
     $query->execute();
-
     
+    // Si l'utilisateur est valide, affichage du pseudo et du bouton de déconnexion
     if ($query->fetchColumn() > 0) {
-   
-        echo $_SESSION['user_pseudo'];
+        echo "Utilisateur : " . $_SESSION['user_pseudo'];
+        echo"<br>";
+        // Bouton de déconnexion
+        echo '<form action="" method="post" style="all:unset">
+                <button type="submit" name="logout">Déconnexion</button>
+              </form>';
+
+        
+        
+        // Si le bouton est cliqué, détruire la session
+        if (isset($_POST['logout'])) {
+            session_destroy(); // Détruire la session
+            header('Location: ../connexion/connexion.php'); // Redirection vers la page de connexion
+            exit();
+        }
+
     } else {
-      
         header('Location: ../connexion/connexion.php');
         exit();
     }
+
 } else {
-   
     header('Location: ../connexion/connexion.php');
     exit();
 }
-
-//SELECT BDD 
-//COURS.PHP
-$stmt = $con->query('SELECT idcours, libcours, horairedebut, horairefin, jour FROM cours WHERE afficher = 1');
-$courstableaux= $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <head>
     <link rel="stylesheet" href="../../css/style.css">
-    <script href="../../js/jquery.min.js"></script>7
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/script.js"></script>
     <!--Inclusion du Tableaudata -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
   
@@ -41,10 +52,10 @@ $courstableaux= $stmt->fetchAll(PDO::FETCH_ASSOC);
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
-    
+    <br><br>
 </head><header>
     <div class="dropdown">
-        <button class="dropbtn">Pages</button>
+  &nbsp;  <img src='../../assets/images/menu.png' width="30 %"class="dropbtn"></img>
         <div class="dropdown-content">
             <a href="../../pages/calendrier/calendrier.php">calendrier</a>
             <a href="../../pages/cavalerie/cavalerie.php">cavalerie</a>
@@ -69,19 +80,23 @@ $courstableaux= $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-include '../../pages/calendrier/calendrier.class.php';
-include '../../pages/cavalerie/cavalerie.class.php';
+//include '../../pages/calendrier/calendrier.class.php';
+//include '../../pages/cavalerie/cavalerie.class.php';
 include '../../pages/cavalier/cavalier.class.php';
 include '../../pages/commune/commune.class.php';
 include '../../pages/cours/cour.class.php';
-include '../../pages/evenement/evenement.class.php';
+//include '../../pages/evenement/evenement.class.php';
 include '../../pages/galop/galop.class.php';
-include '../../pages/participation/participation.class.php';
-include '../../pages/pension/pension.class.php';
-include '../../pages/photo/photo.class.php';
-include '../../pages/prend/prend.class.php';
+//include '../../pages/participation/participation.class.php';
+//include '../../pages/pension/pension.class.php';
+//include '../../pages/photo/photo.class.php';
+//include '../../pages/prend/prend.class.php';
 include '../../pages/race/race.class.php';
-include '../../pages/robe/robe.class.php';
+//include '../../pages/robe/robe.class.php';
+
+?>
+
+<!-- FULL Calendar -->
 
 
 
