@@ -1,115 +1,103 @@
 <?php
-// Inclure la connexion à la base de données depuis bdd.inc.php
-require_once '../../includes/bdd.inc.php'; // Assurez-vous que le chemin est correct
-
-class Robe {
+class Robe
+{
     private $idrobe;
     private $librobe;
 
-    function __construct($idro = null, $libro = null) {
-        $this->idrobe = $idro;
-        $this->librobe = $libro;
+    function __construct($idrobe, $librobe)
+    {
+        $this->idrobe = $idrobe;
+        $this->librobe = $librobe;
     }
 
-    public function getidrobe() {
+    public function getIdRobe()
+    {
         return $this->idrobe;
     }
 
-    public function getlibrobe() {
+    public function getLibRobe()
+    {
         return $this->librobe;
     }
 
-    public function setidrobe($idro) {
-        $this->idrobe = $idro;
+    public function setLibRobe($librobe)
+    {
+        $this->librobe = $librobe;
     }
 
-    public function setlibrobe($libro) {
-        $this->librobe = $libro;
-    }
-
-    // Méthode pour récupérer toutes les robes
-    public function robeAll() {
-        $con = connexionPDO(); // Utilisation de la fonction pour obtenir la connexion PDO
-        $sql = "SELECT * FROM robe";
-        $executesql = $con->prepare($sql);
-        $executesql->execute();
-        $oprobes = [];
-
-        foreach ($executesql->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            $oprobe = new Robe($row['idrobe'], $row['librobe']);
-            $oprobes[] = $oprobe;
-        }
-        return $oprobes;
-    }
-
-    // Méthode pour ajouter une robe
-    public function robe_ajout($idrobe, $librobe) {
-        $con = connexionPDO();
+    public function InsertRobe()
+    {
+        global $con;
+       
         $data = [
-            ':idrobe' => $idrobe,
-            ':liberobe' => $librobe,
+            ':idc' => $this->idrobe,
+            ':lr' => $this->librobe
         ];
-        $sql = "INSERT INTO robe (idrobe, librobe) VALUES (:idrobe, :liberobe)";
+
+        $sql = "INSERT INTO robe (idrobe, librobe) 
+        VALUES (:idc, :lr);";
         $stmt = $con->prepare($sql);
 
         if ($stmt->execute($data)) {
+            echo "Bien inséré";
             return $con->lastInsertId();
         } else {
-            echo $stmt->errorInfo();
+            echo implode(", ", $stmt->errorInfo()); 
             return false;
         }
     }
 
-    // Méthode pour modifier une robe
-    public function robe_modifier($idrobe, $librobe) {
-        $con = connexionPDO();
-        $data = [
-            ':idrobe' => $idrobe,
-            ':liberobe' => $librobe,
-        ];
-        $sql = "UPDATE robe SET librobe = :liberobe WHERE idrobe = :idrobe";
+    public function selectRobe()
+    {
+        global $con;
+        $sql = "SELECT * FROM robe"; 
+        $req = $con->query($sql);
+        $robes = [];
+
+        foreach ($req->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $robe = new Robe($row['idrobe'], $row['librobe']);
+            $robes[] = $robe;
+        }
+
+        return $robes;
+    }
+
+    public function DeleteRobe($id)
+    {
+        global $con;
+        $data = [':id' => $id];
+        $sql = "DELETE FROM robe WHERE idrobe = :id";
         $stmt = $con->prepare($sql);
 
         if ($stmt->execute($data)) {
+            echo "Suppression réussie";
             return true;
         } else {
-            echo $stmt->errorInfo();
+            echo "Erreur lors de la suppression : " . implode(", ", $stmt->errorInfo());
             return false;
         }
     }
 
-    // Méthode pour supprimer une robe
-    public function robe_supprimer($idrobe) {
-        $con = connexionPDO();
-        $sql = "DELETE FROM robe WHERE idrobe = :idrobe";
-        $stmt = $con->prepare($sql);
-        $stmt->bindParam(':idrobe', $idrobe);
+    public function UpdateRobe()
+    {
+        global $con;
+        $data = [
+            ':idc' => $this->idrobe,
+            ':lr' => $this->librobe
+        ];
 
-        if ($stmt->execute()) {
+        $sql = "UPDATE robe
+                SET librobe = :lr                
+                WHERE idrobe = :idc;";
+        $stmt = $con->prepare($sql);
+
+        if ($stmt->execute($data)) {
+            echo "Bien modifié";
             return true;
         } else {
-            echo $stmt->errorInfo();
+            echo implode(", ", $stmt->errorInfo());
             return false;
         }
     }
 }
-
-// TESTS DES FONCTIONNALITÉS
-
-// Instanciation de la classe Robe
-$robe = new Robe();
-
-// Ajouter une nouvelle robe
-$robe->robe_ajout(1, 'Robe Rouge');
-
-// Modifier une robe existante
-$robe->robe_modifier(1, 'Robe Bleu');
-
-// Supprimer une robe
-$robe->robe_supprimer(1);
-
-// Récupérer toutes les robes et les afficher
-$robes = $robe->robeAll();
-print_r($robes);
-
 ?>
