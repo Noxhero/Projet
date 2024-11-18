@@ -139,15 +139,11 @@ class Cavalerie {
 
     public function getRaceLibelle($idrace) {
         global $con;
-        try {
-            $sql = "SELECT librace FROM race WHERE idrace = :idrace";
-            $stmt = $con->prepare($sql);
-            $stmt->execute([':idrace' => $idrace]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $result ? $result['librace'] : '';
-        } catch (PDOException $e) {
-            return '';
-        }
+        $sql = "SELECT librace FROM race WHERE idrace = :idrace";
+        $stmt = $con->prepare($sql);
+        $stmt->execute([':idrace' => $idrace]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['librace'] : '';
     }
 }
 ?>
