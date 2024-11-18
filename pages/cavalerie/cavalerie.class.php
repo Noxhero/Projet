@@ -127,5 +127,27 @@ class Cavalerie {
 
         return $stmt->execute($data);
     }
+
+    public function getRobeLibelle($idrobe) {
+        global $con;
+        $sql = "SELECT librobe FROM robe WHERE idrobe = :idrobe";
+        $stmt = $con->prepare($sql);
+        $stmt->execute([':idrobe' => $idrobe]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['librobe'] : '';
+    }
+
+    public function getRaceLibelle($idrace) {
+        global $con;
+        try {
+            $sql = "SELECT librace FROM race WHERE idrace = :idrace";
+            $stmt = $con->prepare($sql);
+            $stmt->execute([':idrace' => $idrace]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result ? $result['librace'] : '';
+        } catch (PDOException $e) {
+            return '';
+        }
+    }
 }
 ?>
