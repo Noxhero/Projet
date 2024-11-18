@@ -2,6 +2,23 @@
 
 include '../../includes/haut.inc.php';
 
+// Debug - Afficher les données reçues
+echo "<h3>Données reçues :</h3>";
+echo "<pre>";
+echo "ID Cavalier : " . $_POST['idcavalier'] . "\n";
+echo "Nom : " . $_POST['nomcavalier'] . "\n";
+echo "Prénom : " . $_POST['prenomcavalier'] . "\n";
+echo "Date de naissance : " . $_POST['datenaissancecavalier'] . "\n";
+echo "Nom responsable : " . $_POST['nomresponsable'] . "\n";
+echo "Rue responsable : " . $_POST['rueresponsable'] . "\n";
+echo "Tel responsable : " . $_POST['telresponsable'] . "\n";
+echo "Email responsable : " . $_POST['emailresponsable'] . "\n";
+echo "Num licence : " . $_POST['numlicence'] . "\n";
+echo "Num assurance : " . $_POST['numassurance'] . "\n";
+echo "ID commune : " . $_POST['idcommune'] . "\n";
+echo "ID galop : " . $_POST['idgalop'] . "\n";
+echo "Action : " . $_POST['action'] . "\n";
+echo "</pre>";
 
 // Modification d'un cavalier
 if (isset($_POST['action']) && $_POST['action'] === 'modifier') {
@@ -15,12 +32,9 @@ if (isset($_POST['action']) && $_POST['action'] === 'modifier') {
     $emailResponsable = $_POST["emailresponsable"];
     $numLicence = $_POST["numlicence"];
     $numAssurance = $_POST["numassurance"];
-    
-    // Création des objets Commune et Galop correctement
     $idcommune = $_POST["idcommune"]; 
-    $commune = new Commune($idcommune, null, null);
     $idGalop = $_POST["idgalop"];
-    $galop = new Galop($idGalop, null);
+
 
     // Création du cavalier avec les bons paramètres
     $unCavalier = new Cavalier(
@@ -35,8 +49,8 @@ if (isset($_POST['action']) && $_POST['action'] === 'modifier') {
         null, // password n'est pas modifié lors d'une mise à jour
         $numLicence,
         $numAssurance,
-        $commune,
-        $galop
+        $idcommune,
+        $idGalop
     );
     
     $unCavalier->UpdateCavalier();
@@ -63,6 +77,7 @@ if (isset($_POST["nomcavalier"]) && !isset($_POST['action'])) {
     $idGalop = $_POST["idgalop"];
     $galop = new Galop($idGalop, null);
 
+    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
     $unCavalier = new Cavalier(
         null,
         $nomCavalier,
@@ -72,7 +87,7 @@ if (isset($_POST["nomcavalier"]) && !isset($_POST['action'])) {
         $rueResponsable,
         $telResponsable,
         $emailResponsable,
-        $password,
+        $hashed_password,
         $numLicence,
         $numAssurance,
         $commune,

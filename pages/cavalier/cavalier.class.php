@@ -173,8 +173,8 @@ class Cavalier
             ':pw' => $this->password,
             ':nl' => $this->numLicence,
             ':na' => $this->numAssurance,
-            ':idc' => $this->idCommune,
-            ':idg' => $this->idGalop,
+            ':idc' => $this->idCommune->getIdCommune(),
+            ':idg' => $this->idGalop->getIdGalop()
         ];
 
         $sql = "INSERT INTO cavalier (idcavalier, nomcavalier, prenomcavalier, datenaissancecavalier, nomresponsable, rueresponsable, telresponsable, emailresponsable, password, numlicence, numassurance, idcommune, idgalop, afficher) 
@@ -208,6 +208,8 @@ class Cavalier
 
         foreach ($req->fetchAll(PDO::FETCH_ASSOC) as $row) {
             // Construction de l'objet Cavalier avec les données de la base
+            $commune = new Commune($row['idcommune'], $row['nomcommune'], null);
+            $galop = new Galop($row['idgalop'], $row['nomGalop']);    
             $cavalier = new Cavalier(
                 $row['idcavalier'], 
                 $row['nomcavalier'], 
@@ -220,10 +222,10 @@ class Cavalier
                 null,
                 $row['numlicence'], 
                 $row['numassurance'], 
-                $row['idcommune'], 
-                $row['idgalop']
+                $commune,  // Objet Commune
+                $galop    // Objet Galop
             );
-            // Optionnel : Associer également le nom de la commune si souhaité
+            // Associer également le nom de la commune si souhaité
             $cavalier->nomCommune = $row['nomcommune'];
             $cavalier->nomGalop = $row['nomGalop'];
 
@@ -268,7 +270,7 @@ class Cavalier
             ':nl' => $this->numLicence,
             ':na' => $this->numAssurance,
             ':idc' => $this->idCommune,
-            ':idg' => $this->idGalop,
+            ':idg' => $this->idGalop
         ];
 
         $sql = "UPDATE cavalier	

@@ -125,12 +125,17 @@ $ReqCavalier = $oCavalier->CavalierAll();
             <div class="content">
                 <div class="input_container">
                     <span class="static-field"><?= htmlspecialchars($unCavalier->nomCommune) ?></span>
-                    <input type="text" class="edit-field" name="nom_idcommune" id="nom_idcommune" 
+                    <input type="text" class="edit-field" 
+                        name="nom_idcommune21_<?= $unCavalier->getIdCavalier() ?>" 
+                        id="nom_idcommune21_<?= $unCavalier->getIdCavalier() ?>" 
                         value="<?= htmlspecialchars($unCavalier->nomCommune) ?>" 
                         style="display:none;" 
-                        onkeyup="autocompletcommune()">
-                    <input type="hidden" name="idcommune" id="idcommune">
-                    <ul id="nom_list_idcommune" style="display:none;"></ul>
+                        onkeyup="autocompletcommune21('<?= $unCavalier->getIdCavalier() ?>')">
+                    <input type="hidden" 
+                        name="idcommune21" 
+                        id="idcommune21_<?= $unCavalier->getIdCavalier() ?>" 
+                        value="<?= $unCavalier->getIdCommune()->getIdCommune() ?>">
+                    <ul id="nom_list_idcommune21_<?= $unCavalier->getIdCavalier() ?>" style="display:none;"></ul>
                 </div>
             </div>
         </td>
@@ -138,12 +143,17 @@ $ReqCavalier = $oCavalier->CavalierAll();
             <div class="content">
                 <div class="input_container">
                     <span class="static-field"><?= htmlspecialchars($unCavalier->nomGalop) ?></span>
-                    <input type="text" class="edit-field" name="nom_idgalop" id="nom_idgalop" 
+                    <input type="text" class="edit-field" 
+                        name="nom_idgalop22_<?= $unCavalier->getIdCavalier() ?>" 
+                        id="nom_idgalop22_<?= $unCavalier->getIdCavalier() ?>" 
                         value="<?= htmlspecialchars($unCavalier->nomGalop) ?>" 
                         style="display:none;" 
-                        onkeyup="autocompletgalop()">
-                    <input type="hidden" name="idgalop" id="idgalop">
-                    <ul id="nom_list_idgalop" style="display:none;"></ul>
+                        onkeyup="autocompletgalop22('<?= $unCavalier->getIdCavalier() ?>')">
+                    <input type="hidden" 
+                        name="idgalop22" 
+                        id="idgalop22_<?= $unCavalier->getIdCavalier() ?>" 
+                        value="<?= $unCavalier->getIdGalop()->getIdGalop() ?>">
+                    <ul id="nom_list_idgalop22_<?= $unCavalier->getIdCavalier() ?>" style="display:none;"></ul>
                 </div>
             </div>
         </td>
@@ -183,8 +193,6 @@ $ReqCavalier = $oCavalier->CavalierAll();
 
         // Fonction pour réinitialiser une ligne
         function resetRow(row) {
-            row.querySelectorAll('.static-field').forEach(field => field.style.display = 'inline');
-            row.querySelectorAll('.edit-field').forEach(field => field.style.display = 'none');
             row.querySelector('.modifier-btn').style.display = 'inline';
             row.querySelector('.confirmer-btn').style.display = 'none';
             row.querySelector('.annuler-btn').style.display = 'none';
@@ -221,8 +229,8 @@ $ReqCavalier = $oCavalier->CavalierAll();
             const emailresponsable = row.querySelector('input[name="emailresponsable"]').value;
             const numlicence = row.querySelector('input[name="numlicence"]').value;
             const numassurance = row.querySelector('input[name="numassurance"]').value;
-            const idcommune = row.querySelector('input[name="idcommune"]').value;
-            const idgalop = row.querySelector('input[name="idgalop"]').value;
+            const idcommune21 = row.querySelector('input[name="idcommune21"]').value;
+            const idgalop22 = row.querySelector('input[name="idgalop22"]').value;
 
             // Soumettre via un formulaire caché
             const form = document.createElement('form');
@@ -239,8 +247,8 @@ $ReqCavalier = $oCavalier->CavalierAll();
                 <input type="hidden" name="emailresponsable" value="${emailresponsable}">
                 <input type="hidden" name="numlicence" value="${numlicence}">
                 <input type="hidden" name="numassurance" value="${numassurance}">
-                <input type="hidden" name="idcommune" value="${idcommune}">
-                <input type="hidden" name="idgalop" value="${idgalop}">
+                <input type="hidden" name="idcommune" value="${idcommune21}">
+                <input type="hidden" name="idgalop" value="${idgalop22}">
                 <input type="hidden" name="action" value="modifier">
             `;
             document.body.appendChild(form);
