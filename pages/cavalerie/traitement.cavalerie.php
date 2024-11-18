@@ -22,8 +22,8 @@ if (isset($_POST["nomcheval"]) && isset($_POST["datenaissancecheval"]) && isset(
     $nomcheval = $_POST["nomcheval"];
     $datenaissancecheval = $_POST["datenaissancecheval"];
     $garot = $_POST["garot"];
-    $librobe = $_POST["librobe"];
-    $librace = $_POST["librace"];
+    $idrobe = $_POST["idrobe"];
+    $idrace = $_POST["idrace"];
 
     $unCheval = new Cavalerie(null, $nomcheval, $datenaissancecheval, $garot, $idrobe, $idrace);
     $unCheval->insertCheval();
