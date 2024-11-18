@@ -59,9 +59,9 @@ $listeChevaux = $oCavalerie->selectChevaux();
             <th>Nom</th>
             <th>Date de Naissance</th>
             <th>Garot</th>
-            <th>Robe</th>
-            <th>Race</th>
-            <th>Modifier</th>   
+            <th>ID Robe</th>
+            <th>ID Race</th>
+            <th>Modifier</th>
             <th>Supprimer</th>
         </tr>
     </thead>
