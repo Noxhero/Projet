@@ -59,9 +59,9 @@ $listeChevaux = $oCavalerie->selectChevaux();
             <th>Nom</th>
             <th>Date de Naissance</th>
             <th>Garot</th>
-            <th>ID Robe</th>
-            <th>ID Race</th>
-            <th>Modifier</th>
+            <th>Robe</th>
+            <th>Race</th>
+            <th>Modifier</th>   
             <th>Supprimer</th>
         </tr>
     </thead>
@@ -70,19 +70,19 @@ $listeChevaux = $oCavalerie->selectChevaux();
             <tr id="row-<?= $cheval->getNumsire() ?>">
                 <td><?= htmlspecialchars($cheval->getNumsire()) ?></td>
                 <td>
-                    <span class="static-field"><?= htmlspecialchars($cheval->getnomcheval()) ?></span>
-                    <input type="text" class="edit-field" name="nomcheval" value="<?= htmlspecialchars($cheval->getnomcheval()) ?>" style="display:none;">
+                    <span class="static-field"><?= htmlspecialchars($cheval->getNomcheval()) ?></span>
+                    <input type="text" class="edit-field" name="nomcheval" value="<?= htmlspecialchars($cheval->getNomcheval()) ?>" style="display:none;">
                 </td>
                 <td>
-                    <span class="static-field"><?= htmlspecialchars($cheval->getdatenaissancecheval()) ?></span>
-                    <input type="date" class="edit-field" name="datenaissancecheval" value="<?= htmlspecialchars($cheval->getdatenaissancecheval()) ?>" style="display:none;">
+                    <span class="static-field"><?= htmlspecialchars($cheval->getDatenaissancecheval()) ?></span>
+                    <input type="date" class="edit-field" name="datenaissancecheval" value="<?= htmlspecialchars($cheval->getDatenaissancecheval()) ?>" style="display:none;">
                 </td>
                 <td>
-                    <span class="static-field"><?= htmlspecialchars($cheval->getgarot()) ?></span>
-                    <input type="number" class="edit-field" name="garot" value="<?= htmlspecialchars($cheval->getgarot()) ?>" style="display:none;">
+                    <span class="static-field"><?= htmlspecialchars($cheval->getGarot()) ?></span>
+                    <input type="number" class="edit-field" name="garot" value="<?= htmlspecialchars($cheval->getGarot()) ?>" style="display:none;">
                 </td>
-                <td><?= htmlspecialchars($cheval->getidrobe()) ?></td>
-                <td><?= htmlspecialchars($cheval->getidrace()) ?></td>
+                <td><?= htmlspecialchars($cheval->getRobeLibelle($cheval->getIdrobe())) ?></td>
+                <td><?= htmlspecialchars($cheval->getRaceLibelle($cheval->getIdrace())) ?></td>
                 <td>
                     <button class="modifier-btn" data-id="<?= $cheval->getNumsire() ?>">Modifier</button>
                     <button class="confirmer-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Confirmer</button>
@@ -154,6 +154,5 @@ $listeChevaux = $oCavalerie->selectChevaux();
         });
     });
 </script>
-
 </body>
-</html>
+</html> 
