@@ -59,11 +59,11 @@ $ReqCours = $oCours->selectCours();
                 </td>
                 <td>
                     <span class="static-field"><?= htmlspecialchars($courstableau->getHoraireDebut()) ?></span>
-                    <input type="time" class="edit-field" name="horairedebut" value="<?= htmlspecialchars($courstableau->getHoraireDebut()) ?>" style="display:none;">
+                    <input type="datetime-local" class="edit-field" name="horairedebut" value="<?= $courstableau->getHoraireDebut() ?>" style="display:none;">
                 </td>
                 <td>
                     <span class="static-field"><?= htmlspecialchars($courstableau->getHoraireFin()) ?></span>
-                    <input type="time" class="edit-field" name="horairefin" value="<?= htmlspecialchars($courstableau->getHoraireFin()) ?>" style="display:none;">
+                    <input type="datetime-local" class="edit-field" name="horairefin" value="<?= $courstableau->getHoraireFin() ?>" style="display:none;">
                 </td>
                 <td>
                     <span class="static-field"><?= htmlspecialchars($courstableau->getJour()) ?></span>
@@ -101,6 +101,34 @@ $ReqCours = $oCours->selectCours();
             row.querySelector('.annuler-btn').style.display = 'inline';
         });
     });
+    document.querySelectorAll('.confirmer-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const row = document.getElementById('row-' + id);
+
+            // Récupérer les valeurs modifiées
+            const libcours = row.querySelector('input[name="libcours"]').value;
+            const horairedebut = row.querySelector('input[name="horairedebut"]').value;
+            const horairefin = row.querySelector('input[name="horairefin"]').value;
+            const jour = row.querySelector('input[name="jour"]').value;
+
+            // Soumettre via un formulaire caché
+            const form = document.createElement('form');
+            form.action = 'cour_traitement.php';
+            form.method = 'POST';
+            form.innerHTML = `
+                <input type="hidden" name="idcours" value="${id}">
+                <input type="hidden" name="libcours" value="${libcours}">
+                <input type="hidden" name="horairedebut" value="${horairedebut}">
+                <input type="hidden" name="horairefin" value="${horairefin}">
+                <input type="hidden" name="jour" value="${jour}">
+                <input type="hidden" name="action" value="modifier">
+            `;
+            document.body.appendChild(form);
+            form.submit();
+        });
+    });
+
 
     document.querySelectorAll('.annuler-btn').forEach(button => {
         button.addEventListener('click', function() {
