@@ -65,7 +65,6 @@ class Cavalerie {
     public function insertCheval() {
         global $con;
         $data = [
-            ':numsire' => $this->numsire,
             ':nomcheval' => $this->nomcheval,
             ':datenaissancecheval' => $this->datenaissancecheval,
             ':garot' => $this->garot,
@@ -73,11 +72,14 @@ class Cavalerie {
             ':idrace' => $this->idrace,
         ];
 
-        $sql = "INSERT INTO cavalerie (numsire, nomcheval, datenaissancecheval, garot, idrobe, idrace, afficher) 
-                VALUES (:numsire, :nomcheval, :datenaissancecheval, :garot, :idrobe, :idrace, true)";
+        $sql = "INSERT INTO cavalerie (nomcheval, datenaissancecheval, garot, idrobe, idrace, afficher) 
+                VALUES (:nomcheval, :datenaissancecheval, :garot, :idrobe, :idrace, true)";
         $stmt = $con->prepare($sql);
         
-        return $stmt->execute($data);
+        if ($stmt->execute($data)) {
+            return $con->lastInsertId();
+        }
+        return false;
     }
 
     public function selectChevaux() {
@@ -144,6 +146,15 @@ class Cavalerie {
         $stmt->execute([':idrace' => $idrace]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result ? $result['librace'] : '';
+    }
+
+    public function getPhoto() {
+        global $con;
+        $sql = "SELECT lien FROM photo WHERE numsire = :numsire LIMIT 1";
+        $stmt = $con->prepare($sql);
+        $stmt->execute([':numsire' => $this->numsire]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['lien'] : null;
     }
 }
 ?>
