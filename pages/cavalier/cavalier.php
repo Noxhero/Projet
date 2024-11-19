@@ -44,9 +44,10 @@ $ReqCavalier = $oCavalier->CavalierAll();
     <label for="nomcommune">Nom de la Commune et Code postal:</label>
     <div class="content">
         <div class="input_container">
-            <input type="text" name='nomcommune' id="nom_idcommune" placeholder="Nom de la commune" onkeyup="autocompletcommune()">
-            <input type="text" name='cp' id="cp" placeholder="Code Postal">
-            <input type="hidden" name='idcommune' id="idcommune" value>
+            <input type="text" name="nom_idcommune" id="nom_idcommune" placeholder="Commune" 
+                onkeyup="autocompletcommune()">
+            <input type="text" name="cp" id="cp" placeholder="Code Postal">
+            <input type="hidden" name="idcommune" id="idcommune">
             <ul id="nom_list_idcommune"></ul>
         </div>
     </div>
