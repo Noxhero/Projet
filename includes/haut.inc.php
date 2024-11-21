@@ -81,22 +81,21 @@ if (isset($_SESSION['user_id'])) {
 
 
 //include '../../pages/calendrier/calendrier.class.php';
-//include '../../pages/cavalerie/cavalerie.class.php';
+include '../../pages/cavalerie/cavalerie.class.php';
 include '../../pages/cavalier/cavalier.class.php';
 include '../../pages/commune/commune.class.php';
 include '../../pages/cours/cours.class.php';
 //include '../../pages/evenement/evenement.class.php';
 include '../../pages/galop/galop.class.php';
-//include '../../pages/participation/participation.class.php';
-//include '../../pages/pension/pension.class.php';
+include '../../pages/participation/participation.class.php';
+include '../../pages/pension/pension.class.php';
 //include '../../pages/photo/photo.class.php';
-//include '../../pages/prend/prend.class.php';
+include '../../pages/prend/prend.class.php';
 include '../../pages/race/race.class.php';
-//include '../../pages/robe/robe.class.php';
+include '../../pages/robe/robe_class.php';
 
 ?>
 
 <!-- FULL Calendar -->
-
 
 

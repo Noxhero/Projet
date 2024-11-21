@@ -1,9 +1,8 @@
 <?php
-
-  $serveur = 'localhost';
-  $db = 'cebg';
-  $user = 'root';
-  $pass = '';
-  $con= new PDO("mysql:host=$serveur;dbname=$db;charset=utf8", $user, $pass);
-
-?>
+    $user="root";
+    $mdp="";
+    $serveur="localhost";
+    $bd="cebg";
+    $host="mysql:host=$serveur;dbname=$bd";
+   
+        $con = new PDO($host, $user, $mdp);
