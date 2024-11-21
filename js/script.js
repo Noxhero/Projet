@@ -221,3 +221,72 @@ function set_item_cheval(nom, sire, pension_id = '') {
         $('#nom_list_cheval').hide();
     }
 }
+
+function autocompletCours() {
+    var min_length = 2;
+    var inputId = $(this).attr('id');
+    var keyword = $(this).val();
+
+    if (keyword.length >= min_length) {
+        var listId = inputId === 'libcours_base' ? 'nom_list_cours_base' : 'nom_list_cours_associe';
+        var for_type = inputId === 'libcours_base' ? 'base' : 'associe';
+        
+        $.ajax({
+            url: '../../includes/ajax_refresh.php',
+            type: 'POST',
+            data: {
+                keyword: keyword,
+                type: 'cours',
+                for: for_type
+            },
+            success: function(data) {
+                $('#' + listId).show();
+                $('#' + listId).html(data);
+            }
+        });
+    } else {
+        var listId = inputId === 'libcours_base' ? 'nom_list_cours_base' : 'nom_list_cours_associe';
+        $('#' + listId).hide();
+    }
+}
+
+// Ajout des fonctions manquantes
+function set_item_cours_base(libelle, id) {
+    $('#libcours_base').val(libelle);
+    $('#idcoursbase').val(id);
+    $('#nom_list_cours_base').hide();
+}
+
+function set_item_cours_associe(libelle, id) {
+    $('#libcours_associe').val(libelle);
+    $('#idcoursassociee').val(id);
+    $('#nom_list_cours_associe').hide();
+}
+
+function autocompletCavalier() {
+    var min_length = 2;
+    var keyword = $('#nom_cavalier').val();
+
+    if (keyword.length >= min_length) {
+        $.ajax({
+            url: '../../includes/ajax_refresh.php',
+            type: 'POST',
+            data: {
+                keyword: keyword,
+                type: 'cavalier'
+            },
+            success: function(data) {
+                $('#nom_list_cavalier').show();
+                $('#nom_list_cavalier').html(data);
+            }
+        });
+    } else {
+        $('#nom_list_cavalier').hide();
+    }
+}
+
+function set_item_cavalier(nom, id) {
+    $('#nom_cavalier').val(nom);
+    $('#idcavalier').val(id);
+    $('#nom_list_cavalier').hide();
+}
