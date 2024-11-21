@@ -30,7 +30,7 @@ if (isset($_POST["nomcheval"]) && !isset($_POST['action'])) {
     $numsire = $unCheval->insertCheval();
 
     // Gestion de la photo
-    if ($numsire && isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+    if ($numsire && isset($_FILES['userfile']) && $_FILES['userfile']['error'] === UPLOAD_ERR_OK) {
         $uploadDir = '../../uploads/photos/';
         
         // Création du dossier si nécessaire
@@ -38,24 +38,27 @@ if (isset($_POST["nomcheval"]) && !isset($_POST['action'])) {
             mkdir($uploadDir, 0755, true);
         }
 
-        $originalFileName = basename($_FILES['photo']['name']);
-        $uploadFile = $uploadDir . $originalFileName;
+        $originalFileName = basename($_FILES['userfile']['name']);
+        $extension = pathinfo($originalFileName, PATHINFO_EXTENSION);
+        
+        // Utiliser le nom personnalisé s'il existe, sinon utiliser le nom original
+        $nomPhoto = !empty($_POST['nom_photo']) ? $_POST['nom_photo'] . '.' . $extension : $originalFileName;
+        
+        // Créer le chemin complet avec le nouveau nom
+        $uploadFile = $uploadDir . $nomPhoto;
 
-        // Déplacer le fichier
-        if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile)) {
-            // Enregistrer en base de données
-            $photo = new Photo();
-            $photo->setNumSire($numsire);
-            $photo->setIdEvenement(0);
-            
-            // Utiliser le nom personnalisé s'il existe, sinon utiliser le nom du fichier
-            $nomPhoto = !empty($_POST['nom_photo']) ? $_POST['nom_photo'] : $originalFileName;
-            $photo->setnom_photo($nomPhoto);
-            $photo->setLien($uploadFile);
-            
-            if (!$photo->saveLink()) {
-                error_log("Erreur lors de l'enregistrement de la photo en BDD");
-            }
+        // Déplacer le fichier avec le nouveau nom
+        move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadFile);
+        
+        // Enregistrer en base de données
+        $photo = new Photo();
+        $photo->setNumSire($numsire);
+        $photo->setIdEvenement(0);
+        $photo->setnom_photo($nomPhoto);
+        $photo->setLien($uploadFile);
+        
+        if (!$photo->saveLink()) {
+            error_log("Erreur lors de l'enregistrement de la photo en BDD");
         }
     }
 
