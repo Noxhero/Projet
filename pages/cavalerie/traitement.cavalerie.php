@@ -13,29 +13,11 @@ if (isset($_POST['action']) && $_POST['action'] === 'modifier') {
 
     $unCheval = new Cavalerie($numsire, $nomcheval, $datenaissancecheval, $garot, $idrobe, $idrace);
     $unCheval->updateCheval();
-
-    // Mettre à jour la photo si une nouvelle URL est fournie
-    if (!empty($_POST['photo_url'])) {
-        $photo = new Photo($con);
-        $photo->setNumSire($numsire);
-        $photo->setIdEvenement(null);
-        $photo->setLien($_POST['photo_url']);
-        
-        // Vérifier si une photo existe déjà
-        $existingPhoto = $photo->getPhotoByNumSire($numsire);
-        if ($existingPhoto) {
-            $photo->setIdPhoto($existingPhoto['idphoto']);
-            $photo->update();
-        } else {
-            $photo->saveLink();
-        }
-    }
-
     header("Location: cavalerie.php");
     exit();
 }
 
-// Ajout d'un nouveau cheval
+// Ajout d'un nouveau cheval avec photo
 if (isset($_POST["nomcheval"]) && !isset($_POST['action'])) {
     $nomcheval = $_POST["nomcheval"];
     $datenaissancecheval = $_POST["datenaissancecheval"];
@@ -43,18 +25,37 @@ if (isset($_POST["nomcheval"]) && !isset($_POST['action'])) {
     $idrobe = $_POST["idrobe"];
     $idrace = $_POST["idrace"];
 
+    // Insérer d'abord le cheval pour obtenir le numsire
     $unCheval = new Cavalerie(null, $nomcheval, $datenaissancecheval, $garot, $idrobe, $idrace);
     $numsire = $unCheval->insertCheval();
 
-    // Gérer l'ajout du lien de la photo si fourni
-    if (!empty($_POST['photo_url'])) {
-        $photo = new Photo($con);
-        $photo->setNumSire($numsire);
-        $photo->setIdEvenement(null);
-        $photo->setLien($_POST['photo_url']);
+    // Gestion de la photo
+    if ($numsire && isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = '../../uploads/photos/';
         
-        if (!$photo->saveLink()) {
-            error_log("Erreur lors de l'enregistrement du lien de la photo pour le cheval " . $numsire);
+        // Création du dossier si nécessaire
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+
+        $originalFileName = basename($_FILES['photo']['name']);
+        $uploadFile = $uploadDir . $originalFileName;
+
+        // Déplacer le fichier
+        if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile)) {
+            // Enregistrer en base de données
+            $photo = new Photo();
+            $photo->setNumSire($numsire);
+            $photo->setIdEvenement(0);
+            
+            // Utiliser le nom personnalisé s'il existe, sinon utiliser le nom du fichier
+            $nomPhoto = !empty($_POST['nom_photo']) ? $_POST['nom_photo'] : $originalFileName;
+            $photo->setnom_photo($nomPhoto);
+            $photo->setLien($uploadFile);
+            
+            if (!$photo->saveLink()) {
+                error_log("Erreur lors de l'enregistrement de la photo en BDD");
+            }
         }
     }
 
@@ -73,39 +74,16 @@ if (isset($_POST["supprimer"])) {
     exit(); 
 }
 
-// Ajout d'une photo pour un cheval existant
-if (isset($_POST['action']) && $_POST['action'] === 'ajouter_photo') {
-    $numsire = $_POST['numsire'];
-    $photoUrl = $_POST['photo_url'];
-
-    $photo = new Photo();
-    $photo->setNumSire($numsire);
-    $photo->setIdEvenement(null);
-    $photo->setLien($photoUrl);
-
-    // Vérifier si une photo existe déjà
-    $existingPhoto = $photo->getPhotoByNumSire($numsire);
-    if ($existingPhoto) {
-        $photo->setIdPhoto($existingPhoto['idphoto']);
-        $photo->update();
-    } else {
-        $photo->saveLink();
-    }
-
-    echo "Photo ajoutée avec succès";
-    exit();
-}
-
+// Ajout d'une nouvelle condition pour gérer l'update du numsire d'une photo
 if (isset($_POST['action']) && $_POST['action'] === 'update_photo_numsire') {
-    $idphoto = $_POST['idphoto'];
-    $numsire = $_POST['numsire'];
-    
-    $photo = new Photo();
-    if ($photo->updateNumSire($idphoto, $numsire)) {
-        echo json_encode(['success' => true]);
-    } else {
-        echo json_encode(['success' => false]);
+    if (isset($_POST['idphoto']) && isset($_POST['numsire'])) {
+        $photo = new Photo();
+        $success = $photo->updateNumSire($_POST['idphoto'], $_POST['numsire']);
+        
+        echo json_encode(['success' => $success]);
+        exit();
     }
+    echo json_encode(['success' => false]);
     exit();
 }
 ?>
