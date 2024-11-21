@@ -7,6 +7,36 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <style>
+        .content {
+            width: 100%;
+            margin: 0 auto;
+        }
+        .input_container {
+            position: relative;
+        }
+        .input_container input {
+            width: 200px;
+            padding: 5px;
+        }
+        .input_container ul {
+            position: absolute;
+            list-style: none;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 0;
+            margin: 0;
+            width: 200px;
+            z-index: 1000;
+        }
+        .input_container ul li {
+            padding: 5px;
+            cursor: pointer;
+        }
+        .input_container ul li:hover {
+            background: #eee;
+        }
+    </style>
 </head>
 <body>
 <?php
@@ -18,9 +48,46 @@ $ReqParticipation = $oParticipation->ParticipationAll();
 
 <h1>Ajouter une Participation</h1>
 <form action="participation_traitement.php" method="POST">
-    <input type="text" name="idcoursbase" placeholder="ID Cours Base" required>
-    <input type="text" name="idcoursassociee" placeholder="ID Cours Associée" required>
-    <input type="text" name="idcavalier" placeholder="ID Cavalier" required>
+    <!-- Autocomplétion pour Cours Base -->
+    <label for="cours_base">Cours Base:</label>
+    <div class="content">
+        <div class="input_container">
+            <input type="text" name="libcours_base" id="libcours_base" 
+                placeholder="Rechercher un cours base" 
+                onkeyup="autocompletCours.call(this)">
+            <input type="hidden" name="idcoursbase" id="idcoursbase">
+            <ul id="nom_list_cours_base"></ul>
+        </div>
+    </div>
+
+    <!-- Autocomplétion pour Cours Associé -->
+    <label for="cours_associe">Cours Associé:</label>
+    <div class="content">
+        <div class="input_container">
+            <input type="text" name="libcours_associe" id="libcours_associe" 
+                placeholder="Rechercher un cours associé" 
+                onkeyup="autocompletCours.call(this)">
+            <input type="hidden" name="idcoursassociee" id="idcoursassociee">
+            <ul id="nom_list_cours_associe"></ul>
+        </div>
+    </div>
+
+    <!-- ID Cours Associée -->
+    <input type="hidden" name="idcoursassociee" value="1">
+
+    <!-- Autocomplétion pour Cavalier -->
+    <label for="cavalier">Cavalier:</label>
+    <div class="content">
+        <div class="input_container">
+            <input type="text" name="nom_cavalier" id="nom_cavalier" 
+                placeholder="Rechercher un cavalier" 
+                onkeyup="autocompletCavalier()">
+            <input type="hidden" name="idcavalier" id="idcavalier">
+            <ul id="nom_list_cavalier"></ul>
+        </div>
+    </div>
+
+    <label for="present">Présence:</label>
     <select name="present" required>
         <option value="1">Présent</option>
         <option value="0">Absent</option>

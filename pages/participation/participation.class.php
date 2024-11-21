@@ -7,7 +7,6 @@ class Participation
     private $idCoursassociee;
     private $idcavalier;
     private $present;
-    private $afficher;
 
     function __construct($idCoursbase, $idCoursassociee, $idcavalier, $present)
     {
@@ -15,8 +14,6 @@ class Participation
         $this->idCoursassociee = $idCoursassociee;
         $this->idcavalier = $idcavalier;
         $this->present = $present;
-        $this->afficher = true;
-    
     }
 
     public function getIdCoursbase()
@@ -47,8 +44,8 @@ class Participation
     public function InsertParticipation() {
         global $con;
         
-        $sql = "INSERT INTO participation (idcoursbase, idcoursassociee, idcavalier, present, afficher) 
-                VALUES (:icb, :ica, :ic, :p, true)";
+        $sql = "INSERT INTO participation (idcoursbase, idcoursassociee, idcavalier, present) 
+                VALUES (:icb, :ica, :ic, :p)";
         
         $stmt = $con->prepare($sql);
         $data = [
@@ -74,8 +71,7 @@ class Participation
                 SET present = :p 
                 WHERE idcoursbase = :icb 
                 AND idcoursassociee = :ica 
-                AND idcavalier = :ic
-                AND afficher = true";
+                AND idcavalier = :ic";
         
         $stmt = $con->prepare($sql);
         $data = [
@@ -98,7 +94,7 @@ class Participation
         global $con;
         
         $sql = "UPDATE participation 
-                SET afficher = false 
+                SET present = 0 
                 WHERE idcoursbase = :icb 
                 AND idcoursassociee = :ica 
                 AND idcavalier = :ic";
@@ -111,10 +107,10 @@ class Participation
         ];
 
         if ($stmt->execute($data)) {
-            echo "Participation supprimée avec succès";
+            echo "Participation marquée comme absente avec succès";
             return true;
         } else {
-            echo "Erreur lors de la suppression : " . implode(", ", $stmt->errorInfo());
+            echo "Erreur lors de la modification : " . implode(", ", $stmt->errorInfo());
             return false;
         }
     }
@@ -122,7 +118,7 @@ class Participation
     public function ParticipationAll() {
         global $con;
         
-        $sql = "SELECT * FROM participation WHERE afficher = true";
+        $sql = "SELECT * FROM participation ORDER BY idcoursbase, idcoursassociee, idcavalier";
         $stmt = $con->query($sql);
         
         $participations = [];
