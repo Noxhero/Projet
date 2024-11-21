@@ -33,7 +33,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
 
 <h1>Ajouter un Cheval</h1>
 
-<form action="traitement.cavalerie.php" method="POST">
+<form action="traitement.cavalerie.php" method="POST" enctype="multipart/form-data">
     <label for="nomcheval">Nom du Cheval:</label>
     <input type="text" name="nomcheval" required><br>
 
@@ -61,6 +61,16 @@ $listeChevaux = $oCavalerie->selectChevaux();
         </div>
     </div>
 
+    <div class="form-group">
+        <label for="nom_photo">Nom de la photo:</label>
+        <input type="text" name="nom_photo" id="nom_photo" class="form-control" placeholder="Donnez un nom à la photo">
+    </div>
+
+    <div class="form-group">
+        <label for="photo">Fichier photo:</label>
+        <input type="file" name="photo" id="photo" class="form-control">
+    </div>
+
     <input type="submit" value="Ajouter">
 </form>
 
@@ -75,9 +85,9 @@ $listeChevaux = $oCavalerie->selectChevaux();
             <th>Garot</th>
             <th>Robe</th>
             <th>Race</th>
+            <th>Lien de la photo</th>
             <th>Modifier</th>
             <th>Supprimer</th>
-            <th>Lien de la photo</th>
         </tr>
     </thead>
     <tbody>
@@ -108,6 +118,42 @@ $listeChevaux = $oCavalerie->selectChevaux();
                 <td><?= htmlspecialchars($cheval->getRobeLibelle($cheval->getIdrobe())) ?></td>
                 <td><?= htmlspecialchars($cheval->getRaceLibelle($cheval->getIdrace())) ?></td>
                 <td>
+                    <span class="static-field">
+                        <?php
+                        $photo = new Photo();
+                        $photos = $photo->getPhotoByNumSire($cheval->getNumsire());
+                        if (!empty($photos)) {
+                            foreach ($photos as $photo) {
+                                echo htmlspecialchars($photo->getnom_photo());
+                                break;
+                            }
+                        } else {
+                            echo 'Aucune photo disponible';
+                        }
+                        ?>
+                    </span>
+                    <span class="edit-field" style="display:none;">
+                        <?php
+                        // Récupérer toutes les photos disponibles
+                        $photo = new Photo();
+                        $allPhotos = $photo->getPhotoByNumSire(0); // 0 pour récupérer toutes les photos
+                        if (!empty($allPhotos)) {
+                            echo '<select class="photo-select" data-numsire="' . $cheval->getNumsire() . '">';
+                            echo '<option value="">Sélectionner une photo</option>';
+                            foreach ($allPhotos as $photo) {
+                                echo '<option value="' . $photo->getIdPhoto() . '">' . 
+                                    htmlspecialchars($photo->getnom_photo()) . 
+                                    '</option>';
+                            }
+                            echo '</select>';
+                            echo '<button class="refresh-btn" data-numsire="' . $cheval->getNumsire() . '">Valider</button>';
+                        } else {
+                            echo '<p>Aucune photo disponible</p>';
+                        }
+                        ?>
+                    </span>
+                </td>
+                <td>
                     <button class="modifier-btn" data-id="<?= $cheval->getNumsire() ?>">Modifier</button>
                     <button class="confirmer-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Confirmer</button>
                     <button class="annuler-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Annuler</button>
@@ -117,25 +163,6 @@ $listeChevaux = $oCavalerie->selectChevaux();
                         <input type="hidden" name="supprimer" value="<?= $cheval->getNumsire() ?>">
                         <button type="submit">Supprimer</button>
                     </form>
-                </td>
-                <td>
-                    <?php
-                    $photo = new Photo();
-                    $photos = $photo->getPhotoByNumSire(0);
-                    if (!empty($photos)) {
-                        echo '<select class="photo-select" data-numsire="' . $cheval->getNumsire() . '">';
-                        echo '<option value="">Sélectionner une photo</option>';
-                        foreach ($photos as $photo) {
-                            echo '<option value="' . $photo->getIdPhoto() . '">' . 
-                                htmlspecialchars($photo->getnom_photo()) . 
-                                '</option>';
-                        }
-                        echo '</select>';
-                        echo '<button class="refresh-btn" data-numsire="' . $cheval->getNumsire() . '">Valider</button>';
-                    } else {
-                        echo '<p>Aucune photo disponible</p>';
-                    }
-                    ?>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -158,8 +185,12 @@ $listeChevaux = $oCavalerie->selectChevaux();
         button.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
             const row = document.getElementById('row-' + id);
+            
+            // Cacher tous les champs statiques et afficher les champs d'édition
             row.querySelectorAll('.static-field').forEach(field => field.style.display = 'none');
             row.querySelectorAll('.edit-field').forEach(field => field.style.display = 'inline');
+            
+            // Gérer l'affichage des boutons
             row.querySelector('.modifier-btn').style.display = 'none';
             row.querySelector('.confirmer-btn').style.display = 'inline';
             row.querySelector('.annuler-btn').style.display = 'inline';
@@ -170,8 +201,12 @@ $listeChevaux = $oCavalerie->selectChevaux();
         button.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
             const row = document.getElementById('row-' + id);
+            
+            // Afficher tous les champs statiques et cacher les champs d'édition
             row.querySelectorAll('.static-field').forEach(field => field.style.display = 'inline');
             row.querySelectorAll('.edit-field').forEach(field => field.style.display = 'none');
+            
+            // Gérer l'affichage des boutons
             row.querySelector('.modifier-btn').style.display = 'inline';
             row.querySelector('.confirmer-btn').style.display = 'none';
             row.querySelector('.annuler-btn').style.display = 'none';
@@ -183,23 +218,34 @@ $listeChevaux = $oCavalerie->selectChevaux();
             const id = this.getAttribute('data-id');
             const row = document.getElementById('row-' + id);
             
+            // Récupérer uniquement les données du cheval
             const nomcheval = row.querySelector('input[name="nomcheval"]').value;
             const datenaissancecheval = row.querySelector('input[name="datenaissancecheval"]').value;
             const garot = row.querySelector('input[name="garot"]').value;
-            const photo_url = row.querySelector('input[name="photo_url"]').value;
 
+            // Créer le formulaire avec uniquement les données du cheval
             const form = document.createElement('form');
-            form.action = 'traitement.cavalerie.php';
             form.method = 'POST';
+            form.action = 'traitement.cavalerie.php';
 
-            form.innerHTML = `
-                <input type="hidden" name="numsire" value="${id}">
-                <input type="hidden" name="nomcheval" value="${nomcheval}">
-                <input type="hidden" name="datenaissancecheval" value="${datenaissancecheval}">
-                <input type="hidden" name="garot" value="${garot}">
-                <input type="hidden" name="photo_url" value="${photo_url}">
-                <input type="hidden" name="action" value="modifier">
-            `;
+            const formData = {
+                'numsire': id,
+                'nomcheval': nomcheval,
+                'datenaissancecheval': datenaissancecheval,
+                'garot': garot,
+                'idrobe': row.querySelector('input[name="idrobe"]')?.value || '',
+                'idrace': row.querySelector('input[name="idrace"]')?.value || '',
+                'action': 'modifier'
+            };
+
+            // Créer les champs cachés pour le formulaire
+            Object.entries(formData).forEach(([key, value]) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                form.appendChild(input);
+            });
 
             document.body.appendChild(form);
             form.submit();
@@ -259,7 +305,6 @@ $listeChevaux = $oCavalerie->selectChevaux();
                         if (data.success) {
                             // Recharge la page après la mise à jour
                         } else {
-                            alert('Erreur lors de la mise à jour de la photo');
                             
                         }
                     
@@ -271,7 +316,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
     });
 
     $(document).ready(function() {
-        // Gestionnaire pour les boutons refresh
+        // Gestionnaire pour les boutons refresh (valider)
         $('.refresh-btn').on('click', function() {
             const numsire = $(this).data('numsire');
             const selectElement = $(this).siblings('.photo-select');
@@ -282,14 +327,29 @@ $listeChevaux = $oCavalerie->selectChevaux();
                 return;
             }
 
-            // Envoi de la requête AJAX simplifiée
-            $.post('traitement.cavalerie.php', {
-                action: 'update_photo_numsire',
-                idphoto: idphoto,
-                numsire: numsire
-            }).always(function() {
-                // Recharge la page dans tous les cas
-                location.reload();
+            $.ajax({
+                url: 'traitement.cavalerie.php',
+                method: 'POST',
+                data: {
+                    action: 'update_photo_numsire',
+                    idphoto: idphoto,
+                    numsire: numsire
+                },
+                success: function(response) {
+                    try {
+                        const data = JSON.parse(response);
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Erreur lors de la mise à jour de la photo');
+                        }
+                    } catch (e) {
+                        alert('Erreur lors de la mise à jour de la photo');
+                    }
+                },
+                error: function() {
+                    alert('Erreur lors de la mise à jour de la photo');
+                }
             });
         });
     });
