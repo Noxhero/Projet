@@ -67,11 +67,11 @@ $listeChevaux = $oCavalerie->selectChevaux();
     </div>
 
     <div class="form-group">
-        <label for="photo">Fichier photo:</label>
-        <input type="file" name="photo" id="photo" class="form-control">
+        <label for="userfile">Fichier photo:</label>
+        <input type="file" name="userfile" id="userfile" class="form-control">
     </div>
 
-    <input type="submit" value="Ajouter">
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
 </form>
 
 <h2>Liste des Chevaux</h2>
