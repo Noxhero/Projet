@@ -290,3 +290,49 @@ function set_item_cavalier(nom, id) {
     $('#idcavalier').val(id);
     $('#nom_list_cavalier').hide();
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const menuButton = document.getElementById('menu-button');
+    const sidebar = document.querySelector('.sidebar');
+    let lastScrollTop = 0; // Variable pour stocker la position de défilement précédente
+
+    menuButton.addEventListener('click', function() {
+        sidebar.classList.toggle('active'); // Ajouter ou retirer la classe active
+    });
+
+    const scrollToTopButton = document.getElementById('scroll-to-top');
+
+    // Afficher ou masquer le bouton en fonction du défilement
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 300) { // Afficher le bouton si on a défilé de plus de 300px
+            scrollToTopButton.style.display = 'flex';
+        } else {
+            scrollToTopButton.style.display = 'none';
+        }
+
+        // Vérifier la direction du défilement
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollTop > lastScrollTop && sidebar.classList.contains('active')) {
+            // Si on défile vers le bas et que la sidebar est active, la désactiver
+            sidebar.classList.remove('active');
+        }
+        lastScrollTop = scrollTop; // Mettre à jour la position de défilement précédente
+    });
+
+    // Faire défiler vers le haut lorsque le bouton est cliqué
+    scrollToTopButton.addEventListener('click', function() {
+        // Ajouter la classe d'animation
+        scrollToTopButton.classList.add('animate');
+
+        // Faire défiler vers le haut
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Défilement en douceur
+        });
+
+        // Retirer la classe d'animation après un court délai
+        setTimeout(function() {
+            scrollToTopButton.classList.remove('animate');
+        }, 500); // Correspond à la durée de l'animation
+    });
+});
