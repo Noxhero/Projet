@@ -55,7 +55,6 @@ if (isset($_POST['logout'])) {
     </header>
 
     <div class="sidebar" style="z-index: 0; height: 100%; overflow-y: auto;">
-        <h2 style="text-align: center; color: white; margin: 20px 0;">Menu</h2>
         <a href="../../pages/calendrier/calendrier.php">Calendrier</a>
         <a href="../../pages/cavalerie/cavalerie.php">Cavalerie</a>
         <a href="../../pages/cavalier/cavalier.php">Cavalier</a>
