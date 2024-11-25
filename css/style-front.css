@@ -1,0 +1,1143 @@
+/* Style général */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* En-tête */
+header {
+    background: linear-gradient(135deg, #2c3e50, #4ca1af);
+    color: white;
+    padding: 20px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    width: 180px;
+    transition: transform 0.3s;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s, transform 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li a i {
+    margin-right: 8px;
+}
+
+nav ul li a:hover {
+    color: #1abc9c;
+    transform: scale(1.05);
+}
+
+/* Section Héros */
+.hero {
+    background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(76, 160, 175, 0.8)), url('images/cheval1.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 150px 20px;
+    position: relative;
+    border-bottom: 5px solid #1abc9c;
+    animation: fadeIn 1s;
+    overflow: hidden;
+}
+
+.hero-content {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s;
+}
+
+.hero-content:hover {
+    transform: scale(1.05);
+}
+
+.hero h1 {
+    font-size: 4em;
+    margin: 0 0 20px;
+    animation: slideIn 0.5s;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    transition: color 0.3s;
+}
+
+.hero h1:hover {
+    color: #ffeb3b;
+}
+
+.hero p {
+    font-size: 1.5em;
+    margin: 10px 0 20px;
+    line-height: 1.6;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    transition: color 0.3s;
+}
+
+.hero p:hover {
+    color: #ffeb3b;
+}
+
+.btn {
+    background: #ffeb3b;
+    color: #333;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s, transform 0.3s;
+    font-size: 1.2em;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.btn:hover {
+    background: #fdd835;
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Section des fonctionnalités */
+.features {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    transition: transform 0.3s;
+}
+
+.features:hover {
+    transform: scale(1.02);
+}
+
+.features h2 {
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    color: #2c3e50;
+    text-transform: uppercase;
+}
+
+.feature {
+    background: #f1f1f1;
+    border-radius: 10px;
+    padding: 30px;
+    margin: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    width: calc(33% - 40px);
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+    position: relative;
+}
+
+.feature i {
+    color: #1abc9c;
+    margin-bottom: 15px;
+    font-size: 3em;
+}
+
+.feature:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    background-color: #e0f7fa;
+}
+
+.feature h3 {
+    margin-top: 0;
+    color: #1abc9c;
+    transition: color 0.3s;
+}
+
+.feature:hover h3 {
+    color: #00796b;
+}
+
+.feature p {
+    margin: 10px 0 0;
+    color: #555;
+    font-size: 1.1em;
+    transition: color 0.3s;
+}
+
+.feature:hover p {
+    color: #333;
+}
+
+/* Section des témoignages */
+.testimonials {
+    background: #e9f1f7;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.testimonials h2 {
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+
+.testimonial {
+    margin: 20px 0;
+    font-style: italic;
+    transition: transform 0.3s;
+}
+
+.testimonial:hover {
+    transform: scale(1.05);
+}
+
+/* Section galerie */
+.gallery {
+    padding: 60px 20px; /* Espacement autour de la section */
+    background-color: #f0e5d8; /* Fond beige clair pour la section */
+    border-radius: 15px; /* Coins arrondis */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Ombre plus marquée pour donner de la profondeur */
+    margin: 20px 0; /* Marge en haut et en bas */
+    text-align: center; /* Centrer le texte */
+    position: relative; /* Position relative pour les éléments internes */
+    overflow: hidden; /* Pour masquer les débordements */
+}
+
+.gallery h2 {
+    margin-bottom: 30px; /* Espacement sous le titre */
+    font-size: 3em; /* Taille du titre */
+    color: #8e4b3a; /* Couleur du titre */
+    text-transform: uppercase; /* Mettre en majuscules */
+    font-family: 'Georgia', serif; /* Police serif pour un style élégant */
+    position: relative; /* Position relative pour l'animation */
+    z-index: 1; /* Placer le titre au-dessus de l'élément de fond */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Ombre pour le texte */
+}
+
+.gallery-container {
+    display: grid; /* Utiliser une grille pour aligner les images */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Grille responsive */
+    gap: 20px; /* Espacement entre les images */
+    z-index: 1; /* Placer les images au-dessus de l'élément de fond */
+}
+
+.gallery-item {
+    position: relative; /* Position relative pour les éléments internes */
+    overflow: hidden; /* Pour masquer les débordements */
+    border-radius: 10px; /* Coins arrondis */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transition pour l'effet de survol */
+}
+
+.gallery-item img {
+    width: 100%; /* Largeur de l'image */
+    height: auto; /* Hauteur automatique pour garder les proportions */
+    border-radius: 10px; /* Coins arrondis pour l'image */
+    transition: transform 0.3s; /* Transition pour l'effet de survol */
+}
+
+.gallery-item:hover {
+    transform: scale(1.05); /* Effet de zoom au survol */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Ombre plus marquée au survol */
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1); /* Légère augmentation de la taille de l'image au survol */
+}
+
+/* Ajout d'un effet de filtre sur les images */
+.gallery-item::before {
+    content: ''; /* Créer un élément avant */
+    position: absolute; /* Positionner l'élément */
+    top: 0; /* Alignement en haut */
+    left: 0; /* Alignement à gauche */
+    right: 0; /* Alignement à droite */
+    bottom: 0; /* Alignement en bas */
+    background: rgba(142, 75, 58, 0.5); /* Couleur semi-transparente pour un effet de filtre */
+    opacity: 0; /* Opacité initiale */
+    transition: opacity 0.3s; /* Transition pour l'effet de survol */
+}
+
+.gallery-item:hover::before {
+    opacity: 1; /* Rendre l'élément visible au survol */
+}
+
+/* Pied de page */
+footer {
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 5px 0; /* Espacement autour des paragraphes */
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Section À Propos de Nous */
+.about {
+    background-color: #ffffff; /* Fond blanc pour la section */
+    padding: 60px 20px; /* Espacement autour de la section */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre pour donner de la profondeur */
+    text-align: center; /* Centrer le texte */
+    margin: 20px 0; /* Marge en haut et en bas */
+}
+
+.about h2 {
+    margin-bottom: 20px; /* Espacement sous le titre */
+    font-size: 2.5em; /* Taille du titre */
+    color: #2c3e50; /* Couleur du titre */
+}
+
+.about p {
+    font-size: 1.2em; /* Taille de la police pour le texte */
+    line-height: 1.6; /* Hauteur de ligne pour une meilleure lisibilité */
+    color: #555; /* Couleur du texte */
+    max-width: 800px; /* Largeur maximale pour le texte */
+    margin: 0 auto; /* Centrer le texte */
+}
+
+/* Section Notre Équipe */
+.team {
+    padding: 60px 20px; /* Espacement autour de la section */
+    background-color: #ffffff; /* Fond blanc pour la section */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre pour donner de la profondeur */
+    margin: 20px 0; /* Marge en haut et en bas */
+}
+
+.team h2 {
+    margin-bottom: 30px; /* Espacement sous le titre */
+    font-size: 2.5em; /* Taille du titre */
+    color: #2c3e50; /* Couleur du titre */
+    text-align: center; /* Centrer le titre */
+}
+
+.team-container {
+    display: flex; /* Utiliser flexbox pour aligner les membres de l'équipe */
+    justify-content: center; /* Centrer les membres */
+    flex-wrap: wrap; /* Permettre aux éléments de passer à la ligne */
+}
+
+.team-member {
+    background: #f9f9f9; /* Fond gris clair pour chaque membre */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 20px; /* Espacement interne */
+    margin: 15px; /* Marge entre les membres */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre pour donner de la profondeur */
+    width: 250px; /* Largeur fixe pour les membres */
+    text-align: center; /* Centrer le texte */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transition pour l'effet de survol */
+    position: relative; /* Position relative pour l'animation */
+}
+
+.team-member:hover {
+    transform: translateY(-5px); /* Effet de levée au survol */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Ombre plus marquée au survol */
+}
+
+.team-member img {
+    border-radius: 50%; /* Rendre l'image ronde */
+    width: 100px; /* Largeur de l'image */
+    height: 100px; /* Hauteur de l'image */
+    object-fit: cover; /* Couvrir l'espace sans déformer l'image */
+    margin-bottom: 15px; /* Espacement sous l'image */
+}
+
+.team-member h3 {
+    color: #1abc9c; /* Couleur du nom */
+    margin: 10px 0; /* Espacement autour du nom */
+}
+
+.team-member p {
+    color: #555; /* Couleur du texte */
+    font-size: 1em; /* Taille du texte */
+}
+
+/* Animation pour l'apparition des membres de l'équipe */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.team-member {
+    animation: fadeIn 0.5s ease forwards; /* Animation d'apparition */
+}
+
+/* Ajout d'une section pour les compétences */
+.team-member .skills {
+    margin-top: 10px; /* Espacement au-dessus des compétences */
+    font-size: 0.9em; /* Taille de la police pour les compétences */
+    color: #ffffff; /* Couleur des compétences */
+    background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+    padding: 10px; /* Espacement interne */
+    border-radius: 5px; /* Coins arrondis */
+    display: flex; /* Utiliser flexbox pour aligner les compétences */
+    justify-content: center; /* Centrer les compétences */
+    flex-wrap: wrap; /* Permettre aux compétences de passer à la ligne */
+}
+
+.skill {
+    background: #1abc9c; /* Couleur de fond pour chaque compétence */
+    color: white; /* Couleur du texte */
+    border-radius: 5px; /* Coins arrondis */
+    padding: 5px 10px; /* Espacement interne */
+    margin: 5px; /* Marge entre les compétences */
+    font-size: 0.8em; /* Taille de la police pour les compétences */
+    transition: transform 0.3s; /* Transition pour l'effet de survol */
+}
+
+.skill:hover {
+    transform: scale(1.1); /* Effet de zoom au survol des compétences */
+}
+
+/* Section Informations */
+.info {
+    padding: 40px 20px; /* Espacement autour de la section */
+    background-color: #ffffff; /* Fond blanc pour la section */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre pour donner de la profondeur */
+    margin: 20px 0; /* Marge en haut et en bas */
+    text-align: left; /* Alignement à gauche pour le texte */
+    transition: transform 0.3s; /* Transition pour l'effet de survol */
+}
+
+.info:hover {
+    transform: scale(1.02); /* Légère augmentation de la taille au survol */
+}
+
+.info h2 {
+    margin-bottom: 20px; /* Espacement sous le titre */
+    font-size: 2.5em; /* Taille du titre */
+    color: #2c3e50; /* Couleur du titre */
+    text-transform: uppercase; /* Mettre en majuscules */
+    position: relative; /* Position relative pour l'animation */
+    animation: fadeIn 0.5s ease; /* Animation d'apparition */
+}
+
+.info p {
+    margin-bottom: 15px; /* Espacement sous chaque paragraphe */
+    line-height: 1.6; /* Hauteur de ligne pour une meilleure lisibilité */
+    color: #555; /* Couleur du texte */
+    transition: color 0.3s; /* Transition pour la couleur */
+}
+
+.info p:hover {
+    color: #1abc9c; /* Changer la couleur du texte au survol */
+}
+
+.info ul {
+    list-style-type: disc; /* Type de liste */
+    padding-left: 20px; /* Espacement à gauche */
+}
+
+.info ul li {
+    margin-bottom: 10px; /* Espacement sous chaque élément de la liste */
+    transition: transform 0.3s; /* Transition pour l'effet de survol */
+}
+
+.info ul li:hover {
+    transform: translateX(5px); /* Légère translation à droite au survol */
+}
+
+/* Animation pour l'apparition des éléments */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Liste des services */
+.info ul {
+    list-style-type: disc; /* Style de liste */
+    margin-left: 20px; /* Marge à gauche pour la liste */
+}
+
+.info ul li {
+    margin: 10px 0; /* Espacement entre les éléments de la liste */
+    font-size: 1.1em; /* Taille du texte */
+    color: #333; /* Couleur du texte */
+}
+
+.info blockquote {
+    background: #f9f9f9; /* Fond gris clair pour les citations */
+    border-left: 5px solid #1abc9c; /* Bordure à gauche */
+    padding: 10px 20px; /* Espacement interne */
+    margin: 20px 0; /* Marge autour des citations */
+    font-style: italic; /* Italique pour les citations */
+    color: #666; /* Couleur du texte des citations */
+}
+
+.pricing-table {
+    display: flex; /* Utiliser flexbox pour aligner les éléments */
+    justify-content: center; /* Centrer les éléments */
+    flex-wrap: wrap; /* Permettre aux éléments de passer à la ligne */
+    margin: 20px 0; /* Marge autour de la table de prix */
+}
+
+.pricing-item {
+    background: #f1f1f1; /* Fond gris clair pour chaque élément */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 20px; /* Espacement interne */
+    margin: 15px; /* Marge entre les éléments */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre pour donner de la profondeur */
+    width: 250px; /* Largeur fixe pour les éléments */
+    text-align: center; /* Centrer le texte */
+    transition: transform 0.3s; /* Transition pour l'effet de survol */
+}
+
+.pricing-item:hover {
+    transform: translateY(-5px); /* Effet de levée au survol */
+}
+
+.pricing-item h4 {
+    margin: 0; /* Pas de marge pour le titre */
+    color: #2c3e50; /* Couleur du titre */
+}
+
+.pricing-item p {
+    margin: 5px 0; /* Espacement autour des paragraphes */
+    color: #555; /* Couleur du texte */
+}
+
+/* Styles pour le carrousel */
+.carousel {
+    position: relative;
+    max-width: 100%; /* Largeur maximale */
+    margin: 0 auto; /* Centrer le carrousel */
+    overflow: hidden; /* Cacher les débordements */
+    border-radius: 10px; /* Coins arrondis pour le carrousel */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Ombre pour donner de la profondeur */
+    transition: box-shadow 0.3s; /* Transition pour l'ombre */
+    height: 500px; /* Hauteur augmentée pour le carrousel */
+}
+
+.carousel:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); /* Ombre plus marquée au survol */
+}
+
+.carousel-images {
+    display: flex; /* Utiliser flexbox pour aligner les images */
+    transition: transform 0.5s ease; /* Transition pour le mouvement */
+}
+
+.carousel-image {
+    min-width: 100%; /* Chaque image prend toute la largeur du carrousel */
+    height: 100%; /* Hauteur fixe pour les images */
+    object-fit: cover; /* Couvrir l'espace sans déformer l'image */
+    border-radius: 10px; /* Coins arrondis pour les images */
+    filter: brightness(0.9); /* Légère réduction de la luminosité */
+    transition: filter 0.3s; /* Transition pour l'effet de survol */
+}
+
+.carousel-image:hover {
+    filter: brightness(1); /* Rendre l'image plus lumineuse au survol */
+}
+
+.carousel-button {
+    position: absolute; /* Positionner les boutons */
+    top: 50%; /* Centrer verticalement */
+    transform: translateY(-50%); /* Ajuster la position */
+    background-color: rgba(255, 255, 255, 0.8); /* Fond semi-transparent */
+    border: none; /* Pas de bordure */
+    padding: 10px; /* Espacement interne */
+    cursor: pointer; /* Curseur pointer */
+    border-radius: 5px; /* Coins arrondis */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombre pour donner de la profondeur */
+    transition: background-color 0.3s, transform 0.3s; /* Transition pour le survol */
+}
+
+.carousel-button:hover {
+    background-color: rgba(255, 255, 255, 1); /* Changer le fond au survol */
+    transform: scale(1.1); /* Agrandir le bouton au survol */
+}
+
+.prev {
+    left: 10px; /* Positionner à gauche */
+}
+
+.next {
+    right: 10px; /* Positionner à droite */
+}
+
+/* Styles pour la section des types de cours */
+.types-cours {
+    padding: 60px 20px; /* Espacement autour de la section */
+    background-color: #ffffff; /* Fond blanc pour la section */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre pour donner de la profondeur */
+    margin: 20px 0; /* Marge en haut et en bas */
+}
+
+.types-cours h3 {
+    margin-top: 0; /* Pas d'espacement au-dessus du sous-titre */
+    font-size: 2.5em; /* Taille des sous-titres */
+    color: #2c3e50; /* Couleur des sous-titres */
+    text-align: center; /* Centrer le sous-titre */
+    text-transform: uppercase; /* Mettre en majuscules */
+    margin-bottom: 30px; /* Espacement sous le sous-titre */
+}
+
+.types-cours p {
+    text-align: center; /* Centrer le texte */
+    font-size: 1.2em; /* Taille du texte */
+    color: #555; /* Couleur du texte */
+    margin-bottom: 30px; /* Espacement sous le paragraphe */
+}
+
+.types-cours ul {
+    display: grid; /* Utiliser une grille pour les éléments */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Grille responsive */
+    list-style-type: none; /* Pas de puces pour la liste */
+    padding: 0; /* Pas de padding */
+    gap: 20px; /* Espacement entre les éléments */
+}
+
+.types-cours li {
+    background: #1abc9c; /* Couleur de fond pour chaque élément */
+    color: white; /* Couleur du texte */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 20px; /* Espacement interne */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Ombre pour donner de la profondeur */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transition pour l'effet de survol */
+    text-align: center; /* Centrer le texte */
+    position: relative; /* Position relative pour les éléments enfants */
+    overflow: hidden; /* Pour cacher les éléments qui débordent */
+}
+
+.types-cours li:hover {
+    transform: translateY(-5px); /* Effet de levée au survol */
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3); /* Ombre plus marquée au survol */
+}
+
+.types-cours li::before {
+    content: ''; /* Ajout d'un pseudo-élément pour l'icône */
+    position: absolute; /* Positionner l'icône */
+    top: 20px; /* Positionner au-dessus de l'élément */
+    left: 50%; /* Centrer horizontalement */
+    transform: translateX(-50%); /* Ajuster la position */
+    width: 60px; /* Largeur de l'ic��ne */
+    height: 60px; /* Hauteur de l'icône */
+    background: url('path/to/icon.png') no-repeat center center; /* Remplacer par l'URL de l'icône */
+    background-size: contain; /* Ajuster la taille de l'icône */
+}
+
+.types-cours strong {
+    font-size: 1.8em; /* Taille du texte fort */
+    display: block; /* Afficher en bloc pour un espacement */
+    margin-bottom: 10px; /* Espacement sous le titre */
+}
+
+.types-cours li p {
+    margin: 10px 0 0; /* Espacement autour des paragraphes */
+    color: #f9f9f9; /* Couleur du texte */
+    font-size: 1.1em; /* Taille du texte */
+}
+
+/* Animation pour les éléments de la liste */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.types-cours li {
+    animation: fadeIn 0.5s ease forwards; /* Animation d'apparition */
+}
+
+/* Footer */
+footer {
+    background-color: #2c3e50; /* Couleur de fond du footer */
+    color: white; /* Couleur du texte */
+    text-align: center; /* Centrer le texte */
+    padding: 20px 0; /* Espacement interne */
+    margin-top: 20px; /* Marge en haut */
+}
+
+footer p {
+    margin: 5px 0; /* Espacement autour des paragraphes */
+}
+
+/* Section Tarif des Cours */
+.pricing {
+    background-color: #ffffff; /* Fond blanc pour la section */
+    padding: 40px 20px; /* Espacement autour de la section */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre pour donner de la profondeur */
+    margin: 20px 0; /* Marge en haut et en bas */
+    text-align: center; /* Centrer le texte */
+    animation: fadeIn 0.5s ease; /* Animation d'apparition */
+}
+
+.pricing h2 {
+    margin-bottom: 30px; /* Espacement sous le titre */
+    font-size: 2.5em; /* Taille du titre */
+    color: #2c3e50; /* Couleur du titre */
+    text-transform: uppercase; /* Mettre en majuscules */
+}
+
+.pricing-table {
+    display: flex; /* Utiliser flexbox pour aligner les éléments */
+    justify-content: center; /* Centrer les éléments */
+    flex-wrap: wrap; /* Permettre aux éléments de passer à la ligne */
+}
+
+.pricing-item {
+    background: #f9f9f9; /* Fond gris clair pour chaque élément */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 30px; /* Espacement interne */
+    margin: 15px; /* Marge entre les éléments */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre pour donner de la profondeur */
+    width: 250px; /* Largeur fixe pour les éléments */
+    text-align: center; /* Centrer le texte */
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s; /* Transition pour l'effet de survol */
+    position: relative; /* Position relative pour l'animation */
+}
+
+.pricing-item:hover {
+    transform: translateY(-5px); /* Effet de levée au survol */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Ombre plus marquée au survol */
+    background-color: #e0f7fa; /* Changer la couleur de fond au survol */
+}
+
+.pricing-item h4 {
+    margin: 15px 0; /* Espacement autour du titre */
+    color: #1abc9c; /* Couleur du titre */
+    font-size: 1.5em; /* Taille du titre */
+    transition: color 0.3s; /* Transition pour la couleur */
+}
+
+.pricing-item:hover h4 {
+    color: #00796b; /* Changer la couleur du titre au survol */
+}
+
+.pricing-item p {
+    margin: 5px 0; /* Espacement autour des paragraphes */
+    color: #555; /* Couleur du texte */
+    font-size: 1.1em; /* Taille du texte */
+}
+
+/* Animation pour la section de tarification */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Section Horaire des Cours */
+.schedule {
+    padding: 40px 20px; /* Espacement autour de la section */
+    background-color: #ffffff; /* Fond blanc pour la section */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre pour donner de la profondeur */
+    margin: 20px 0; /* Marge en haut et en bas */
+    text-align: center; /* Centrer le texte */
+}
+
+.schedule h2 {
+    margin-bottom: 30px; /* Espacement sous le titre */
+    font-size: 2.5em; /* Taille du titre */
+    color: #2c3e50; /* Couleur du titre */
+    text-transform: uppercase; /* Mettre en majuscules */
+}
+
+.schedule-table {
+    width: 100%; /* Largeur de la table */
+    border-collapse: collapse; /* Fusionner les bordures */
+    margin: 0 auto; /* Centrer la table */
+    border-radius: 10px; /* Coins arrondis pour la table */
+    overflow: hidden; /* Pour masquer les coins arrondis */
+}
+
+.schedule-table th, .schedule-table td {
+    border: 1px solid #ddd; /* Bordure des cellules */
+    padding: 12px; /* Espacement interne */
+    text-align: center; /* Centrer le texte */
+    transition: background-color 0.3s; /* Transition pour la couleur de fond */
+}
+
+.schedule-table th {
+    background-color: #1abc9c; /* Couleur de fond des en-têtes */
+    color: white; /* Couleur du texte des en-têtes */
+    font-weight: bold; /* Mettre en gras */
+    text-transform: uppercase; /* Mettre en majuscules */
+}
+
+.schedule-table tr:nth-child(even) {
+    background-color: #f2f2f2; /* Fond gris clair pour les lignes paires */
+}
+
+.schedule-table tr:hover {
+    background-color: #e0f7fa; /* Changer la couleur de fond au survol */
+    transform: scale(1.02); /* Légère augmentation de la taille au survol */
+    transition: transform 0.3s; /* Transition pour l'effet de survol */
+}
+
+.schedule-table td {
+    color: #555; /* Couleur du texte */
+    font-size: 1.1em; /* Taille du texte */
+}
+
+/* Animation pour l'apparition de la table */
+.schedule-table {
+    animation: fadeIn 0.5s ease; /* Animation d'apparition */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Section Instructeurs */
+.instructors {
+    padding: 60px 20px; /* Espacement autour de la section */
+    background-color: #f0f4f8; /* Fond clair pour la section */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Ombre plus marquée pour donner de la profondeur */
+    margin: 20px 0; /* Marge en haut et en bas */
+    text-align: center; /* Centrer le texte */
+    position: relative; /* Position relative pour les éléments internes */
+}
+
+.instructors h2 {
+    margin-bottom: 40px; /* Espacement sous le titre */
+    font-size: 2.5em; /* Taille du titre */
+    color: #2c3e50; /* Couleur du titre */
+    text-transform: uppercase; /* Mettre en majuscules */
+    font-family: 'Georgia', serif; /* Police serif pour un style élégant */
+    position: relative; /* Position relative pour l'animation */
+    z-index: 1; /* Placer le titre au-dessus de l'élément de fond */
+}
+
+.instructor-cards {
+    display: flex; /* Utiliser flexbox pour aligner les cartes */
+    justify-content: center; /* Centrer les cartes */
+    flex-wrap: wrap; /* Permettre aux cartes de passer à la ligne */
+    gap: 30px; /* Espacement entre les cartes */
+}
+
+.instructor-card {
+    background: linear-gradient(135deg, #1abc9c, #16a085); /* Dégradé de couleur pour chaque carte */
+    border-radius: 15px; /* Coins arrondis */
+    padding: 20px; /* Espacement interne */
+    width: 280px; /* Largeur fixe pour les cartes */
+    text-align: center; /* Centrer le texte */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transition pour l'effet de survol */
+    position: relative; /* Position relative pour les éléments internes */
+    overflow: hidden; /* Pour masquer les débordements */
+    color: white; /* Couleur du texte */
+}
+
+.instructor-card:hover {
+    transform: translateY(-10px); /* Effet de levée au survol */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); /* Ombre plus marquée au survol */
+}
+
+.instructor-image {
+    width: 100%; /* Largeur de l'image */
+    height: 200px; /* Hauteur fixe pour l'image */
+    object-fit: cover; /* Couvrir l'espace sans déformer l'image */
+    border-radius: 15px 15px 0 0; /* Coins arrondis en haut */
+    transition: transform 0.3s; /* Transition pour l'effet de survol */
+}
+
+.instructor-image:hover {
+    transform: scale(1.1); /* Légère augmentation de la taille au survol */
+}
+
+.instructor-card h3 {
+    margin: 15px 0; /* Espacement autour du nom */
+    font-size: 1.8em; /* Taille du nom */
+    font-family: 'Georgia', serif; /* Police serif pour un style élégant */
+    transition: color 0.3s; /* Transition pour la couleur */
+}
+
+.instructor-card p {
+    font-size: 1em; /* Taille du texte */
+    line-height: 1.5; /* Hauteur de ligne pour une meilleure lisibilité */
+    transition: color 0.3s; /* Transition pour la couleur */
+}
+
+.instructor-card:hover h3 {
+    color: #ffeb3b; /* Changer la couleur du nom au survol */
+}
+
+.instructor-card:hover p {
+    color: #ffffff; /* Changer la couleur du texte au survol */
+}
+
+/* Animation pour l'apparition des éléments */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Section Blog */
+.blog {
+    padding: 40px 20px; /* Espacement autour de la section */
+    background-color: #f7f9fc; /* Fond gris clair pour la section */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre pour donner de la profondeur */
+    margin: 20px 0; /* Marge en haut et en bas */
+    text-align: center; /* Centrer le texte */
+    position: relative; /* Position relative pour les éléments internes */
+}
+
+.blog::before {
+    content: ""; /* Créer un élément avant */
+    position: absolute; /* Positionner l'élément */
+    top: 0; /* Alignement en haut */
+    left: 0; /* Alignement à gauche */
+    right: 0; /* Alignement à droite */
+    height: 100%; /* Hauteur de la section */
+    background: linear-gradient(135deg, #1abc9c, #16a085); /* Dégradé de couleur */
+    opacity: 0.1; /* Opacité pour un effet subtil */
+    border-radius: 10px; /* Coins arrondis */
+    z-index: 0; /* Envoyer l'élément en arrière-plan */
+}
+
+.blog h2 {
+    margin-bottom: 30px; /* Espacement sous le titre */
+    font-size: 2.5em; /* Taille du titre */
+    color: #2c3e50; /* Couleur du titre */
+    text-transform: uppercase; /* Mettre en majuscules */
+    position: relative; /* Position relative pour l'animation */
+    z-index: 1; /* Placer le titre au-dessus de l'élément de fond */
+}
+
+.blog-posts {
+    display: grid; /* Utiliser une grille pour aligner les articles */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Grille responsive */
+    gap: 20px; /* Espacement entre les articles */
+    z-index: 1; /* Placer les articles au-dessus de l'élément de fond */
+}
+
+.blog-post {
+    background: white; /* Fond blanc pour chaque article */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 20px; /* Espacement interne */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre pour donner de la profondeur */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transition pour l'effet de survol */
+    position: relative; /* Position relative pour les éléments internes */
+}
+
+.blog-post:hover {
+    transform: translateY(-5px); /* Effet de levée au survol */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Ombre plus marquée au survol */
+}
+
+.blog-image {
+    width: 100%; /* Largeur de l'image */
+    height: auto; /* Hauteur automatique pour garder les proportions */
+    border-radius: 10px; /* Coins arrondis pour l'image */
+    margin-bottom: 15px; /* Espacement sous l'image */
+}
+
+.blog-post h3 {
+    margin: 10px 0; /* Espacement autour du titre */
+    color: #1abc9c; /* Couleur du titre */
+    font-family: 'Georgia', serif; /* Police serif pour un style de blog */
+    font-size: 1.8em; /* Taille du titre */
+}
+
+.blog-post p {
+    color: #555; /* Couleur du texte */
+    font-size: 1em; /* Taille du texte */
+    line-height: 1.6; /* Hauteur de ligne pour une meilleure lisibilité */
+}
+
+.btn {
+    background: #1abc9c; /* Couleur du bouton */
+    color: white; /* Couleur du texte du bouton */
+    padding: 12px 25px; /* Espacement interne */
+    text-decoration: none; /* Pas de soulignement */
+    border-radius: 5px; /* Coins arrondis */
+    transition: background 0.3s, transform 0.3s; /* Transition pour l'effet de survol */
+    font-size: 1em; /* Taille du texte */
+    margin-top: 10px; /* Espacement au-dessus du bouton */
+}
+
+.btn:hover {
+    background: #16a085; /* Couleur du bouton au survol */
+    transform: scale(1.05); /* Légère augmentation de la taille au survol */
+}
+/* Section À Propos de Nous */
+/* Section À Propos de Nous */
+.about {
+    background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('../pages-front/images-front/unnamed.png') no-repeat center center/cover;
+    padding: 60px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.about::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.about-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    border: 2px solid #1abc9c;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.about-content:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.about h2 {
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    color: #2c3e50;
+    text-transform: uppercase;
+    animation: fadeIn 0.5s ease;
+}
+
+.about p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #555;
+    max-width: 800px;
+    margin: 0 auto;
+    animation: fadeIn 0.7s ease;
+}
+
+.about i {
+    font-size: 3em;
+    color: #1abc9c;
+    margin-bottom: 20px;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ajout d'une animation de battement pour l'icône */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.about i {
+    animation: pulse 2s infinite;
+}

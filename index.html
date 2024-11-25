@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centre Équestre</title>
+    <link rel="stylesheet" href="css/style-front.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="pages-front/images-front/93863d47-8a92-4b31-b3c8-8f9891f6792a-removebg-preview.png" alt="Logo du Centre Équestre" class="logo">
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="pages-front/info/info.html"><i class="fas fa-info-circle"></i> Info</a></li>
+                    <li><a href="pages/services.html"><i class="fas fa-horse-head"></i> Services</a></li>
+                    <li><a href="pages/contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Bienvenue au Centre Équestre</h1>
+                <p>Découvrez notre passion pour les chevaux et nos services de qualité.</p>
+                <a href="pages/services.html" class="btn">Nos Services</a>
+            </div>
+        </section>
+
+        <section class="features">
+            <h2>Nos Services</h2>
+            <div class="feature">
+                <i class="fas fa-horse-head fa-3x"></i>
+                <h3>Cours d'Équitation</h3>
+                <p>Des cours adaptés à tous les niveaux, du débutant au confirmé.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-tree fa-3x"></i>
+                <h3>Balades à Cheval</h3>
+                <p>Profitez de balades en pleine nature avec nos chevaux bien dressés.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-trophy fa-3x"></i>
+                <h3>Événements Équestres</h3>
+                <p>Participez à nos événements et compétitions tout au long de l'année.</p>
+            </div>
+        </section>
+        <section class="about">
+            <div class="about-content">
+                <i class="fas fa-horse-head"></i>
+                <h2>À Propos de Nous</h2>
+                <p>Le Centre Équestre a été fondé en 2010 avec l'objectif de partager notre passion pour les chevaux. Nous offrons des cours d'équitation, des balades, et des événements pour tous les âges et niveaux. Notre équipe est composée de professionnels expérimentés qui s'engagent à fournir un environnement sûr et agréable pour tous nos cavaliers.</p>
+            </div>
+        </section>
+        
+        <section class="team">
+            <h2>Notre Équipe</h2>
+            <div class="team-container">
+                <div class="team-member">
+                    <i class="fas fa-user fa-2x"></i>
+                    <img src="pages-front/images-front/heheha.png" alt="Arthur Bramas" class="team-member-img">
+                    <h3>Arthur Bramas</h3>
+                    <p>20 ans, bouffeur de code et de steak de cheval.</p>
+                  
+                </div>
+                <div class="team-member">
+                    <i class="fas fa-user fa-2x"></i>
+                    <img src="pages-front/images-front/images-removebg-preview (1).png" alt="Matteo Piera" class="team-member-img">
+                    <h3>Matteo Piera</h3>
+                    <p>19 ans, destructeur de PC.</p>
+                   
+                </div>
+                <div class="team-member">
+                    <i class="fas fa-user fa-2x"></i>
+                    <img src="images-front/raphael.jpg" alt="Raphaël Juppin" class="team-member-img">
+                    <h3>Raphaël Juppin</h3>
+                    <p>20 ans, joueur aguerri dans le viseur du prof.</p>
+                   
+                </div>
+            </div>
+        </section>
+
+       
+
+        <section class="gallery">
+            <h2>Galerie</h2>
+            <div class="carousel">
+                <div class="carousel-images">
+                    <img src="pages-front/images-front/a-cheval-sur-les-monts-teyran-banniere.webp" alt="Cheval 1" class="carousel-image">
+                    <img src="pages-front/images-front/3_5_1_9-Pferde-scaled.jpg" alt="Cheval 2" class="carousel-image">
+                    <img src="pages-front/images-front/banniere-odeurs.png" alt="Cheval 3" class="carousel-image">
+                    <img src="pages-front/images-front/banniere-accueil-v2-jpg_5a38ec7698bea.jpg" alt="Cheval 4" class="carousel-image">
+                    <img src="pages-front/images-front/banniere-cheval800-jpg.webp" alt="Cheval 5" class="carousel-image">
+                    <img src="pages-front/images-front/prepa-trans-banniere-site.webp" alt="Cheval 6" class="carousel-image">
+                </div>
+                <button class="carousel-button prev" onclick="moveSlide(-1)">&#10094;</button>
+                <button class="carousel-button next" onclick="moveSlide(1)">&#10095;</button>
+            </div>
+        </section>
+
+      
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Centre Équestre. Tous droits réservés.</p>
+            <p>Email : contact@centreequestre.com | Téléphone : 01 23 45 67 89</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = document.querySelectorAll('.carousel-image').length;
+        const carouselImages = document.querySelector('.carousel-images');
+
+        function showSlide(index) {
+            // Réinitialiser l'index si nécessaire
+            if (index >= totalSlides) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = totalSlides - 1;
+            } else {
+                currentSlide = index;
+            }
+
+            // Déplacer le carrousel
+            carouselImages.style.transform = 'translateX(' + (-currentSlide * 100) + '%)';
+        }
+
+        function moveSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        // Fonction d'auto-défilement
+        function autoSlide() {
+            moveSlide(1);
+        }
+
+        // Démarrer l'auto-défilement
+        let slideInterval = setInterval(autoSlide, 3000); // Change d'image toutes les 3 secondes
+
+        // Arrêter l'auto-défilement lors du survol
+        const carousel = document.querySelector('.carousel');
+        carousel.addEventListener('mouseover', () => clearInterval(slideInterval));
+        carousel.addEventListener('mouseout', () => slideInterval = setInterval(autoSlide, 3000));
+
+        // Afficher la première diapositive au chargement
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
