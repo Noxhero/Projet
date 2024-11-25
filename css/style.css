@@ -1,8 +1,8 @@
 /* Général */
 body {
     font-family: 'Roboto', sans-serif;
-    background: #e9f1f7; /* Bleu clair très doux pour un fond frais */
-    color: #4f4f4f; /* Gris moyen pour le texte, un peu plus foncé */
+    background: linear-gradient(to right, #e9f1f7, #ffffff); /* Dégradé pour un fond plus dynamique */
+    color: #4f4f4f; /* Gris moyen pour le texte */
     margin: 0;
     padding: 0;
     line-height: 1.6;
@@ -81,6 +81,7 @@ table {
     border-collapse: collapse;
     background: #ffffff;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
 }
 
 th, td {
@@ -295,7 +296,7 @@ button#modifier:hover {
     background-color: #343a40; /* Couleur de fond du menu */
     color: white; /* Couleur du texte */
     padding-top: 60px; /* Ajustez cette valeur pour aligner avec le header */
-    z-index: 1; /* Assurez-vous que la sidebar est en dessous de l'en-tête */
+    z-index: 1000; /* Assurez-vous que la sidebar est en dessous de l'en-tête */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Ombre pour un effet de profondeur */
     transition: left 0.3s; /* Transition pour l'animation de l'affichage */
 }
@@ -412,5 +413,163 @@ ul li.selected {
 }
 
 /* Styles pour les listes d'autocomplétion */
+
+/* Amélioration des styles pour le champ de date de naissance */
+form input[type="date"] {
+    width: 100%;
+    padding: 14px;
+    margin-top: 8px;
+    border: 1px solid #d1d8e0; /* Bordure gris clair */
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1em;
+    background-color: #f7fafc; /* Fond très clair */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Ajout d'un effet de focus pour le champ de date */
+form input[type="date"]:focus {
+    border-color: #1abc9c; /* Bordure verte au focus */
+    outline: none; /* Supprimer le contour par défaut */
+    box-shadow: 0 0 5px rgba(26, 188, 156, 0.4); /* Ombre au focus */
+}
+
+/* Styles pour les labels des champs de date */
+form label[for="datenaissancecheval"] {
+    font-weight: 600; /* Mettre en gras */
+    color: #34495e; /* Couleur gris-bleu */
+    margin-top: 20px; /* Espacement supérieur */
+}
+
+/* Amélioration des styles pour le champ de fichier photo */
+form input[type="file"] {
+    width: 100%;
+    padding: 14px;
+    margin-top: 8px;
+    border: 1px solid #d1d8e0; /* Bordure gris clair */
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1em;
+    background-color: #f7fafc; /* Fond très clair */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Ajout d'un effet de focus pour le champ de fichier */
+form input[type="file"]:focus {
+    border-color: #1abc9c; /* Bordure verte au focus */
+    outline: none; /* Supprimer le contour par défaut */
+    box-shadow: 0 0 5px rgba(26, 188, 156, 0.4); /* Ombre au focus */
+}
+
+/* Styles pour le label du champ de fichier */
+form label[for="userfile"] {
+    font-weight: 600; /* Mettre en gras */
+    color: #34495e; /* Couleur gris-bleu */
+    margin-top: 20px; /* Espacement supérieur */
+}
+
+/* Styles pour le bouton de fichier */
+form input[type="file"]::-webkit-file-upload-button {
+    background: #1abc9c; /* Couleur de fond du bouton */
+    color: white; /* Couleur du texte */
+    border: none; /* Pas de bordure */
+    padding: 10px 16px; /* Espacement intérieur */
+    border-radius: 6px; /* Coins arrondis */
+    cursor: pointer; /* Curseur pointer pour le bouton */
+    transition: background 0.3s ease; /* Transition pour l'effet de survol */
+}
+
+form input[type="file"]::-webkit-file-upload-button:hover {
+    background: #16a085; /* Teinte plus foncée au survol */
+}
+
+/* Styles pour le conteneur de connexion */
+.container-connexion {
+    max-width: 90%; /* Largeur maximale du formulaire */
+    margin: 100px auto; /* Centrer verticalement et horizontalement */
+    padding: 30px; /* Espacement intérieur */
+    border-radius: 10px; /* Coins arrondis */
+    background: #ffffff; /* Fond blanc */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Ombre pour donner de la profondeur */
+    text-align: center; /* Centrer le texte */
+}
+
+/* Styles pour le titre */
+h2 {
+    color: #1d5e91; /* Couleur du titre */
+    margin-bottom: 20px; /* Espacement inférieur */
+}
+
+/* Styles pour les groupes de formulaires */
+.form-group {
+    margin-bottom: 15px; /* Espacement entre les groupes */
+}
+
+/* Styles pour les labels */
+label {
+    display: block; /* Afficher les labels en bloc */
+    margin-bottom: 5px; /* Espacement inférieur */
+    font-weight: bold; /* Mettre en gras */
+    color: #34495e; /* Couleur gris-bleu */
+}
+
+/* Styles pour les inputs */
+.input-field {
+    width: 100%; /* Largeur complète */
+    padding: 12px; /* Espacement intérieur */
+    border: 1px solid #d1d8e0; /* Bordure gris clair */
+    border-radius: 6px; /* Coins arrondis */
+    box-sizing: border-box; /* Inclure le padding dans la largeur */
+    font-size: 1em; /* Taille de police */
+    background-color: #f7fafc; /* Fond très clair */
+    transition: border-color 0.3s ease; /* Transition pour la bordure */
+}
+
+/* Effet de focus sur les inputs */
+.input-field:focus {
+    border-color: #1abc9c; /* Bordure verte au focus */
+    outline: none; /* Supprimer le contour par défaut */
+    box-shadow: 0 0 5px rgba(26, 188, 156, 0.4); /* Ombre au focus */
+}
+
+/* Styles pour le bouton de soumission */
+.btn-submit {
+    width: 100%; /* Largeur complète */
+    padding: 12px; /* Espacement intérieur */
+    background-color: #1abc9c; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    border: none; /* Pas de bordure */
+    border-radius: 6px; /* Coins arrondis */
+    cursor: pointer; /* Curseur pointer */
+    font-weight: bold; /* Mettre en gras */
+    transition: background 0.3s ease; /* Transition pour l'effet de survol */
+    margin-top: 20px; /* Espacement supérieur */
+}
+
+/* Effet de survol sur le bouton */
+.btn-submit:hover {
+    background-color: #16a085; /* Teinte plus foncée au survol */
+}
+
+/* Styles pour le lien de mot de passe oublié */
+.forgot-password {
+    margin-top: 15px; /* Espacement supérieur */
+}
+
+.forgot-password a {
+    color: #1d5e91; /* Couleur du lien */
+    text-decoration: none; /* Pas de soulignement */
+}
+
+.forgot-password a:hover {
+    text-decoration: underline; /* Soulignement au survol */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container-connexion {
+        width: 90%; /* Largeur du conteneur sur mobile */
+    }
+}
 
 
