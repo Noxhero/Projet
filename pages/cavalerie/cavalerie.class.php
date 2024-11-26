@@ -156,5 +156,13 @@ class Cavalerie {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result ? $result['lien'] : null;
     }
+
+    public function getCheval($numsire) {
+        global $con;
+        $sql = "SELECT * FROM cavalerie WHERE numsire = :numsire AND afficher = 1";
+        $stmt = $con->prepare($sql);
+        $stmt->execute([':numsire' => $numsire]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 ?>
