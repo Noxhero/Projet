@@ -1,6 +1,7 @@
 <?php
 include '../../includes/haut.inc.php';
 include_once '../../pages/cavalerie/cavalerie.class.php';
+include_once '../../pages/cavalerie/photo.class.php';
 
 // Modification d'un cheval
 if (isset($_POST['action']) && $_POST['action'] === 'modifier') {
@@ -30,35 +31,29 @@ if (isset($_POST["nomcheval"]) && !isset($_POST['action'])) {
     $numsire = $unCheval->insertCheval();
 
     // Gestion de la photo
-    if ($numsire && isset($_FILES['userfile']) && $_FILES['userfile']['error'] === UPLOAD_ERR_OK) {
+    if ($numsire && isset($_FILES['userfile'])) {
         $uploadDir = '../../uploads/photos/';
         
-        // Création du dossier si nécessaire
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0755, true);
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
         }
 
         $originalFileName = basename($_FILES['userfile']['name']);
-        $extension = pathinfo($originalFileName, PATHINFO_EXTENSION);
+        $extension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
         
-        // Utiliser le nom personnalisé s'il existe, sinon utiliser le nom original
-        $nomPhoto = !empty($_POST['nom_photo']) ? $_POST['nom_photo'] . '.' . $extension : $originalFileName;
+        $nomPhoto = !empty($_POST['nom_photo']) 
+            ? preg_replace('/[^A-Za-z0-9_-]/', '', $_POST['nom_photo']) . '.' . $extension
+            : uniqid() . '.' . $extension;
         
-        // Créer le chemin complet avec le nouveau nom
         $uploadFile = $uploadDir . $nomPhoto;
-
-        // Déplacer le fichier avec le nouveau nom
-        move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadFile);
         
-        // Enregistrer en base de données
-        $photo = new Photo();
-        $photo->setNumSire($numsire);
-        $photo->setIdEvenement(0);
-        $photo->setnom_photo($nomPhoto);
-        $photo->setLien($uploadFile);
-        
-        if (!$photo->saveLink()) {
-            error_log("Erreur lors de l'enregistrement de la photo en BDD");
+        if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadFile)) {
+            $photo = new Photo();
+            $photo->setNumSire($numsire);
+            $photo->setIdEvenement(0);
+            $photo->setnom_photo($nomPhoto);
+            $photo->setLien('/uploads/photos/' . $nomPhoto);
+            $photo->saveLink();
         }
     }
 
@@ -67,11 +62,10 @@ if (isset($_POST["nomcheval"]) && !isset($_POST['action'])) {
 }
 
 // Suppression d'un cheval
-// Suppression d'un cavalier
 if (isset($_POST["supprimer"])) {
     $idcavalerie = $_POST["supprimer"]; 
     $unCavalier = new Cavalerie($idcavalerie, null, null, null, null, null); 
-    $unCavalier->DeleteCavalerie($idcavalerie);  // Utiliser DeleteCavalerie ici
+    $unCavalier->DeleteCavalerie($idcavalerie);
     
     header("Location: cavalerie.php");
     exit(); 
