@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="../../css/modal.css">
     <style>
         #CavalerieTable img {
             object-fit: cover;
@@ -22,6 +23,11 @@
     </style>
 </head>
 <body>
+
+<div id="imageModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage">
+</div>
 
 <?php
 include '../../includes/haut.inc.php';
@@ -97,7 +103,10 @@ $listeChevaux = $oCavalerie->selectChevaux();
             <tr id="row-<?= $cheval->getNumsire() ?>">
                 <td>
                     <?php if ($photoUrl): ?>
-                        <img src="<?= htmlspecialchars($photoUrl) ?>" alt="Photo du cheval" style="max-width: 100px; max-height: 100px;">
+                        <img src="<?= htmlspecialchars($photoUrl) ?>" 
+                             alt="Photo du cheval" 
+                             style="max-width: 100px; max-height: 100px; cursor: pointer;"
+                             onclick="openModal(this.src)">
                     <?php else: ?>
                         <span>Pas de photo</span>
                     <?php endif; ?>
@@ -115,8 +124,8 @@ $listeChevaux = $oCavalerie->selectChevaux();
                     <span class="static-field"><?= htmlspecialchars($cheval->getGarot()) ?></span>
                     <input type="number" class="edit-field" name="garot" value="<?= htmlspecialchars($cheval->getGarot()) ?>" style="display:none;">
                 </td>
-                <td><?= htmlspecialchars($cheval->getRobeLibelle($cheval->getIdrobe())) ?></td>
-                <td><?= htmlspecialchars($cheval->getRaceLibelle($cheval->getIdrace())) ?></td>
+                <td data-idrobe="<?= $cheval->getIdrobe() ?>"><?= htmlspecialchars($cheval->getRobeLibelle($cheval->getIdrobe())) ?></td>
+                <td data-idrace="<?= $cheval->getIdrace() ?>"><?= htmlspecialchars($cheval->getRaceLibelle($cheval->getIdrace())) ?></td>
                 <td>
                     <span class="static-field">
                         <?php
@@ -218,27 +227,26 @@ $listeChevaux = $oCavalerie->selectChevaux();
             const id = this.getAttribute('data-id');
             const row = document.getElementById('row-' + id);
             
-            // Récupérer uniquement les données du cheval
-            const nomcheval = row.querySelector('input[name="nomcheval"]').value;
-            const datenaissancecheval = row.querySelector('input[name="datenaissancecheval"]').value;
-            const garot = row.querySelector('input[name="garot"]').value;
+            // Récupérer les valeurs actuelles de idrobe et idrace
+            const currentIdrobe = row.querySelector('td:nth-child(6)').getAttribute('data-idrobe');
+            const currentIdrace = row.querySelector('td:nth-child(7)').getAttribute('data-idrace');
 
-            // Créer le formulaire avec uniquement les données du cheval
+            const formData = {
+                'numsire': id,
+                'nomcheval': row.querySelector('input[name="nomcheval"]').value,
+                'datenaissancecheval': row.querySelector('input[name="datenaissancecheval"]').value,
+                'garot': row.querySelector('input[name="garot"]').value,
+                'idrobe': currentIdrobe, // Utiliser la valeur actuelle
+                'idrace': currentIdrace, // Utiliser la valeur actuelle
+                'action': 'modifier'
+            };
+
+            // Créer le formulaire avec les données
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = 'traitement.cavalerie.php';
 
-            const formData = {
-                'numsire': id,
-                'nomcheval': nomcheval,
-                'datenaissancecheval': datenaissancecheval,
-                'garot': garot,
-                'idrobe': row.querySelector('input[name="idrobe"]')?.value || '',
-                'idrace': row.querySelector('input[name="idrace"]')?.value || '',
-                'action': 'modifier'
-            };
-
-            // Créer les champs cachés pour le formulaire
+            // Ajouter les champs cachés
             Object.entries(formData).forEach(([key, value]) => {
                 const input = document.createElement('input');
                 input.type = 'hidden';
@@ -353,6 +361,25 @@ $listeChevaux = $oCavalerie->selectChevaux();
             });
         });
     });
+
+    function openModal(imgSrc) {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        modal.style.display = "block";
+        modalImg.src = imgSrc;
+    }
+
+    // Fermer avec le X
+    document.querySelector(".close").onclick = function() {
+        document.getElementById("imageModal").style.display = "none";
+    }
+
+    // Fermer en cliquant en dehors de l'image
+    document.getElementById("imageModal").onclick = function(e) {
+        if (e.target === this) {
+            this.style.display = "none";
+        }
+    }
 </script>
 </body>
 </html> 
