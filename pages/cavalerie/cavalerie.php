@@ -91,7 +91,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
             <th>Garot</th>
             <th>Robe</th>
             <th>Race</th>
-            <th>Lien de la photo</th>
+            <th>Nom de la photo</th>
             <th>Modifier</th>
             <th>Supprimer</th>
         </tr>
