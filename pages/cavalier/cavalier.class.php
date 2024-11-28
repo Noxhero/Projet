@@ -1,5 +1,4 @@
 <?php
-
 class Cavalier
 {
     private $idCavalier;
@@ -15,6 +14,8 @@ class Cavalier
     private $numAssurance;
     private $idCommune;
     private $idGalop;
+    private $nomCommune;
+    private $nomGalop;
 
     function __construct($idCavalier, $nomCavalier, $prenomCavalier, $dateNaissanceCavalier, $nomResponsable, $rueResponsable, $telResponsable, $emailResponsable, $password, $numLicence, $numAssurance, $idCommune, $idGalop)
     {
@@ -158,9 +159,32 @@ class Cavalier
         $this->idGalop = $idGalop;
     }
 
+    public function getNomCommune()
+    {
+        return $this->nomCommune;
+    }
+
+    public function setNomCommune($nomCommune)
+    {
+        $this->nomCommune = $nomCommune;
+    }
+
+    public function getNomGalop()
+    {
+        return $this->nomGalop;
+    }
+
+    public function setNomGalop($nomGalop)
+    {
+        $this->nomGalop = $nomGalop;
+    }
+
     public function InsertCavalier()
     {
         global $con;
+        global $session_idcompte;
+
+
 
         $data = [
             ':nc' => $this->nomCavalier,
@@ -177,8 +201,8 @@ class Cavalier
             ':idg' => $this->idGalop->getIdGalop()
         ];
 
-        $sql = "INSERT INTO cavalier (idcavalier, nomcavalier, prenomcavalier, datenaissancecavalier, nomresponsable, rueresponsable, telresponsable, emailresponsable, password, numlicence, numassurance, idcommune, idgalop, afficher) 
-        VALUES (null, :nc, :pc, :dnc, :nr, :rr, :tr, :er, :pw, :nl, :na, :idc, :idg,true);";
+        $sql = "INSERT INTO cavalier (idcavalier, nomcavalier, prenomcavalier, datenaissancecavalier, nomresponsable, rueresponsable, telresponsable, emailresponsable, password, numlicence, numassurance, idcommune, idgalop, afficher, iduser) 
+        VALUES (null, :nc, :pc, :dnc, :nr, :rr, :tr, :er, :pw, :nl, :na, :idc, :idg,true,$session_idcompte);";
         $stmt = $con->prepare($sql);
 
         if ($stmt->execute($data)) {
