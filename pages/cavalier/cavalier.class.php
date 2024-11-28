@@ -1,314 +1,350 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de la Cavalerie</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="../../css/modal.css">
+    
+</head>
+<body>
+
+<div id="imageModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage">
+</div>
+
 <?php
-class Cavalier
-{
-    private $idCavalier;
-    private $nomCavalier;
-    private $prenomCavalier;
-    private $dateNaissanceCavalier;
-    private $nomResponsable;
-    private $rueResponsable;
-    private $telResponsable;
-    private $emailResponsable;
-    private $password;
-    private $numLicence;
-    private $numAssurance;
-    private $idCommune;
-    private $idGalop;
-    private $nomCommune;
-    private $nomGalop;
+include '../../includes/haut.inc.php';
 
-    function __construct($idCavalier, $nomCavalier, $prenomCavalier, $dateNaissanceCavalier, $nomResponsable, $rueResponsable, $telResponsable, $emailResponsable, $password, $numLicence, $numAssurance, $idCommune, $idGalop)
-    {
-        $this->idCavalier = $idCavalier;
-        $this->nomCavalier = $nomCavalier;
-        $this->prenomCavalier = $prenomCavalier;
-        $this->dateNaissanceCavalier = $dateNaissanceCavalier;
-        $this->nomResponsable = $nomResponsable;
-        $this->rueResponsable = $rueResponsable;
-        $this->telResponsable = $telResponsable;
-        $this->emailResponsable = $emailResponsable;
-        $this->password = $password;
-        $this->numLicence = $numLicence;
-        $this->numAssurance = $numAssurance;
-        $this->idCommune = $idCommune;
-        $this->idGalop = $idGalop;
-    }
-
-    public function getIdCavalier()
-    {
-        return $this->idCavalier;
-    }
-
-    public function getNomCavalier()
-    {
-        return $this->nomCavalier;
-    }
-
-    public function setNomCavalier($nomCavalier)
-    {
-        $this->nomCavalier = $nomCavalier;
-    }
-
-    public function getPrenomCavalier()
-    {
-        return $this->prenomCavalier;
-    }
-
-    public function setPrenomCavalier($prenomCavalier)
-    {
-        $this->prenomCavalier = $prenomCavalier;
-    }
-
-    public function getDateNaissanceCavalier()
-    {
-        return $this->dateNaissanceCavalier;
-    }
-
-    public function setDateNaissanceCavalier($dateNaissanceCavalier)
-    {
-        $this->dateNaissanceCavalier = $dateNaissanceCavalier;
-    }
-
-    public function getNomResponsable()
-    {
-        return $this->nomResponsable;
-    }
-
-    public function setNomResponsable($nomResponsable)
-    {
-        $this->nomResponsable = $nomResponsable;
-    }
-
-    public function getRueResponsable()
-    {
-        return $this->rueResponsable;
-    }
-
-    public function setRueResponsable($rueResponsable)
-    {
-        $this->rueResponsable = $rueResponsable;
-    }
-
-    public function getTelResponsable()
-    {
-        return $this->telResponsable;
-    }
-
-    public function setTelResponsable($telResponsable)
-    {
-        $this->telResponsable = $telResponsable;
-    }
-
-    public function getEmailResponsable()
-    {
-        return $this->emailResponsable;
-    }
-
-    public function setEmailResponsable($emailResponsable)
-    {
-        $this->emailResponsable = $emailResponsable;
-    }
-
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }
-
-    public function getNumLicence()
-    {
-        return $this->numLicence;
-    }
-
-    public function setNumLicence($numLicence)
-    {
-        $this->numLicence = $numLicence;
-    }
-
-    public function getNumAssurance()
-    {
-        return $this->numAssurance;
-    }
-
-    public function setNumAssurance($numAssurance)
-    {
-        $this->numAssurance = $numAssurance;
-    }
-
-    public function getIdCommune()
-    {
-        return $this->idCommune;
-    }
-
-    public function setIdCommune($idCommune)
-    {
-        $this->idCommune = $idCommune;
-    }
-
-    public function getIdGalop()
-    {
-        return $this->idGalop;
-    }
-
-    public function setIdGalop($idGalop)
-    {
-        $this->idGalop = $idGalop;
-    }
-
-    public function getNomCommune()
-    {
-        return $this->nomCommune;
-    }
-
-    public function setNomCommune($nomCommune)
-    {
-        $this->nomCommune = $nomCommune;
-    }
-
-    public function getNomGalop()
-    {
-        return $this->nomGalop;
-    }
-
-    public function setNomGalop($nomGalop)
-    {
-        $this->nomGalop = $nomGalop;
-    }
-
-    public function InsertCavalier()
-    {
-        global $con;
-        global $session_idcompte;
-
-
-
-        $data = [
-            ':nc' => $this->nomCavalier,
-            ':pc' => $this->prenomCavalier,
-            ':dnc' => $this->dateNaissanceCavalier,
-            ':nr' => $this->nomResponsable,
-            ':rr' => $this->rueResponsable,
-            ':tr' => $this->telResponsable,
-            ':er' => $this->emailResponsable,
-            ':pw' => $this->password,
-            ':nl' => $this->numLicence,
-            ':na' => $this->numAssurance,
-            ':idc' => $this->idCommune->getIdCommune(),
-            ':idg' => $this->idGalop->getIdGalop()
-        ];
-
-        $sql = "INSERT INTO cavalier (idcavalier, nomcavalier, prenomcavalier, datenaissancecavalier, nomresponsable, rueresponsable, telresponsable, emailresponsable, password, numlicence, numassurance, idcommune, idgalop, afficher, iduser) 
-        VALUES (null, :nc, :pc, :dnc, :nr, :rr, :tr, :er, :pw, :nl, :na, :idc, :idg,true,$session_idcompte);";
-        $stmt = $con->prepare($sql);
-
-        if ($stmt->execute($data)) {
-            echo "Bien inséré";
-            return $con->lastInsertId();
-        } else {
-            echo implode(", ", $stmt->errorInfo());
-            return false;
-        }
-    }
-
-    public function CavalierAll() 
-    {
-        global $con;
-
-        // Requête SQL avec jointure pour inclure les données de la table commune
-        $sql = "SELECT cavalier.idcavalier, cavalier.nomcavalier, cavalier.prenomcavalier, cavalier.datenaissancecavalier, 
-                    cavalier.nomresponsable, cavalier.rueresponsable, cavalier.telresponsable, cavalier.emailresponsable, 
-                    cavalier.numlicence, cavalier.numassurance, cavalier.idcommune, cavalier.idgalop, commune.ville AS nomcommune, galop.libgalop AS nomGalop
-                FROM cavalier 
-                JOIN commune ON cavalier.idcommune = commune.idcommune
-                JOIN galop ON cavalier.idgalop = galop.idgalop
-                WHERE cavalier.afficher = true";
-                
-        $req = $con->query($sql);
-        $cavaliers = [];
-
-        foreach ($req->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            // Construction de l'objet Cavalier avec les données de la base
-            $commune = new Commune($row['idcommune'], $row['nomcommune'], null);
-            $galop = new Galop($row['idgalop'], $row['nomGalop']);    
-            $cavalier = new Cavalier(
-                $row['idcavalier'], 
-                $row['nomcavalier'], 
-                $row['prenomcavalier'], 
-                $row['datenaissancecavalier'], 
-                $row['nomresponsable'], 
-                $row['rueresponsable'], 
-                $row['telresponsable'], 
-                $row['emailresponsable'], 
-                null,
-                $row['numlicence'], 
-                $row['numassurance'], 
-                $commune,  // Objet Commune
-                $galop    // Objet Galop
-            );
-            // Associer également le nom de la commune si souhaité
-            $cavalier->nomCommune = $row['nomcommune'];
-            $cavalier->nomGalop = $row['nomGalop'];
-
-            $cavaliers[] = $cavalier;
-        }
-
-        return $cavaliers;
-    }
-
-
-
-    public function DeleteCavalier($id)
-    {
-        global $con;
-        $data = [':id' => $id];
-        $sql = "UPDATE  cavalier SET afficher = false WHERE idcavalier = :id";
-        $stmt = $con->prepare($sql);
-
-        if ($stmt->execute($data)) {
-            echo "Suppression réussie";
-            return true;
-        } else {
-            echo "Erreur lors de la suppression : " . implode(", ", $stmt->errorInfo());
-            return false;
-        }
-    }
-
-
-    public function UpdateCavalier()
-    {
-        global $con;
-        $data = [
-            ':idcav' => $this->idCavalier,
-            ':nc' => $this->nomCavalier,
-            ':pc' => $this->prenomCavalier,
-            ':dnc' => $this->dateNaissanceCavalier,
-            ':nr' => $this->nomResponsable,
-            ':rr' => $this->rueResponsable,
-            ':tr' => $this->telResponsable,
-            ':er' => $this->emailResponsable,
-            ':pw' => $this->password,
-            ':nl' => $this->numLicence,
-            ':na' => $this->numAssurance,
-            ':idc' => $this->idCommune,
-            ':idg' => $this->idGalop
-        ];
-
-        $sql = "UPDATE cavalier	
-                SET nomcavalier = :nc, prenomcavalier = :pc, datenaissancecavalier = :dnc, nomresponsable = :nr, rueresponsable = :rr, telresponsable = :tr, emailresponsable = :er, password = :pw, numlicence = :nl, numassurance = :na, idcommune = :idc, idgalop = :idg
-                WHERE idcavalier = :idcav;";
-        $stmt = $con->prepare($sql);
-
-        if ($stmt->execute($data)) {
-            echo "Bien modifié";
-            return true;
-        } else {
-            echo implode(", ", $stmt->errorInfo());
-            return false;
-        }
-    }
-}
+// Récupérer la liste des chevaux
+$oCavalerie = new Cavalerie(null, null, null, null, null, null);
+$listeChevaux = $oCavalerie->selectChevaux();
 ?>
+
+<h1>Ajouter un Cheval</h1>
+
+<form action="traitement.cavalerie.php" method="POST" enctype="multipart/form-data" class="form-generic">
+    <label for="nomcheval">Nom du Cheval:</label>
+    <input type="text" name="nomcheval" required><br>
+
+    <label for="datenaissancecheval">Date de Naissance:</label>
+    <input type="date" name="datenaissancecheval" required><br>
+
+    <label for="garot">Garot:</label>
+    <input type="text" name="garot" required><br>
+
+    <label for="nomrobe">Robe :</label>
+    <div class="content">
+        <div class="input_container">
+            <input type="text" name='nomrobe' id="nom_idrobe" placeholder="Robe du cheval" onkeyup="autocompletrobe()">
+            <input type="hidden" name='idrobe' id="idrobe" >
+            <ul id="nom_list_idrobe"></ul>
+        </div>
+    </div>
+
+    <label for="nomrace">Race :</label>
+    <div class="content">
+        <div class="input_container">
+            <input type="text" name='nomrace' id="nom_idrace" placeholder="Race du cheval" onkeyup="autocompletrace()">
+            <input type="hidden" name='idrace' id="idrace" >
+            <ul id="nom_list_idrace"></ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="nom_photo">Nom de la photo:</label>
+        <input type="text" name="nom_photo" id="nom_photo" class="form-control" placeholder="Donnez un nom à la photo">
+    </div>
+
+    <div class="form-group">
+        <label for="userfile">Fichier photo:</label>
+        <input type="file" name="userfile" id="userfile" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+</form>
+
+<h2>Liste des Chevaux</h2>
+<table id="CavalerieTable" class="display">
+    <thead>
+        <tr>
+            <th>Photo</th>
+            <th>Numéro SIRE</th>
+            <th>Nom</th>
+            <th>Date de Naissance</th>
+            <th>Garot</th>
+            <th>Robe</th>
+            <th>Race</th>
+            <th>Nom de la photo</th>
+            <th>Modifier</th>
+            <th>Supprimer</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($listeChevaux as $cheval) : 
+            $photoUrl = $cheval->getPhoto();
+        ?>
+            <tr id="row-<?= $cheval->getNumsire() ?>">
+                <td>
+                    <?php 
+                        $photoUrl = $cheval->getPhoto();
+                        // Debug: afficher le chemin brut
+                        echo "<!-- Chemin de la photo: " . $photoUrl . " -->";
+                        if ($photoUrl): 
+                    ?>
+                        <img src="<?= htmlspecialchars($photoUrl) ?>" 
+                             alt="Photo du cheval" 
+                             style="max-width: 100px; max-height: 100px; cursor: pointer;"
+                             onerror="console.log('Erreur de chargement de l\'image:', '<?= htmlspecialchars($photoUrl) ?>');"
+                             onclick="openModal(this.src)">
+                    <?php else: ?>
+                        <span>Pas de photo</span>
+                    <?php endif; ?>
+                </td>
+                <td><?= htmlspecialchars($cheval->getNumsire()) ?></td>
+                <td>
+                    <span class="static-field"><?= htmlspecialchars($cheval->getNomcheval()) ?></span>
+                    <input type="text" class="edit-field" name="nomcheval" value="<?= htmlspecialchars($cheval->getNomcheval()) ?>" style="display:none;">
+                </td>
+                <td>
+                    <span class="static-field"><?= htmlspecialchars($cheval->getDatenaissancecheval()) ?></span>
+                    <input type="date" class="edit-field" name="datenaissancecheval" value="<?= htmlspecialchars($cheval->getDatenaissancecheval()) ?>" style="display:none;">
+                </td>
+                <td>
+                    <span class="static-field"><?= htmlspecialchars($cheval->getGarot()) ?></span>
+                    <input type="number" class="edit-field" name="garot" value="<?= htmlspecialchars($cheval->getGarot()) ?>" style="display:none;">
+                </td>
+                <td data-idrobe="<?= $cheval->getIdrobe() ?>"><?= htmlspecialchars($cheval->getRobeLibelle($cheval->getIdrobe())) ?></td>
+                <td data-idrace="<?= $cheval->getIdrace() ?>"><?= htmlspecialchars($cheval->getRaceLibelle($cheval->getIdrace())) ?></td>
+                <td>
+                    <span class="static-field">
+                        <?php
+                        $photo = new Photo();
+                        $photos = $photo->getPhotoByNumSire($cheval->getNumsire());
+                        if (!empty($photos)) {
+                            foreach ($photos as $photo) {
+                                // Enlever l'extension du fichier pour l'affichage
+                                $nomSansExtension = pathinfo($photo->getnom_photo(), PATHINFO_FILENAME);
+                                echo htmlspecialchars($nomSansExtension);
+                                break;
+                            }
+                        } else {
+                            echo 'Aucune photo disponible';
+                        }
+                        ?>
+                    </span>
+                    <span class="edit-field" style="display:none;">
+                        <?php
+                        // Récupérer toutes les photos disponibles
+                        $photo = new Photo();
+                        $allPhotos = $photo->getPhotoByNumSire(0); // 0 pour récupérer toutes les photos
+                        if (!empty($allPhotos)) {
+                            echo '<select class="photo-select" data-numsire="' . $cheval->getNumsire() . '">';
+                            echo '<option value="">Sélectionner une photo</option>';
+                            foreach ($allPhotos as $photo) {
+                                echo '<option value="' . $photo->getIdPhoto() . '">' . 
+                                    htmlspecialchars($photo->getnom_photo()) . 
+                                    '</option>';
+                            }
+                            echo '</select>';
+                            echo '<button class="refresh-btn" data-numsire="' . $cheval->getNumsire() . '">Valider</button>';
+                        } else {
+                            echo '<p>Aucune photo disponible</p>';
+                        }
+                        ?>
+                    </span>
+                </td>
+                <td>
+                    <button class="modifier-btn" data-id="<?= $cheval->getNumsire() ?>">Modifier</button>
+                    <button class="confirmer-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Confirmer</button>
+                    <button class="annuler-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Annuler</button>
+                </td>
+                <td>
+                    <form action="traitement.cavalerie.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cheval?');">
+                        <input type="hidden" name="supprimer" value="<?= $cheval->getNumsire() ?>">
+                        <button class="supprimer-btn" type="submit">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function() {
+        $('#CavalerieTable').DataTable({
+            columnDefs: [
+                {
+                    targets: 0, // La colonne des photos (index 0)
+                    width: '120px'
+                }
+            ]
+        });
+    });
+
+    document.querySelectorAll('.modifier-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const row = document.getElementById('row-' + id);
+            
+            // Cacher tous les champs statiques et afficher les champs d'édition
+            row.querySelectorAll('.static-field').forEach(field => field.style.display = 'none');
+            row.querySelectorAll('.edit-field').forEach(field => field.style.display = 'inline');
+   
+            const currentIdrace = row.querySelector('td:nth-child(7)').getAttribute('data-idrace');
+
+            const formData = {
+                'numsire': id,
+                'nomcheval': row.querySelector('input[name="nomcheval"]').value,
+                'datenaissancecheval': row.querySelector('input[name="datenaissancecheval"]').value,
+                'garot': row.querySelector('input[name="garot"]').value,
+                'idrobe': currentIdrobe, // Utiliser la valeur actuelle
+                'idrace': currentIdrace, // Utiliser la valeur actuelle
+                'action': 'modifier'
+            };
+
+            // Créer le formulaire avec les données
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'traitement.cavalerie.php';
+
+            // Ajouter les champs cachés
+            Object.entries(formData).forEach(([key, value]) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                form.appendChild(input);
+            });
+
+            document.body.appendChild(form);
+            form.submit();
+        });
+    });
+
+    // Gestion des boutons d'ajout de photo
+    document.querySelectorAll('.ajouter-photo-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const row = document.getElementById('row-' + id);
+            const photoUrl = row.querySelector('.photo-url').value;
+
+            if (!photoUrl) {
+                alert('Veuillez entrer une URL de photo valide');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('numsire', id);
+            formData.append('photo_url', photoUrl);
+            formData.append('action', 'ajouter_photo');
+
+            fetch('traitement.cavalerie.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert('Photo ajoutée avec succès');
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Erreur lors de l\'ajout de la photo');
+            });
+        });
+    });
+
+    $(document).ready(function() {
+        $('.photo-select').on('change', function() {
+            const numsire = $(this).data('numsire');
+            const idphoto = $(this).val();
+            if (!idphoto) return;
+
+            $.ajax({
+                url: 'traitement.cavalerie.php',
+                method: 'POST',
+                data: {
+                    action: 'update_photo_numsire',
+                    idphoto: idphoto,
+                    numsire: numsire
+                },
+                success: function(response) {
+                    try {
+                        const data = JSON.parse(response);
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Erreur lors de la mise à jour de la photo');
+                        }
+                    } catch (e) {
+                        console.error('Erreur de parsing JSON:', e);
+                        alert('Erreur lors du traitement de la réponse');
+                    }
+                }
+            });
+        });
+    });
+
+    $(document).ready(function() {
+        // Gestionnaire pour les boutons refresh (valider)
+        $('.refresh-btn').on('click', function() {
+            const numsire = $(this).data('numsire');
+            const selectElement = $(this).siblings('.photo-select');
+            const idphoto = selectElement.val();
+            
+            if (!idphoto) {
+                alert('Veuillez sélectionner une photo');
+                return;
+            }
+
+            $.ajax({
+                url: 'traitement.cavalerie.php',
+                method: 'POST',
+                data: {
+                    action: 'update_photo_numsire',
+                    idphoto: idphoto,
+                    numsire: numsire
+                },
+                success: function(response) {
+                    try {
+                        const data = JSON.parse(response);
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Erreur lors de la mise à jour de la photo');
+                        }
+                    } catch (e) {
+                        console.error('Erreur de parsing JSON:', e);
+                        alert('Erreur lors du traitement de la réponse');
+                    }
+                }
+            });
+        });
+    });
+
+    function openModal(imgSrc) {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        modal.style.display = "block";
+        modalImg.src = imgSrc;
+    }
+
+    // Fermer avec le X
+    document.querySelector(".close").onclick = function() {
+        document.getElementById("imageModal").style.display = "none";
+    }
+
+    // Fermer en cliquant en dehors de l'image
+    document.getElementById("imageModal").onclick = function(e) {
+        if (e.target === this) {
+            this.style.display = "none";
+        }
+    }
+</script>
+</body>
+</html> 
