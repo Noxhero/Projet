@@ -1,8 +1,5 @@
 <?php
 include '../../includes/haut.inc.php';
-include_once '../../pages/cavalerie/cavalerie.class.php';
-include_once '../../pages/cavalerie/photo.class.php';
-
 // Modification d'un cheval
 if (isset($_POST['action']) && $_POST['action'] === 'modifier') {
     $numsire = $_POST["numsire"];
@@ -41,20 +38,41 @@ if (isset($_POST["nomcheval"]) && !isset($_POST['action'])) {
         $originalFileName = basename($_FILES['userfile']['name']);
         $extension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
         
+        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        if (!in_array($extension, $allowed)) {
+            $_SESSION['error'] = "Format de fichier non autorisé. Utilisez JPG, PNG, GIF ou WebP";
+            header("Location: cavalerie.php");
+            exit();
+        }
+        
         $nomPhoto = !empty($_POST['nom_photo']) 
             ? preg_replace('/[^A-Za-z0-9_-]/', '', $_POST['nom_photo']) . '.' . $extension
             : uniqid() . '.' . $extension;
         
         $uploadFile = $uploadDir . $nomPhoto;
         
-        if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadFile)) {
-            $photo = new Photo();
-            $photo->setNumSire($numsire);
-            $photo->setIdEvenement(0);
-            $photo->setnom_photo($nomPhoto);
-            $photo->setLien('/uploads/photos/' . $nomPhoto);
-            $photo->saveLink();
+        if (isset($_FILES['userfile'])) {
+            error_log("Upload tentative : " . print_r($_FILES['userfile'], true));
+            if (!move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadFile)) {
+                error_log("Erreur upload : " . error_get_last()['message']);
+            }
         }
+
+        if ($_FILES['userfile']['size'] > 8000000) { // 8MB
+            $_SESSION['error'] = "Le fichier est trop volumineux (max 8MB)";
+            header("Location: cavalerie.php");
+            exit();
+        }
+
+        // Debug: afficher le chemin qui sera enregistré
+        error_log("Chemin de la photo à enregistrer: " . '../../uploads/photos/' . $nomPhoto);
+        
+        $photo = new Photo();
+        $photo->setNumSire($numsire);
+        $photo->setIdEvenement(0);
+        $photo->setnom_photo($nomPhoto);
+        $photo->setLien('../../uploads/photos/' . $nomPhoto);
+        $photo->saveLink();
     }
 
     header("Location: cavalerie.php");
