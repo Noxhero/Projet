@@ -1,105 +1,279 @@
 <?php
+class Cavalier
+{
+    private $idCavalier;
+    private $nomCavalier;
+    private $prenomCavalier;
+    private $dateNaissanceCavalier;
+    private $nomResponsable;
+    private $rueResponsable;
+    private $telResponsable;
+    private $emailResponsable;
+    private $password;
+    private $numLicence;
+    private $numAssurance;
+    private $idCommune;
+    private $idGalop;
+    private $nomCommune;
+    private $nomGalop;
 
-class Cavalerie {
-    private $numsire;
-    private $nomcheval;
-    private $datenaissancecheval;
-    private $garot;
-    private $idrobe;
-    private $idrace;
-    private $pdo;
-
-    public function __construct($numsire, $nomcheval, $datenaissancecheval, $garot, $idrobe, $idrace) {
-        $this->numsire = $numsire;
-        $this->nomcheval = $nomcheval;
-        $this->datenaissancecheval = $datenaissancecheval;
-        $this->garot = $garot;
-        $this->idrobe = $idrobe;
-        $this->idrace = $idrace;
+    function __construct($idCavalier, $nomCavalier, $prenomCavalier, $dateNaissanceCavalier, $nomResponsable, $rueResponsable, $telResponsable, $emailResponsable, $password, $numLicence, $numAssurance, $idCommune, $idGalop)
+    {
+        $this->idCavalier = $idCavalier;
+        $this->nomCavalier = $nomCavalier;
+        $this->prenomCavalier = $prenomCavalier;
+        $this->dateNaissanceCavalier = $dateNaissanceCavalier;
+        $this->nomResponsable = $nomResponsable;
+        $this->rueResponsable = $rueResponsable;
+        $this->telResponsable = $telResponsable;
+        $this->emailResponsable = $emailResponsable;
+        $this->password = $password;
+        $this->numLicence = $numLicence;
+        $this->numAssurance = $numAssurance;
+        $this->idCommune = $idCommune;
+        $this->idGalop = $idGalop;
     }
 
-    public function getNumsire() {
-        return $this->numsire;
+    public function getIdCavalier()
+    {
+        return $this->idCavalier;
     }
 
-    public function getNomCheval() {
-        return $this->nomcheval;
+    public function getNomCavalier()
+    {
+        return $this->nomCavalier;
     }
 
-    public function setNomCheval($nomcheval) {
-        $this->nomcheval = $nomcheval;
+    public function setNomCavalier($nomCavalier)
+    {
+        $this->nomCavalier = $nomCavalier;
     }
 
-    public function getDateNaissanceCheval() {
-        return $this->datenaissancecheval;
+    public function getPrenomCavalier()
+    {
+        return $this->prenomCavalier;
     }
 
-    public function setDateNaissanceCheval($datenaissancecheval) {
-        $this->datenaissancecheval = $datenaissancecheval;
+    public function setPrenomCavalier($prenomCavalier)
+    {
+        $this->prenomCavalier = $prenomCavalier;
     }
 
-    public function getGarot() {
-        return $this->garot;
+    public function getDateNaissanceCavalier()
+    {
+        return $this->dateNaissanceCavalier;
     }
 
-    public function setGarot($garot) {
-        $this->garot = $garot;
+    public function setDateNaissanceCavalier($dateNaissanceCavalier)
+    {
+        $this->dateNaissanceCavalier = $dateNaissanceCavalier;
     }
 
-    public function getIdRobe() {
-        return $this->idrobe;
+    public function getNomResponsable()
+    {
+        return $this->nomResponsable;
     }
 
-    public function setIdRobe($idrobe) {
-        $this->idrobe = $idrobe;
+    public function setNomResponsable($nomResponsable)
+    {
+        $this->nomResponsable = $nomResponsable;
     }
 
-    public function getIdRace() {
-        return $this->idrace;
+    public function getRueResponsable()
+    {
+        return $this->rueResponsable;
     }
 
-    public function setIdRace($idrace) {
-        $this->idrace = $idrace;
+    public function setRueResponsable($rueResponsable)
+    {
+        $this->rueResponsable = $rueResponsable;
     }
 
-    public function insertCheval() {
+    public function getTelResponsable()
+    {
+        return $this->telResponsable;
+    }
+
+    public function setTelResponsable($telResponsable)
+    {
+        $this->telResponsable = $telResponsable;
+    }
+
+    public function getEmailResponsable()
+    {
+        return $this->emailResponsable;
+    }
+
+    public function setEmailResponsable($emailResponsable)
+    {
+        $this->emailResponsable = $emailResponsable;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    public function getNumLicence()
+    {
+        return $this->numLicence;
+    }
+
+    public function setNumLicence($numLicence)
+    {
+        $this->numLicence = $numLicence;
+    }
+
+    public function getNumAssurance()
+    {
+        return $this->numAssurance;
+    }
+
+    public function setNumAssurance($numAssurance)
+    {
+        $this->numAssurance = $numAssurance;
+    }
+
+    public function getIdCommune()
+    {
+        return $this->idCommune;
+    }
+
+    public function setIdCommune($idCommune)
+    {
+        $this->idCommune = $idCommune;
+    }
+
+    public function getIdGalop()
+    {
+        return $this->idGalop;
+    }
+
+    public function setIdGalop($idGalop)
+    {
+        $this->idGalop = $idGalop;
+    }
+
+    public function getNomCommune()
+    {
+        return $this->nomCommune;
+    }
+
+    public function setNomCommune($nomCommune)
+    {
+        $this->nomCommune = $nomCommune;
+    }
+
+    public function getNomGalop()
+    {
+        return $this->nomGalop;
+    }
+
+    public function setNomGalop($nomGalop)
+    {
+        $this->nomGalop = $nomGalop;
+    }
+
+    public function InsertCavalier()
+    {
         global $con;
+        global $session_idcompte;
+
+        // Vérifier que les objets Commune et Galop sont valides
+        if (!$this->idCommune instanceof Commune || !$this->idGalop instanceof Galop) {
+            throw new Exception("Les objets Commune et Galop doivent être correctement initialisés");
+        }
+
         $data = [
-            ':nomcheval' => $this->nomcheval,
-            ':datenaissancecheval' => $this->datenaissancecheval,
-            ':garot' => $this->garot,
-            ':idrobe' => $this->idrobe,
-            ':idrace' => $this->idrace,
+            ':nc' => $this->nomCavalier,
+            ':pc' => $this->prenomCavalier,
+            ':dnc' => $this->dateNaissanceCavalier,
+            ':nr' => $this->nomResponsable,
+            ':rr' => $this->rueResponsable,
+            ':tr' => $this->telResponsable,
+            ':er' => $this->emailResponsable,
+            ':pw' => $this->password,
+            ':nl' => $this->numLicence,
+            ':na' => $this->numAssurance,
+            ':idc' => $this->idCommune->getIdCommune(), // Utiliser la méthode getter
+            ':idg' => $this->idGalop->getIdGalop()     // Utiliser la méthode getter
         ];
 
-        $sql = "INSERT INTO cavalerie (nomcheval, datenaissancecheval, garot, idrobe, idrace, afficher) 
-                VALUES (:nomcheval, :datenaissancecheval, :garot, :idrobe, :idrace, true)";
-        $stmt = $con->prepare($sql);
-        
-        if ($stmt->execute($data)) {
-            return $con->lastInsertId();
+        try {
+            $sql = "INSERT INTO cavalier (idcavalier, nomcavalier, prenomcavalier, datenaissancecavalier, 
+                    nomresponsable, rueresponsable, telresponsable, emailresponsable, password, 
+                    numlicence, numassurance, idcommune, idgalop, afficher, iduser) 
+                    VALUES (null, :nc, :pc, :dnc, :nr, :rr, :tr, :er, :pw, :nl, :na, :idc, :idg, true, $session_idcompte)";
+            
+            $stmt = $con->prepare($sql);
+
+            if ($stmt->execute($data)) {
+                return $con->lastInsertId();
+            } else {
+                throw new Exception("Erreur lors de l'insertion : " . implode(", ", $stmt->errorInfo()));
+            }
+        } catch (PDOException $e) {
+            throw new Exception("Erreur lors de l'insertion du cavalier : " . $e->getMessage());
         }
-        return false;
     }
 
-    public function selectChevaux() {
+    public function CavalierAll() 
+    {
         global $con;
-        $sql = "SELECT * FROM cavalerie WHERE afficher = 1";
-        $stmt = $con->query($sql);
-        $chevaux = [];
 
-        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            $cheval = new Cavalerie($row['numsire'], $row['nomcheval'], $row['datenaissancecheval'], $row['garot'], $row['idrobe'], $row['idrace']);
-            $chevaux[] = $cheval;
+        // Requête SQL avec jointure pour inclure les données de la table commune
+        $sql = "SELECT cavalier.idcavalier, cavalier.nomcavalier, cavalier.prenomcavalier, cavalier.datenaissancecavalier, 
+                    cavalier.nomresponsable, cavalier.rueresponsable, cavalier.telresponsable, cavalier.emailresponsable, 
+                    cavalier.numlicence, cavalier.numassurance, cavalier.idcommune, cavalier.idgalop, commune.ville AS nomcommune, galop.libgalop AS nomGalop
+                FROM cavalier 
+                JOIN commune ON cavalier.idcommune = commune.idcommune
+                JOIN galop ON cavalier.idgalop = galop.idgalop
+                WHERE cavalier.afficher = true";
+                
+        $req = $con->query($sql);
+        $cavaliers = [];
+
+        foreach ($req->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            // Construction de l'objet Cavalier avec les données de la base
+            $commune = new Commune($row['idcommune'], $row['nomcommune'], null);
+            $galop = new Galop($row['idgalop'], $row['nomGalop']);    
+            $cavalier = new Cavalier(
+                $row['idcavalier'], 
+                $row['nomcavalier'], 
+                $row['prenomcavalier'], 
+                $row['datenaissancecavalier'], 
+                $row['nomresponsable'], 
+                $row['rueresponsable'], 
+                $row['telresponsable'], 
+                $row['emailresponsable'], 
+                null,
+                $row['numlicence'], 
+                $row['numassurance'], 
+                $commune,  // Objet Commune
+                $galop    // Objet Galop
+            );
+            // Associer également le nom de la commune si souhaité
+            $cavalier->nomCommune = $row['nomcommune'];
+            $cavalier->nomGalop = $row['nomGalop'];
+
+            $cavaliers[] = $cavalier;
         }
-        return $chevaux;
+
+        return $cavaliers;
     }
 
-    public function DeleteCavalerie($id)
+
+
+    public function DeleteCavalier($id)
     {
         global $con;
         $data = [':id' => $id];
-        $sql = "UPDATE cavalerie  set afficher = 0 WHERE numsire = :id";
+        $sql = "UPDATE  cavalier SET afficher = false WHERE idcavalier = :id";
         $stmt = $con->prepare($sql);
 
         if ($stmt->execute($data)) {
@@ -111,58 +285,38 @@ class Cavalerie {
         }
     }
 
-    public function updateCheval() {
+
+    public function UpdateCavalier()
+    {
         global $con;
         $data = [
-            ':numsire' => $this->numsire,
-            ':nomcheval' => $this->nomcheval,
-            ':datenaissancecheval' => $this->datenaissancecheval,
-            ':garot' => $this->garot,
-            ':idrobe' => $this->idrobe,
-            ':idrace' => $this->idrace,
+            ':idcav' => $this->idCavalier,
+            ':nc' => $this->nomCavalier,
+            ':pc' => $this->prenomCavalier,
+            ':dnc' => $this->dateNaissanceCavalier,
+            ':nr' => $this->nomResponsable,
+            ':rr' => $this->rueResponsable,
+            ':tr' => $this->telResponsable,
+            ':er' => $this->emailResponsable,
+            ':pw' => $this->password,
+            ':nl' => $this->numLicence,
+            ':na' => $this->numAssurance,
+            ':idc' => $this->idCommune,
+            ':idg' => $this->idGalop
         ];
 
-        $sql = "UPDATE cavalerie 
-                SET nomcheval = :nomcheval, datenaissancecheval = :datenaissancecheval, garot = :garot, idrobe = :idrobe, idrace = :idrace
-                WHERE numsire = :numsire";
+        $sql = "UPDATE cavalier	
+                SET nomcavalier = :nc, prenomcavalier = :pc, datenaissancecavalier = :dnc, nomresponsable = :nr, rueresponsable = :rr, telresponsable = :tr, emailresponsable = :er, password = :pw, numlicence = :nl, numassurance = :na, idcommune = :idc, idgalop = :idg
+                WHERE idcavalier = :idcav;";
         $stmt = $con->prepare($sql);
 
-        return $stmt->execute($data);
-    }
-
-    public function getRobeLibelle($idrobe) {
-        global $con;
-        $sql = "SELECT librobe FROM robe WHERE idrobe = :idrobe";
-        $stmt = $con->prepare($sql);
-        $stmt->execute([':idrobe' => $idrobe]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ? $result['librobe'] : '';
-    }
-
-    public function getRaceLibelle($idrace) {
-        global $con;
-        $sql = "SELECT librace FROM race WHERE idrace = :idrace";
-        $stmt = $con->prepare($sql);
-        $stmt->execute([':idrace' => $idrace]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ? $result['librace'] : '';
-    }
-
-    public function getPhoto() {
-        global $con;
-        $sql = "SELECT lien FROM photo WHERE numsire = :numsire LIMIT 1";
-        $stmt = $con->prepare($sql);
-        $stmt->execute([':numsire' => $this->numsire]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ? $result['lien'] : null;
-    }
-
-    public function getCheval($numsire) {
-        global $con;
-        $sql = "SELECT * FROM cavalerie WHERE numsire = :numsire AND afficher = 1";
-        $stmt = $con->prepare($sql);
-        $stmt->execute([':numsire' => $numsire]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($stmt->execute($data)) {
+            echo "Bien modifié";
+            return true;
+        } else {
+            echo implode(", ", $stmt->errorInfo());
+            return false;
+        }
     }
 }
 ?>
