@@ -102,10 +102,16 @@ $listeChevaux = $oCavalerie->selectChevaux();
         ?>
             <tr id="row-<?= $cheval->getNumsire() ?>">
                 <td>
-                    <?php if ($photoUrl): ?>
+                    <?php 
+                        $photoUrl = $cheval->getPhoto();
+                        // Debug: afficher le chemin brut
+                        echo "<!-- Chemin de la photo: " . $photoUrl . " -->";
+                        if ($photoUrl): 
+                    ?>
                         <img src="<?= htmlspecialchars($photoUrl) ?>" 
                              alt="Photo du cheval" 
                              style="max-width: 100px; max-height: 100px; cursor: pointer;"
+                             onerror="console.log('Erreur de chargement de l\'image:', '<?= htmlspecialchars($photoUrl) ?>');"
                              onclick="openModal(this.src)">
                     <?php else: ?>
                         <span>Pas de photo</span>
@@ -133,7 +139,9 @@ $listeChevaux = $oCavalerie->selectChevaux();
                         $photos = $photo->getPhotoByNumSire($cheval->getNumsire());
                         if (!empty($photos)) {
                             foreach ($photos as $photo) {
-                                echo htmlspecialchars($photo->getnom_photo());
+                                // Enlever l'extension du fichier pour l'affichage
+                                $nomSansExtension = pathinfo($photo->getnom_photo(), PATHINFO_FILENAME);
+                                echo htmlspecialchars($nomSansExtension);
                                 break;
                             }
                         } else {
@@ -308,17 +316,18 @@ $listeChevaux = $oCavalerie->selectChevaux();
                     numsire: numsire
                 },
                 success: function(response) {
-                    
+                    try {
                         const data = JSON.parse(response);
                         if (data.success) {
-                            // Recharge la page après la mise à jour
+                            location.reload();
                         } else {
-                            
+                            alert('Erreur lors de la mise à jour de la photo');
                         }
-                    
+                    } catch (e) {
+                        console.error('Erreur de parsing JSON:', e);
+                        alert('Erreur lors du traitement de la réponse');
+                    }
                 }
-
-
             });
         });
     });
@@ -352,11 +361,9 @@ $listeChevaux = $oCavalerie->selectChevaux();
                             alert('Erreur lors de la mise à jour de la photo');
                         }
                     } catch (e) {
-                        alert('Erreur lors de la mise à jour de la photo');
+                        console.error('Erreur de parsing JSON:', e);
+                        alert('Erreur lors du traitement de la réponse');
                     }
-                },
-                error: function() {
-                    alert('Erreur lors de la mise à jour de la photo');
                 }
             });
         });
