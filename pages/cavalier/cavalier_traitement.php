@@ -1,107 +1,146 @@
 <?php
+
 include '../../includes/haut.inc.php';
-// Modification d'un cheval
-if (isset($_POST['action']) && $_POST['action'] === 'modifier') {
-    $numsire = $_POST["numsire"];
-    $nomcheval = $_POST["nomcheval"];
-    $datenaissancecheval = $_POST["datenaissancecheval"];
-    $garot = $_POST["garot"];
-    $idrobe = $_POST["idrobe"];
-    $idrace = $_POST["idrace"];
 
-    $unCheval = new Cavalerie($numsire, $nomcheval, $datenaissancecheval, $garot, $idrobe, $idrace);
-    $unCheval->updateCheval();
-    header("Location: cavalerie.php");
-    exit();
-}
+// Debug - Afficher les données reçues
+echo "<h3>Données reçues :</h3>";
+echo "<pre>";
+// Vérifier l'existence des clés avant de les afficher
+echo "ID Cavalier : " . (isset($_POST['idcavalier']) ? $_POST['idcavalier'] : 'Non défini') . "\n";
+echo "Nom : " . (isset($_POST['nomcavalier']) ? $_POST['nomcavalier'] : 'Non défini') . "\n";
+echo "Prénom : " . (isset($_POST['prenomcavalier']) ? $_POST['prenomcavalier'] : 'Non défini') . "\n";
+echo "Date de naissance : " . (isset($_POST['datenaissancecavalier']) ? $_POST['datenaissancecavalier'] : 'Non défini') . "\n";
+echo "Nom responsable : " . (isset($_POST['nomresponsable']) ? $_POST['nomresponsable'] : 'Non défini') . "\n";
+echo "Rue responsable : " . (isset($_POST['rueresponsable']) ? $_POST['rueresponsable'] : 'Non défini') . "\n";
+echo "Tel responsable : " . (isset($_POST['telresponsable']) ? $_POST['telresponsable'] : 'Non défini') . "\n";
+echo "Email responsable : " . (isset($_POST['emailresponsable']) ? $_POST['emailresponsable'] : 'Non défini') . "\n";
+echo "Num licence : " . (isset($_POST['numlicence']) ? $_POST['numlicence'] : 'Non défini') . "\n";
+echo "Num assurance : " . (isset($_POST['numassurance']) ? $_POST['numassurance'] : 'Non défini') . "\n";
+echo "ID commune : " . (isset($_POST['idcommune']) ? $_POST['idcommune'] : 'Non défini') . "\n";
+echo "ID galop : " . (isset($_POST['idgalop']) ? $_POST['idgalop'] : 'Non défini') . "\n";
+echo "Action : " . (isset($_POST['action']) ? $_POST['action'] : 'Non défini') . "\n";
+echo "</pre>";
 
-// Ajout d'un nouveau cheval avec photo
-if (isset($_POST["nomcheval"]) && !isset($_POST['action'])) {
-    $nomcheval = $_POST["nomcheval"];
-    $datenaissancecheval = $_POST["datenaissancecheval"];
-    $garot = $_POST["garot"];
-    $idrobe = $_POST["idrobe"];
-    $idrace = $_POST["idrace"];
+// Modification d'un cavalier
+if (isset($_POST['action']) && $_POST['action'] === 'modifier' && isset($_POST['idcavalier'])) {
+    $idCavalier = $_POST["idcavalier"];
+    $nomCavalier = $_POST["nomcavalier"];
+    $prenomCavalier = $_POST["prenomcavalier"];
+    $dateNaissanceCavalier = $_POST["datenaissancecavalier"];
+    $nomResponsable = $_POST["nomresponsable"];
+    $rueResponsable = $_POST["rueresponsable"];
+    $telResponsable = $_POST["telresponsable"];
+    $emailResponsable = $_POST["emailresponsable"];
+    $numLicence = $_POST["numlicence"];
+    $numAssurance = $_POST["numassurance"];
+    $idcommune = $_POST["idcommune"]; 
+    $idGalop = $_POST["idgalop"];
 
-    // Insérer d'abord le cheval pour obtenir le numsire
-    $unCheval = new Cavalerie(null, $nomcheval, $datenaissancecheval, $garot, $idrobe, $idrace);
-    $numsire = $unCheval->insertCheval();
-
-    // Gestion de la photo
-    if ($numsire && isset($_FILES['userfile'])) {
-        $uploadDir = '../../uploads/photos/';
-        
-        if (!file_exists($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
-
-        $originalFileName = basename($_FILES['userfile']['name']);
-        $extension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
-        
-        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-        if (!in_array($extension, $allowed)) {
-            $_SESSION['error'] = "Format de fichier non autorisé. Utilisez JPG, PNG, GIF ou WebP";
-            header("Location: cavalerie.php");
-            exit();
-        }
-        
-        $nomPhoto = !empty($_POST['nom_photo']) 
-            ? preg_replace('/[^A-Za-z0-9_-]/', '', $_POST['nom_photo']) . '.' . $extension
-            : uniqid() . '.' . $extension;
-        
-        $uploadFile = $uploadDir . $nomPhoto;
-        
-        if (isset($_FILES['userfile'])) {
-            error_log("Upload tentative : " . print_r($_FILES['userfile'], true));
-            if (!move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadFile)) {
-                error_log("Erreur upload : " . error_get_last()['message']);
-            }
-        }
-
-        if ($_FILES['userfile']['size'] > 8000000) { // 8MB
-            $_SESSION['error'] = "Le fichier est trop volumineux (max 8MB)";
-            header("Location: cavalerie.php");
-            exit();
-        }
-
-        // Debug: afficher le chemin qui sera enregistré
-        error_log("Chemin de la photo à enregistrer: " . '../../uploads/photos/' . $nomPhoto);
-        
-        $photo = new Photo();
-        $photo->setNumSire($numsire);
-        $photo->setIdEvenement(0);
-        $photo->setnom_photo($nomPhoto);
-        $photo->setLien('../../uploads/photos/' . $nomPhoto);
-        $photo->saveLink();
-    }
-
-    header("Location: cavalerie.php");
-    exit();
-}
-
-// Suppression d'un cheval
-if (isset($_POST["supprimer"])) {
-    $idcavalerie = $_POST["supprimer"]; 
-    $unCavalier = new Cavalerie($idcavalerie, null, null, null, null, null); 
-    $unCavalier->DeleteCavalerie($idcavalerie);
+    // Création du cavalier avec les bons paramètres
+    $unCavalier = new Cavalier(
+        $idCavalier,
+        $nomCavalier,
+        $prenomCavalier,
+        $dateNaissanceCavalier,
+        $nomResponsable,
+        $rueResponsable,
+        $telResponsable,
+        $emailResponsable,
+        null, // password n'est pas modifié lors d'une mise à jour
+        $numLicence,
+        $numAssurance,
+        $idcommune,
+        $idGalop
+    );
     
-    header("Location: cavalerie.php");
+    $unCavalier->UpdateCavalier();
+    header('Location: cavalier.php');
+    exit();
+}
+
+// Ajout d'un nouveau cavalier
+if (isset($_POST["nomcavalier"]) && !isset($_POST['action'])) {
+    try {
+        global $con; // Ajout de l'accès à la connexion
+
+        $nomCavalier = $_POST["nomcavalier"];
+        $prenomCavalier = $_POST["prenomcavalier"];
+        $dateNaissanceCavalier = $_POST["datenaissancecavalier"];
+        $nomResponsable = $_POST["nomresponsable"];
+        $rueResponsable = $_POST["rueresponsable"];
+        $telResponsable = $_POST["telresponsable"];
+        $emailResponsable = $_POST["emailresponsable"];
+        $password = $_POST["password"];
+        $numLicence = $_POST["numlicence"];
+        $numAssurance = $_POST["numassurance"];
+        
+        // Vérifier que les IDs sont bien définis
+        if (!isset($_POST["idcommune"]) || !isset($_POST["idgalop"])) {
+            throw new Exception("La commune et le niveau de galop sont requis");
+        }
+
+        $idcommune = intval($_POST["idcommune"]); 
+        $idGalop = intval($_POST["idgalop"]);
+
+        // Vérifier si la commune existe
+        $stmt = $con->prepare("SELECT COUNT(*) FROM commune WHERE idcommune = ?");
+        $stmt->execute([$idcommune]);
+        if ($stmt->fetchColumn() == 0) {
+            throw new Exception("La commune sélectionnée n'existe pas dans la base de données (ID: $idcommune)");
+        }
+
+        // Vérifier si le galop existe
+        $stmt = $con->prepare("SELECT COUNT(*) FROM galop WHERE idgalop = ?");
+        $stmt->execute([$idGalop]);
+        if ($stmt->fetchColumn() == 0) {
+            throw new Exception("Le niveau de galop sélectionné n'existe pas dans la base de données (ID: $idGalop)");
+        }
+
+        // Création des objets après vérification
+        $commune = new Commune($idcommune, null, null);
+        $galop = new Galop($idGalop, null);
+
+        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+        
+        // Debug - Afficher les valeurs
+        echo "Debug - Valeurs avant insertion:<br>";
+        echo "ID Commune: " . $idcommune . "<br>";
+        echo "ID Galop: " . $idGalop . "<br>";
+        
+        $unCavalier = new Cavalier(
+            null,
+            $nomCavalier,
+            $prenomCavalier,
+            $dateNaissanceCavalier,
+            $nomResponsable,
+            $rueResponsable,
+            $telResponsable,
+            $emailResponsable,
+            $hashed_password,
+            $numLicence,
+            $numAssurance,
+            $commune,
+            $galop
+        );
+        
+        $unCavalier->InsertCavalier();
+        header("Location: cavalier.php");
+        exit(); 
+    } catch (Exception $e) {
+        echo "Erreur : " . $e->getMessage();
+        echo "<br><br>";
+        echo "<a href='javascript:history.back()'>Retour au formulaire</a>";
+    }
+}
+
+// Suppression d'un cavalier
+if (isset($_POST["supprimer"])) {
+    $idCavalier = $_POST["supprimer"]; 
+    $unCavalier = new Cavalier($idCavalier, null, null, null, null, null, null, null, null, null,null,null,null); 
+    $unCavalier->DeleteCavalier($idCavalier);
+    
+    header("Location: cavalier.php");
     exit(); 
 }
 
-// Ajout d'une nouvelle condition pour gérer l'update du numsire d'une photo
-if (isset($_POST['action']) && $_POST['action'] === 'update_photo_numsire') {
-    if (isset($_POST['idphoto']) && isset($_POST['numsire'])) {
-        $photo = new Photo();
-        $success = $photo->updateNumSire($_POST['idphoto'], $_POST['numsire']);
-        
-        echo json_encode(['success' => $success]);
-        exit();
-    }
-    echo json_encode(['success' => false]);
-    exit();
-}
 ?>
-
-
-
