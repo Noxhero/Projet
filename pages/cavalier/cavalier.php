@@ -3,348 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion de la Cavalerie</title>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <title>Gestion des cavaliers</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="../../css/modal.css">
+
     
 </head>
 <body>
 
-<div id="imageModal" class="modal">
-    <span class="close">&times;</span>
-    <img class="modal-content" id="modalImage">
-</div>
-
 <?php
-include '../../includes/haut.inc.php';
+include "../../includes/haut.inc.php";
 
-// Récupérer la liste des chevaux
-$oCavalerie = new Cavalerie(null, null, null, null, null, null);
-$listeChevaux = $oCavalerie->selectChevaux();
+$oCavalier = new Cavalier(null, null, null, null, null, null, null, null, null, null, null, null, null);
+$ReqCavalier = $oCavalier->CavalierAll();
 ?>
 
-<h1>Ajouter un Cheval</h1>
-
-<form action="traitement.cavalerie.php" method="POST" enctype="multipart/form-data" class="form-generic">
-    <label for="nomcheval">Nom du Cheval:</label>
-    <input type="text" name="nomcheval" required><br>
-
-    <label for="datenaissancecheval">Date de Naissance:</label>
-    <input type="date" name="datenaissancecheval" required><br>
-
-    <label for="garot">Garot:</label>
-    <input type="text" name="garot" required><br>
-
-    <label for="nomrobe">Robe :</label>
+<h1>Ajouter un Cavalier</h1>
+<form action="cavalier_traitement.php" method="POST">
+    <label for="nomcavalier">Nom du cavalier:</label>
+    <input type="text" name="nomcavalier" placeholder="Nom du cavalier" required><br>
+    <label for="prenomcavalier">Prénom du cavalier:</label>
+    <input type="text" name="prenomcavalier" placeholder="Prénom du cavalier" required><br>
+    <label for="datenaissancecavalier">Date de naissance du cavalier:</label>
+    <input type="date" name="datenaissancecavalier" placeholder="Date de naissance" required><br>
+    <label for="nomresponsable">Nom du responsable:</label>
+    <input type="text" name="nomresponsable" placeholder="Nom du responsable"><br>
+    <label for="rueresponsable">Rue du responsable:</label>
+    <input type="text" name="rueresponsable" placeholder="Rue du responsable"><br>
+    <label for="telresponsable">Téléphone du responsable:</label>
+    <input type="text" name="telresponsable" placeholder="Téléphone du responsable"><br>
+    <label for="emailresponsable">Email du responsable:</label>
+    <input type="email" name="emailresponsable" placeholder="Email du responsable"><br>
+    <label for="password">Mot de passe:</label>
+    <input type="password" name="password" placeholder="Mot de passe"><br>
+    <label for="numlicence">Numéro de licence:</label>
+    <input type="text" name="numlicence" placeholder="Numéro de licence"><br>
+    <label for="numassurance">Numéro de l'assurance:</label>
+    <input type="text" name="numassurance" placeholder="Numéro d'assurance"><br>
+    <label for="nomcommune">Nom de la Commune et Code postal:</label>
     <div class="content">
         <div class="input_container">
-            <input type="text" name='nomrobe' id="nom_idrobe" placeholder="Robe du cheval" onkeyup="autocompletrobe()">
-            <input type="hidden" name='idrobe' id="idrobe" >
-            <ul id="nom_list_idrobe"></ul>
+            <input type="text" name="nom_idcommune" id="nom_idcommune" placeholder="Commune" 
+                onkeyup="autocompletcommune()">
+            <input type="text" name="cp" id="cp" placeholder="Code Postal">
+            <input type="hidden" name="idcommune" id="idcommune">
+            <ul id="nom_list_idcommune"></ul>
         </div>
     </div>
-
-    <label for="nomrace">Race :</label>
+    <label for="idgalop">Niveau de Galop:</label>
     <div class="content">
         <div class="input_container">
-            <input type="text" name='nomrace' id="nom_idrace" placeholder="Race du cheval" onkeyup="autocompletrace()">
-            <input type="hidden" name='idrace' id="idrace" >
-            <ul id="nom_list_idrace"></ul>
+            <input type="text" name='nomgalop' id="nom_idgalop" placeholder="Galop maitrisé" onkeyup="autocompletgalop()">
+            <input type="hidden" name='idgalop' id="idgalop" value>
+            <ul id="nom_list_idgalop"></ul>
         </div>
     </div>
-
-    <div class="form-group">
-        <label for="nom_photo">Nom de la photo:</label>
-        <input type="text" name="nom_photo" id="nom_photo" class="form-control" placeholder="Donnez un nom à la photo">
-    </div>
-
-    <div class="form-group">
-        <label for="userfile">Fichier photo:</label>
-        <input type="file" name="userfile" id="userfile" class="form-control">
-    </div>
-
-    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    <input type="submit" value="Créer">
 </form>
 
-<h2>Liste des Chevaux</h2>
-<table id="CavalerieTable" class="display">
+<h1>Liste des cavaliers</h1>
+<table id="CavaliersTable" class="display">
     <thead>
         <tr>
-            <th>Photo</th>
-            <th>Numéro SIRE</th>
+            <th>ID</th>
             <th>Nom</th>
+            <th>Prénom</th>
             <th>Date de Naissance</th>
-            <th>Garot</th>
-            <th>Robe</th>
-            <th>Race</th>
-            <th>Nom de la photo</th>
+            <th>Nom Responsable</th>
+            <th>Rue Responsable</th>
+            <th>Téléphone Responsable</th>
+            <th>Email Responsable</th>
+            <th>Numéro Licence</th>
+            <th>Numéro Assurance</th>
+            <th>ID Commune</th>
+            <th>ID Galop</th>
             <th>Modifier</th>
             <th>Supprimer</th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($listeChevaux as $cheval) : 
-            $photoUrl = $cheval->getPhoto();
-        ?>
-            <tr id="row-<?= $cheval->getNumsire() ?>">
+        <?php foreach($ReqCavalier as $unCavalier): ?>
+        <tr id="row-<?= $unCavalier->getIdCavalier() ?>">
+            <td><?= htmlspecialchars($unCavalier->getIdCavalier()) ?></td>
+            <td>
+                <span class="static-field"><?= htmlspecialchars($unCavalier->getNomCavalier()) ?></span>
+                <input type="text" class="edit-field" name="nomcavalier" value="<?= htmlspecialchars($unCavalier->getNomCavalier()) ?>" style="display:none;">
+            </td>
+            <td>
+                <span class="static-field"><?= htmlspecialchars($unCavalier->getPrenomCavalier()) ?></span>
+                <input type="text" class="edit-field" name="prenomcavalier" value="<?= htmlspecialchars($unCavalier->getPrenomCavalier()) ?>" style="display:none;">
+            </td>
+            <td>
+                <span class="static-field"><?= htmlspecialchars($unCavalier->getDateNaissanceCavalier()) ?></span>
+                <input type="date" class="edit-field" name="datenaissancecavalier" value="<?= htmlspecialchars($unCavalier->getDateNaissanceCavalier()) ?>" style="display:none;">
+            </td>
+            <td>
+                <span class="static-field"><?= htmlspecialchars($unCavalier->getNomResponsable()) ?></span>
+                <input type="text" class="edit-field" name="nomresponsable" value="<?= htmlspecialchars($unCavalier->getNomResponsable()) ?>" style="display:none;">
+            </td>
+            <td>
+                <span class="static-field"><?= htmlspecialchars($unCavalier->getRueResponsable()) ?></span>
+                <input type="text" class="edit-field" name="rueresponsable" value="<?= htmlspecialchars($unCavalier->getRueResponsable()) ?>" style="display:none;">
+            </td>
+            <td>
+                <span class="static-field"><?= htmlspecialchars($unCavalier->getTelResponsable()) ?></span>
+                <input type="text" class="edit-field" name="telresponsable" value="<?= htmlspecialchars($unCavalier->getTelResponsable()) ?>" style="display:none;">
+            </td>
+            <td>
+                <span class="static-field"><?= htmlspecialchars($unCavalier->getEmailResponsable()) ?></span>
+                <input type="email" class="edit-field" name="emailresponsable" value="<?= htmlspecialchars($unCavalier->getEmailResponsable()) ?>" style="display:none;">
+            </td>
+            <td>
+                <span class="static-field"><?= htmlspecialchars($unCavalier->getNumLicence()) ?></span>
+                <input type="text" class="edit-field" name="numlicence" value="<?= htmlspecialchars($unCavalier->getNumLicence()) ?>" style="display:none;">
+            </td>
+            <td>
+                <span class="static-field"><?= htmlspecialchars($unCavalier->getNumAssurance()) ?></span>
+                <input type="text" class="edit-field" name="numassurance" value="<?= htmlspecialchars($unCavalier->getNumAssurance()) ?>" style="display:none;">
+            </td>
+            <td> 
+            <div class="content">
+                <div class="input_container">
+                    <span class="static-field"><?= htmlspecialchars($unCavalier->getIdCommune()->getNomCommune()) ?></span>
+                    <input type="text" class="edit-field" 
+                        name="nom_idcommune21_<?= $unCavalier->getIdCavalier() ?>" 
+                        id="nom_idcommune21_<?= $unCavalier->getIdCavalier() ?>" 
+                        value="<?= htmlspecialchars($unCavalier->getIdCommune()->getNomCommune()) ?>" 
+                        style="display:none;" 
+                        onkeyup="autocompletcommune21('<?= $unCavalier->getIdCavalier() ?>')">
+                    <input type="hidden" 
+                        name="idcommune21" 
+                        id="idcommune21_<?= $unCavalier->getIdCavalier() ?>" 
+                        value="<?= $unCavalier->getIdCommune()->getIdCommune() ?>">
+                    <ul id="nom_list_idcommune21_<?= $unCavalier->getIdCavalier() ?>" style="display:none;"></ul>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="content">
+                <div class="input_container">
+                    <span class="static-field"><?= htmlspecialchars($unCavalier->getIdGalop()->getNomGalop()) ?></span>
+                    <input type="text" class="edit-field" 
+                        name="nom_idgalop22_<?= $unCavalier->getIdCavalier() ?>" 
+                        id="nom_idgalop22_<?= $unCavalier->getIdCavalier() ?>" 
+                        value="<?= htmlspecialchars($unCavalier->getIdGalop()->getNomGalop()) ?>" 
+                        style="display:none;" 
+                        onkeyup="autocompletgalop22('<?= $unCavalier->getIdCavalier() ?>')">
+                    <input type="hidden" 
+                        name="idgalop22" 
+                        id="idgalop22_<?= $unCavalier->getIdCavalier() ?>" 
+                        value="<?= $unCavalier->getIdGalop()->getIdGalop() ?>">
+                    <ul id="nom_list_idgalop22_<?= $unCavalier->getIdCavalier() ?>" style="display:none;"></ul>
+                </div>
+            </div>
+        </td>
+
                 <td>
-                    <?php 
-                        $photoUrl = $cheval->getPhoto();
-                        // Debug: afficher le chemin brut
-                        echo "<!-- Chemin de la photo: " . $photoUrl . " -->";
-                        if ($photoUrl): 
-                    ?>
-                        <img src="<?= htmlspecialchars($photoUrl) ?>" 
-                             alt="Photo du cheval" 
-                             style="max-width: 100px; max-height: 100px; cursor: pointer;"
-                             onerror="console.log('Erreur de chargement de l\'image:', '<?= htmlspecialchars($photoUrl) ?>');"
-                             onclick="openModal(this.src)">
-                    <?php else: ?>
-                        <span>Pas de photo</span>
-                    <?php endif; ?>
+                    <button class="modifier-btn" data-id="<?= $unCavalier->getIdCavalier() ?>">Modifier</button>
+                    <button class="confirmer-btn" data-id="<?= $unCavalier->getIdCavalier() ?>" style="display:none;">Confirmer</button>
+                    <button class="annuler-btn" data-id="<?= $unCavalier->getIdCavalier() ?>" style="display:none;">Annuler</button>
                 </td>
-                <td><?= htmlspecialchars($cheval->getNumsire()) ?></td>
                 <td>
-                    <span class="static-field"><?= htmlspecialchars($cheval->getNomcheval()) ?></span>
-                    <input type="text" class="edit-field" name="nomcheval" value="<?= htmlspecialchars($cheval->getNomcheval()) ?>" style="display:none;">
-                </td>
-                <td>
-                    <span class="static-field"><?= htmlspecialchars($cheval->getDatenaissancecheval()) ?></span>
-                    <input type="date" class="edit-field" name="datenaissancecheval" value="<?= htmlspecialchars($cheval->getDatenaissancecheval()) ?>" style="display:none;">
-                </td>
-                <td>
-                    <span class="static-field"><?= htmlspecialchars($cheval->getGarot()) ?></span>
-                    <input type="number" class="edit-field" name="garot" value="<?= htmlspecialchars($cheval->getGarot()) ?>" style="display:none;">
-                </td>
-                <td data-idrobe="<?= $cheval->getIdrobe() ?>"><?= htmlspecialchars($cheval->getRobeLibelle($cheval->getIdrobe())) ?></td>
-                <td data-idrace="<?= $cheval->getIdrace() ?>"><?= htmlspecialchars($cheval->getRaceLibelle($cheval->getIdrace())) ?></td>
-                <td>
-                    <span class="static-field">
-                        <?php
-                        $photo = new Photo();
-                        $photos = $photo->getPhotoByNumSire($cheval->getNumsire());
-                        if (!empty($photos)) {
-                            foreach ($photos as $photo) {
-                                // Enlever l'extension du fichier pour l'affichage
-                                $nomSansExtension = pathinfo($photo->getnom_photo(), PATHINFO_FILENAME);
-                                echo htmlspecialchars($nomSansExtension);
-                                break;
-                            }
-                        } else {
-                            echo 'Aucune photo disponible';
-                        }
-                        ?>
-                    </span>
-                    <span class="edit-field" style="display:none;">
-                        <?php
-                        // Récupérer toutes les photos disponibles
-                        $photo = new Photo();
-                        $allPhotos = $photo->getPhotoByNumSire(0); // 0 pour récupérer toutes les photos
-                        if (!empty($allPhotos)) {
-                            echo '<select class="photo-select" data-numsire="' . $cheval->getNumsire() . '">';
-                            echo '<option value="">Sélectionner une photo</option>';
-                            foreach ($allPhotos as $photo) {
-                                echo '<option value="' . $photo->getIdPhoto() . '">' . 
-                                    htmlspecialchars($photo->getnom_photo()) . 
-                                    '</option>';
-                            }
-                            echo '</select>';
-                            echo '<button class="refresh-btn" data-numsire="' . $cheval->getNumsire() . '">Valider</button>';
-                        } else {
-                            echo '<p>Aucune photo disponible</p>';
-                        }
-                        ?>
-                    </span>
-                </td>
-                <td>
-                    <button class="modifier-btn" data-id="<?= $cheval->getNumsire() ?>">Modifier</button>
-                    <button class="confirmer-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Confirmer</button>
-                    <button class="annuler-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Annuler</button>
-                </td>
-                <td>
-                    <form action="traitement.cavalerie.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cheval?');">
-                        <input type="hidden" name="supprimer" value="<?= $cheval->getNumsire() ?>">
-                        <button class="supprimer-btn" type="submit">Supprimer</button>
+                    <form action="cavalier_traitement.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cavalier ?');">
+                        <input type="hidden" name="supprimer" value="<?= $unCavalier->getIdCavalier() ?>">
+                        <input type="submit" value="Supprimer" class="delete-btn">
                     </form>
                 </td>
             </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
-
-<script>
-    $(document).ready(function() {
-        $('#CavalerieTable').DataTable({
-            columnDefs: [
-                {
-                    targets: 0, // La colonne des photos (index 0)
-                    width: '120px'
-                }
-            ]
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <script>
+        // Activation de DataTables
+        $(document).ready(function() {
+            $('#CavaliersTable').DataTable();
         });
-    });
 
-    document.querySelectorAll('.modifier-btn').forEach(button => {
+        // Gestionnaire de clic extérieur
+        document.addEventListener('click', function(event) {
+            const rows = document.querySelectorAll('tr[id^="row-"]');
+            rows.forEach(row => {
+                if (row.contains(event.target)) return;
+                
+                if (row.querySelector('.confirmer-btn').style.display === 'inline') {
+                    resetRow(row);
+                }
+            });
+        });
+
+        // Fonction pour réinitialiser une ligne
+        function resetRow(row) {
+            row.querySelector('.modifier-btn').style.display = 'inline';
+            row.querySelector('.confirmer-btn').style.display = 'none';
+            row.querySelector('.annuler-btn').style.display = 'none';
+        }
+
+        // Quand le bouton "Modifier" est cliqué
+        document.querySelectorAll('.modifier-btn').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.stopPropagation();
+                const id = this.getAttribute('data-id');
+                const row = document.getElementById('row-' + id);
+
+                row.querySelectorAll('.static-field').forEach(field => field.style.display = 'none');
+                row.querySelectorAll('.edit-field').forEach(field => field.style.display = 'inline');
+
+                this.style.display = 'none';
+                row.querySelector('.confirmer-btn').style.display = 'inline';
+                row.querySelector('.annuler-btn').style.display = 'inline';
+            });
+        });
+        
+        document.querySelectorAll('.confirmer-btn').forEach(button => {
         button.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
             const row = document.getElementById('row-' + id);
-            
-            // Cacher tous les champs statiques et afficher les champs d'édition
-            row.querySelectorAll('.static-field').forEach(field => field.style.display = 'none');
-            row.querySelectorAll('.edit-field').forEach(field => field.style.display = 'inline');
-   
-            const currentIdrace = row.querySelector('td:nth-child(7)').getAttribute('data-idrace');
 
-            const formData = {
-                'numsire': id,
-                'nomcheval': row.querySelector('input[name="nomcheval"]').value,
-                'datenaissancecheval': row.querySelector('input[name="datenaissancecheval"]').value,
-                'garot': row.querySelector('input[name="garot"]').value,
-                'idrobe': currentIdrobe, // Utiliser la valeur actuelle
-                'idrace': currentIdrace, // Utiliser la valeur actuelle
-                'action': 'modifier'
-            };
+            // Récupérer les valeurs modifiées
+            const nomcavalier = row.querySelector('input[name="nomcavalier"]').value;
+            const prenomcavalier = row.querySelector('input[name="prenomcavalier"]').value;
+            const datenaissancecavalier = row.querySelector('input[name="datenaissancecavalier"]').value;
+            const nomresponsable = row.querySelector('input[name="nomresponsable"]').value;
+            const rueresponsable = row.querySelector('input[name="rueresponsable"]').value;
+            const telresponsable = row.querySelector('input[name="telresponsable"]').value;
+            const emailresponsable = row.querySelector('input[name="emailresponsable"]').value;
+            const numlicence = row.querySelector('input[name="numlicence"]').value;
+            const numassurance = row.querySelector('input[name="numassurance"]').value;
+            const idcommune21 = row.querySelector('input[name="idcommune21"]').value;
+            const idgalop22 = row.querySelector('input[name="idgalop22"]').value;
 
-            // Créer le formulaire avec les données
+            // Soumettre via un formulaire caché
             const form = document.createElement('form');
+            form.action = 'cavalier_traitement.php';
             form.method = 'POST';
-            form.action = 'traitement.cavalerie.php';
-
-            // Ajouter les champs cachés
-            Object.entries(formData).forEach(([key, value]) => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = value;
-                form.appendChild(input);
-            });
-
+            form.innerHTML = `
+                <input type="hidden" name="idcavalier" value="${id}">
+                <input type="hidden" name="nomcavalier" value="${nomcavalier}">
+                <input type="hidden" name="prenomcavalier" value="${prenomcavalier}">
+                <input type="hidden" name="datenaissancecavalier" value="${datenaissancecavalier}">
+                <input type="hidden" name="nomresponsable" value="${nomresponsable}">
+                <input type="hidden" name="rueresponsable" value="${rueresponsable}">
+                <input type="hidden" name="telresponsable" value="${telresponsable}">
+                <input type="hidden" name="emailresponsable" value="${emailresponsable}">
+                <input type="hidden" name="numlicence" value="${numlicence}">
+                <input type="hidden" name="numassurance" value="${numassurance}">
+                <input type="hidden" name="idcommune" value="${idcommune21}">
+                <input type="hidden" name="idgalop" value="${idgalop22}">
+                <input type="hidden" name="action" value="modifier">
+            `;
             document.body.appendChild(form);
             form.submit();
         });
     });
 
-    // Gestion des boutons d'ajout de photo
-    document.querySelectorAll('.ajouter-photo-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const id = this.getAttribute('data-id');
-            const row = document.getElementById('row-' + id);
-            const photoUrl = row.querySelector('.photo-url').value;
-
-            if (!photoUrl) {
-                alert('Veuillez entrer une URL de photo valide');
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append('numsire', id);
-            formData.append('photo_url', photoUrl);
-            formData.append('action', 'ajouter_photo');
-
-            fetch('traitement.cavalerie.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                alert('Photo ajoutée avec succès');
-                location.reload();
-            })
-            .catch(error => {
-                console.error('Erreur:', error);
-                alert('Erreur lors de l\'ajout de la photo');
+        // Quand le bouton "Annuler" est cliqué
+        document.querySelectorAll('.annuler-btn').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.stopPropagation();
+                const id = this.getAttribute('data-id');
+                const row = document.getElementById('row-' + id);
+                resetRow(row);
             });
         });
-    });
 
-    $(document).ready(function() {
-        $('.photo-select').on('change', function() {
-            const numsire = $(this).data('numsire');
-            const idphoto = $(this).val();
-            if (!idphoto) return;
-
-            $.ajax({
-                url: 'traitement.cavalerie.php',
-                method: 'POST',
-                data: {
-                    action: 'update_photo_numsire',
-                    idphoto: idphoto,
-                    numsire: numsire
-                },
-                success: function(response) {
-                    try {
-                        const data = JSON.parse(response);
-                        if (data.success) {
-                            location.reload();
-                        } else {
-                            alert('Erreur lors de la mise à jour de la photo');
-                        }
-                    } catch (e) {
-                        console.error('Erreur de parsing JSON:', e);
-                        alert('Erreur lors du traitement de la réponse');
-                    }
-                }
+        // Empêcher la propagation du clic dans les champs d'édition
+        document.querySelectorAll('.edit-field').forEach(field => {
+            field.addEventListener('click', function(event) {
+                event.stopPropagation();
             });
         });
-    });
-
-    $(document).ready(function() {
-        // Gestionnaire pour les boutons refresh (valider)
-        $('.refresh-btn').on('click', function() {
-            const numsire = $(this).data('numsire');
-            const selectElement = $(this).siblings('.photo-select');
-            const idphoto = selectElement.val();
-            
-            if (!idphoto) {
-                alert('Veuillez sélectionner une photo');
-                return;
-            }
-
-            $.ajax({
-                url: 'traitement.cavalerie.php',
-                method: 'POST',
-                data: {
-                    action: 'update_photo_numsire',
-                    idphoto: idphoto,
-                    numsire: numsire
-                },
-                success: function(response) {
-                    try {
-                        const data = JSON.parse(response);
-                        if (data.success) {
-                            location.reload();
-                        } else {
-                            alert('Erreur lors de la mise à jour de la photo');
-                        }
-                    } catch (e) {
-                        console.error('Erreur de parsing JSON:', e);
-                        alert('Erreur lors du traitement de la réponse');
-                    }
-                }
-            });
-        });
-    });
-
-    function openModal(imgSrc) {
-        const modal = document.getElementById("imageModal");
-        const modalImg = document.getElementById("modalImage");
-        modal.style.display = "block";
-        modalImg.src = imgSrc;
-    }
-
-    // Fermer avec le X
-    document.querySelector(".close").onclick = function() {
-        document.getElementById("imageModal").style.display = "none";
-    }
-
-    // Fermer en cliquant en dehors de l'image
-    document.getElementById("imageModal").onclick = function(e) {
-        if (e.target === this) {
-            this.style.display = "none";
-        }
-    }
-</script>
+    </script>
 </body>
-</html> 
+</html>
