@@ -8,19 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="../../css/modal.css">
-    <style>
-        #CavalerieTable img {
-            object-fit: cover;
-            border-radius: 5px;
-            display: block;
-            margin: 0 auto;
-        }
-        
-        #CavalerieTable td {
-            vertical-align: middle;
-            text-align: center;
-        }
-    </style>
+    
 </head>
 <body>
 
@@ -39,7 +27,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
 
 <h1>Ajouter un Cheval</h1>
 
-<form action="traitement.cavalerie.php" method="POST" enctype="multipart/form-data">
+<form action="traitement.cavalerie.php" method="POST" enctype="multipart/form-data" class="form-generic">
     <label for="nomcheval">Nom du Cheval:</label>
     <input type="text" name="nomcheval" required><br>
 
@@ -178,7 +166,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
                 <td>
                     <form action="traitement.cavalerie.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cheval?');">
                         <input type="hidden" name="supprimer" value="<?= $cheval->getNumsire() ?>">
-                        <button type="submit">Supprimer</button>
+                        <button class="supprimer-btn" type="submit">Supprimer</button>
                     </form>
                 </td>
             </tr>
@@ -206,37 +194,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
             // Cacher tous les champs statiques et afficher les champs d'édition
             row.querySelectorAll('.static-field').forEach(field => field.style.display = 'none');
             row.querySelectorAll('.edit-field').forEach(field => field.style.display = 'inline');
-            
-            // Gérer l'affichage des boutons
-            row.querySelector('.modifier-btn').style.display = 'none';
-            row.querySelector('.confirmer-btn').style.display = 'inline';
-            row.querySelector('.annuler-btn').style.display = 'inline';
-        });
-    });
-
-    document.querySelectorAll('.annuler-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const id = this.getAttribute('data-id');
-            const row = document.getElementById('row-' + id);
-            
-            // Afficher tous les champs statiques et cacher les champs d'édition
-            row.querySelectorAll('.static-field').forEach(field => field.style.display = 'inline');
-            row.querySelectorAll('.edit-field').forEach(field => field.style.display = 'none');
-            
-            // Gérer l'affichage des boutons
-            row.querySelector('.modifier-btn').style.display = 'inline';
-            row.querySelector('.confirmer-btn').style.display = 'none';
-            row.querySelector('.annuler-btn').style.display = 'none';
-        });
-    });
-
-    document.querySelectorAll('.confirmer-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const id = this.getAttribute('data-id');
-            const row = document.getElementById('row-' + id);
-            
-            // Récupérer les valeurs actuelles de idrobe et idrace
-            const currentIdrobe = row.querySelector('td:nth-child(6)').getAttribute('data-idrobe');
+   
             const currentIdrace = row.querySelector('td:nth-child(7)').getAttribute('data-idrace');
 
             const formData = {
