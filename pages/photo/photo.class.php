@@ -29,12 +29,12 @@ class Photo {
     public function saveLink() {
         try {
             global $con;
-            $sql = "INSERT INTO photo (nom_photo, lien, numsire, idevenement) VALUES (:nom_photo, :lien, 0, :idevenement)";
+            $sql = "INSERT INTO photo (nom_photo, lien, numsire, idevenement) VALUES (:nom_photo, :lien, :numsire, 0)";
             $stmt = $con->prepare($sql);
             $data = [
                 ':nom_photo' => $this->nom_photo,
                 ':lien' => $this->lien,
-                ':idevenement' => $this->idevenement
+                ':numsire' => $this->numsire
             ];
             return $stmt->execute($data);
         } catch (PDOException $e) {
@@ -43,23 +43,34 @@ class Photo {
         }
     }
 
-    public function getPhotoByNumSire($numsire) {
-        global $con;
-        $sql = "SELECT * FROM photo";
-        $stmt = $con->prepare($sql);
-        $stmt->execute();
-        $photos = [];
-        
-        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            $photo = new Photo();
-            $photo->setIdPhoto($row['idphoto']);
-            $photo->setnom_photo($row['nom_photo']);
-            $photo->setLien($row['lien']);
-            $photo->setNumSire($row['numsire']);
-            $photo->setIdEvenement($row['idevenement']);
-            $photos[] = $photo;
+    public function getPhotoByNumSire($numsire = 0) {
+        try {
+            global $con;
+            $sql = "SELECT * FROM photo";
+            if ($numsire !== 0) {
+                $sql .= " WHERE numsire = :numsire";
+            }
+            $stmt = $con->prepare($sql);
+            if ($numsire !== 0) {
+                $stmt->bindParam(':numsire', $numsire);
+            }
+            $stmt->execute();
+            $photos = [];
+            
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $photo = new Photo();
+                $photo->setIdPhoto($row['idphoto']);
+                $photo->setnom_photo($row['nom_photo']);
+                $photo->setLien($row['lien']);
+                $photo->setNumSire($row['numsire']);
+                $photo->setIdEvenement($row['idevenement']);
+                $photos[] = $photo;
+            }
+            return $photos;
+        } catch (PDOException $e) {
+            error_log("Erreur lors de la récupération des photos: " . $e->getMessage());
+            return false;
         }
-        return $photos;
     }
 
     public function update() {
@@ -89,13 +100,18 @@ class Photo {
     public function updateNumSire($idphoto, $numsire) {
         try {
             global $con;
-            $sql = "UPDATE photo SET numsire = :numsire WHERE idphoto = :idphoto";
-            $stmt = $con->prepare($sql);
-            $data = [
+            // Mettre à jour l'ancien numsire à 0
+            $sql1 = "UPDATE photo SET numsire = 0 WHERE numsire = :numsire";
+            $stmt1 = $con->prepare($sql1);
+            $stmt1->execute([':numsire' => $numsire]);
+
+            // Mettre à jour la photo sélectionnée avec le nouveau numsire
+            $sql2 = "UPDATE photo SET numsire = :numsire WHERE idphoto = :idphoto";
+            $stmt2 = $con->prepare($sql2);
+            return $stmt2->execute([
                 ':numsire' => $numsire,
                 ':idphoto' => $idphoto
-            ];
-            return $stmt->execute($data);
+            ]);
         } catch (PDOException $e) {
             error_log("Erreur lors de la mise à jour du numsire: " . $e->getMessage());
             return false;
@@ -113,6 +129,14 @@ class Photo {
             error_log("Erreur lors de la récupération de la photo: " . $e->getMessage());
             return false;
         }
+    }
+
+    public function afficherPhoto() {
+        return "<div class='photo-container'>
+                    <img src='{$this->lien}' alt='{$this->nom_photo}' style='max-width: 300px; height: auto;'>
+                    <p>Nom: {$this->nom_photo}</p>
+                    <p>NumSire: {$this->numsire}</p>
+                </div>";
     }
 }
 ?>
