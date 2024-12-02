@@ -42,16 +42,17 @@ if (isset($_POST['logout'])) {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header class="header-container">
+        <a href="../../pages/menu/menu.php"><button id="menu-button">Menu</button></a>
         <div class="user-info">
-            <button id="menu-button">Menu</button>
-            <span>Bienvenue, <strong><?php echo htmlspecialchars($user_pseudo); ?></strong></span>
-            <form action="" method="post" class="logout-form" style="all:unset">
-                <button type="submit" name="logout">Déconnexion</button>
-            </form>
+            Bienvenue, <strong><?php echo htmlspecialchars($user_pseudo); ?></strong>
         </div>
+        <form action="" method="post" class="logout-form" style="all:unset">
+            <button type="submit" name="logout">Déconnexion</button>
+        </form>
     </header>
 
     <div class="sidebar" style="z-index: 0; height: 100%; overflow-y: auto;">
