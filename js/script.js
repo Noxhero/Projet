@@ -9,7 +9,8 @@ function autocompletcommune() {
             url: '../../includes/ajax_refresh.php',
             type: 'POST',
             data: {
-                keyword: keyword
+                keyword: keyword,
+                type: 'commune'
             },
             success: function(data) {
                 $('#' + nomListId).show();
@@ -39,6 +40,7 @@ function autocompletcommune21(cavalier_id) {
             type: 'POST',
             data: {
                 keyword21: keyword21,
+                type: 'commune',
                 cavalier_id: cavalier_id
 
             },
@@ -291,6 +293,61 @@ function set_item_cavalier(nom, id) {
     $('#nom_list_cavalier').hide();
 }
 
+
+function autocompletCours() {
+    var min_length = 2;
+    var keyword = $('#nom_idcours').val();
+
+    if (keyword.length >= min_length) {
+        $.ajax({
+            url: '../../includes/ajax_refresh.php',
+            type: 'POST',
+            data: {
+                keyword: keyword,
+                type: 'cours'
+            },
+            success: function(data) {
+                $('#nom_list_idcours').show();
+                $('#nom_list_idcours').html(data);
+            }
+        });
+    } else {
+        $('#nom_list_idcours').hide();
+    }
+}
+
+function set_item_cours(nom, id) {
+    $('#nom_idcours').val(nom);
+    $('#idcours').val(id);
+    $('#nom_list_idcours').hide();
+}
+
+
+
+
+    if (keyword.length >= min_length) {
+        $.ajax({
+            url: '../../includes/ajax_refresh.php',
+            type: 'POST',
+            data: {
+                keyword: keyword,
+                type: 'cavalier',
+                type2: 'modif',
+                rowId: rowId
+            },
+            success: function(data) {
+                $('#nom_list_idcavalier_' + rowId).show();
+                $('#nom_list_idcavalier_' + rowId).html(data);
+            }
+        });
+    } else {
+        $('#nom_list_idcavalier_' + rowId).hide();
+    }
+
+
+
+
+//scroll bar
 document.addEventListener('DOMContentLoaded', function() {
     const menuButton = document.getElementById('menu-button');
     const sidebar = document.querySelector('.sidebar');
@@ -336,3 +393,61 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500); // Correspond à la durée de l'animation
     });
 });
+
+function autocompletcours21(row_id) {
+    var min_length = 2;
+    var keyword = $('#nom_idcours21_' + row_id).val();
+
+    if (keyword.length >= min_length) {
+        $.ajax({
+            url: '../../includes/ajax_refresh.php',
+            type: 'POST',
+            data: {
+                keyword21: keyword,
+                type: 'cours',
+                row_id: row_id
+            },
+            success: function(data) {
+                $('#nom_list_idcours21_' + row_id).show();
+                $('#nom_list_idcours21_' + row_id).html(data);
+            }
+        });
+    } else {
+        $('#nom_list_idcours21_' + row_id).hide();
+    }
+}
+
+function autocompletcavalier22(row_id) {
+    var min_length = 2;
+    var keyword = $('#nom_idcavalier22_' + row_id).val();
+
+    if (keyword.length >= min_length) {
+        $.ajax({
+            url: '../../includes/ajax_refresh.php',
+            type: 'POST',
+            data: {
+                keyword22: keyword,
+                type: 'cavalier',
+                row_id: row_id
+            },
+            success: function(data) {
+                $('#nom_list_idcavalier22_' + row_id).show();
+                $('#nom_list_idcavalier22_' + row_id).html(data);
+            }
+        });
+    } else {
+        $('#nom_list_idcavalier22_' + row_id).hide();
+    }
+}
+
+function set_item_cours21(libelle, id, row_id) {
+    $('#nom_idcours21_' + row_id).val(libelle);
+    $('#idcours21_' + row_id).val(id);
+    $('#nom_list_idcours21_' + row_id).hide();
+}
+
+function set_item_cavalier22(nom, id, row_id) {
+    $('#nom_idcavalier22_' + row_id).val(nom);
+    $('#idcavalier22_' + row_id).val(id);
+    $('#nom_list_idcavalier22_' + row_id).hide();
+}
