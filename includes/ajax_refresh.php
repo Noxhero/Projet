@@ -197,4 +197,76 @@ if(isset($_POST['keyword']) && isset($_POST['type']) && $_POST['type'] === 'chev
     }
 }
 
+//cours 
+
+if(isset($_POST['keyword']) && isset($_POST['type']) && $_POST['type'] === 'cours') {
+    $keyword = '%'.$_POST['keyword'].'%';
+    
+    $sql = "SELECT  idcours, libcours FROM cours 
+            WHERE libcours LIKE :var 
+            AND afficher = true 
+            ORDER BY libcours ASC LIMIT 0, 10";
+    
+    $req = $con->prepare($sql);
+    $req->bindParam(':var', $keyword, PDO::PARAM_STR);
+    $req->execute();
+    
+    while($res = $req->fetch(PDO::FETCH_ASSOC)) {
+        $nomCours = str_replace($_POST['keyword'], '<b>'.$_POST['keyword'].'</b>', $res['libcours']);
+        
+        echo '<li onclick="set_item_cours(\''.str_replace("'", "\'", $res['libcours']).'\',\''
+            .str_replace("'", "\'", $res['idcours']) .'\''
+            .')">'
+            .$nomCours.'</li>';
+    }
+}
+
+// Pour les cours en mode modification
+if(isset($_POST['keyword21']) && isset($_POST['type']) && $_POST['type'] === 'cours') {
+    $keyword = '%'.$_POST['keyword21'].'%';
+    
+    $sql = "SELECT idcours, libcours FROM cours 
+            WHERE libcours LIKE :var 
+            AND afficher = true 
+            ORDER BY libcours ASC LIMIT 0, 10";
+    
+    $req = $con->prepare($sql);
+    $req->bindParam(':var', $keyword, PDO::PARAM_STR);
+    $req->execute();
+    
+    while($res = $req->fetch(PDO::FETCH_ASSOC)) {
+        $nomCours = str_replace($_POST['keyword21'], '<b>'.$_POST['keyword21'].'</b>', $res['libcours']);
+        
+        echo '<li onclick="set_item_cours21(\''
+            .str_replace("'", "\'", $res['libcours']).'\',\''
+            .str_replace("'", "\'", $res['idcours']).'\',\''
+            .$_POST['row_id'].'\')">'
+            .$nomCours.'</li>';
+    }
+}
+
+// Pour les cavaliers en mode modification
+if(isset($_POST['keyword22']) && isset($_POST['type']) && $_POST['type'] === 'cavalier') {
+    $keyword = '%'.$_POST['keyword22'].'%';
+    
+    $sql = "SELECT idcavalier, nomcavalier FROM cavalier 
+            WHERE nomcavalier LIKE :var 
+            AND afficher = true 
+            ORDER BY nomcavalier ASC LIMIT 0, 10";
+    
+    $req = $con->prepare($sql);
+    $req->bindParam(':var', $keyword, PDO::PARAM_STR);
+    $req->execute();
+    
+    while($res = $req->fetch(PDO::FETCH_ASSOC)) {
+        $nomCavalier = str_replace($_POST['keyword22'], '<b>'.$_POST['keyword22'].'</b>', $res['nomcavalier']);
+        
+        echo '<li onclick="set_item_cavalier22(\''
+            .str_replace("'", "\'", $res['nomcavalier']).'\',\''
+            .str_replace("'", "\'", $res['idcavalier']).'\',\''
+            .$_POST['row_id'].'\')">'
+            .$nomCavalier.'</li>';
+    }
+}
+
 ?>
