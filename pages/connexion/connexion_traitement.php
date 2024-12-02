@@ -2,10 +2,10 @@
 include '../../includes/bdd.inc.php';
 session_start();  
 
-if (isset($_POST["email"]) && isset($_POST["mdp"])) {
+if (isset($_POST["email"]) && isset($_POST["password"])) {
 
     $email = $_POST['email'];
-    $mdp = $_POST['mdp'];  
+    $mdp = $_POST['password'];  
 
     $requete = $con->prepare("SELECT * FROM compte WHERE email = :email");
     $requete->bindParam(':email', $email);
@@ -20,7 +20,7 @@ if (isset($_POST["email"]) && isset($_POST["mdp"])) {
             $_SESSION['user_pseudo'] = $user['pseudo'];
 
             
-            header("Location: ../cours/cours.php");
+            header("Location: ../menu/menu.php");
             exit();
         } 
     } else {
