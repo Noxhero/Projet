@@ -5,7 +5,7 @@ body {
     padding: 0;
     background-color: #f0f4f8;
     color: #333;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.6s ease;
 }
 
 .container {
@@ -100,7 +100,7 @@ nav a::before {
         rgba(100, 255, 218, 0.8) 0%,
         transparent 70%);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.6s ease;
     transform: scale(0.5);
     z-index: -1;
 }
@@ -729,6 +729,8 @@ header::before {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;
     z-index: 10;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
 }
 
 .prev { left: 40px; }
@@ -841,7 +843,7 @@ footer p {
     font-size: 1.1em;
     text-align: center;
     line-height: 1.8;
-    transition: all 0.3s ease;
+    transition: all 0.6s ease;
     position: relative;
 }
 
@@ -867,7 +869,7 @@ footer p span::after {
     background: linear-gradient(90deg, #64ffda, transparent);
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.3s ease;
+    transition: transform 0.6s ease;
 }
 
 footer p:hover span::after {
@@ -882,7 +884,7 @@ footer .separator {
     border-radius: 2px;
     margin: 20px auto;
     opacity: 0.5;
-    transition: all 0.3s ease;
+    transition: all 0.6s ease;
 }
 
 footer:hover .separator {
@@ -901,7 +903,7 @@ footer .copyright {
     border-radius: 50px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(100, 255, 218, 0.1);
-    transition: all 0.3s ease;
+    transition: all 0.6s ease;
 }
 
 footer .copyright:hover {
@@ -928,7 +930,7 @@ footer {
 footer a {
     color: #64ffda;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.6s ease;
     position: relative;
     padding: 5px 10px;
 }
@@ -1429,37 +1431,160 @@ footer .container > *:nth-child(3) { animation-delay: 0.3s; }
     font-style: italic; /* Italique pour les citations */
 }
 
+/* Section Tarif des Cours */
+.pricing {
+    padding: 100px 20px;
+    background: linear-gradient(120deg, #112240 0%, #0a192f 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Effet de fond animé */
+.pricing::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(100, 255, 218, 0.03) 0%, transparent 25%),
+        radial-gradient(circle at 80% 70%, rgba(255, 107, 107, 0.03) 0%, transparent 25%);
+    animation: pricingShift 15s infinite alternate;
+}
+
+.pricing h2 {
+    color: #64ffda;
+    font-size: 3.5em;
+    text-align: center;
+    margin-bottom: 70px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    position: relative;
+    text-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+}
+
 .pricing-table {
-    display: flex; /* Utiliser flexbox pour aligner les éléments */
+    display: flex; /* Utiliser flexbox pour aligner les éléments sur la même ligne */
     justify-content: center; /* Centrer les éléments */
-    flex-wrap: wrap; /* Permettre aux éléments de passer à la ligne */
-    margin: 20px 0; /* Marge autour de la table de prix */
+    gap: 30px; /* Espacement entre les cartes */
+    flex-wrap: wrap; /* Permettre aux éléments de passer à la ligne si nécessaire */
+}
+
+/* Carte de prix */
+.pricing-item {
+    background: linear-gradient(145deg, rgba(17, 34, 64, 0.9), rgba(0, 0, 0, 0.5)); /* Dégradé pour le fond */
+    border: 1px solid rgba(100, 255, 218, 0.5); /* Bordure plus visible */
+    border-radius: 20px; /* Coins arrondis */
+    padding: 30px; /* Espacement interne */
+    width: 320px; /* Largeur fixe pour les éléments */
+    text-align: center; /* Centrer le texte */
+    transition: transform 0.4s ease, box-shadow 0.4s ease; /* Transition pour l'effet de survol */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Ombre pour donner de la profondeur */
+    position: relative; /* Position relative pour les effets de pseudo-éléments */
+    overflow: hidden; /* Pour masquer les éléments qui débordent */
+}
+
+/* Effet au survol */
+.pricing-item:hover {
+    transform: scale(1.05) rotateY(10deg); /* Légère augmentation de taille et rotation */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5); /* Ombre plus marquée au survol */
+}
+
+/* Animation d'apparition */
+@keyframes priceItemAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Départ en bas */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Fin à la position normale */
+    }
 }
 
 .pricing-item {
-    background: #f1f1f1; /* Fond gris clair pour chaque élément */
-    border-radius: 10px; /* Coins arrondis */
-    padding: 20px; /* Espacement interne */
-    margin: 15px; /* Marge entre les éléments */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre pour donner de la profondeur */
-    width: 250px; /* Largeur fixe pour les éléments */
-    text-align: center; /* Centrer le texte */
-    transition: transform 0.3s; /* Transition pour l'effet de survol */
+    animation: priceItemAppear 0.5s ease forwards; /* Animation d'apparition */
 }
 
-.pricing-item:hover {
-    transform: translateY(-5px); /* Effet de levée au survol */
+.pricing-item:nth-child(1) { animation-delay: 0.2s; }
+.pricing-item:nth-child(2) { animation-delay: 0.4s; }
+.pricing-item:nth-child(3) { animation-delay: 0.6s; }
+
+/* Effet de brillance LED */
+.pricing-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle, rgba(100, 255, 218, 0.3) 0%, transparent 70%); /* Effet de LED */
+    opacity: 0; /* Initialement invisible */
+    transition: opacity 0.4s ease; /* Transition pour l'effet de survol */
+    border-radius: 20px; /* Coins arrondis pour le pseudo-élément */
 }
 
+.pricing-item:hover::after {
+    opacity: 1; /* Rendre visible au survol */
+}
+
+/* Icône */
+.pricing-item i {
+    color: #64ffda; /* Couleur de l'icône */
+    margin-bottom: 15px; /* Espacement sous l'icône */
+    font-size: 2.5em; /* Taille de l'icône */
+    transition: transform 0.3s ease; /* Transition pour l'effet de survol */
+}
+
+.pricing-item:hover i {
+    transform: scale(1.3); /* Zoom sur l'icône au survol */
+}
+
+/* Titre du tarif */
 .pricing-item h4 {
-    margin: 0; /* Pas de marge pour le titre */
-    color: #2c3e50; /* Couleur du titre */
+    color: #ffffff; /* Couleur du titre */
+    font-size: 2em; /* Taille du titre */
+    margin: 15px 0; /* Espacement autour du titre */
+    transition: color 0.3s ease; /* Transition pour la couleur */
 }
 
+.pricing-item:hover h4 {
+    color: #64ffda; /* Changer la couleur du titre au survol */
+}
+
+/* Prix */
 .pricing-item p {
-    margin: 5px 0; /* Espacement autour des paragraphes */
-    color: #555; /* Couleur du texte */
-    font-size: 1.1em; /* Taille du texte */
+    color: #ccd6f6; /* Couleur du texte */
+    font-size: 1.8em; /* Taille du texte */
+    margin: 10px 0; /* Espacement autour du prix */
+    transition: color 0.3s ease; /* Transition pour la couleur */
+}
+
+.pricing-item:hover p {
+    color: #ff6b6b; /* Changer la couleur du prix au survol */
+}
+
+/* Style spécifique pour le formulaire */
+.pricing-item form {
+    position: relative;
+    z-index: 2; /* Z-index plus élevé que le parent */
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .pricing-table {
+        gap: 20px;
+    }
+    
+    .pricing-item {
+        width: 280px;
+        padding: 30px;
+    }
+    
+    .pricing h2 {
+        font-size: 2.5em;
+    }
 }
 
 /* Styles pour le carrousel */
@@ -1532,7 +1657,7 @@ footer .container > *:nth-child(3) { animation-delay: 0.3s; }
     background-size: 400% 400%;
     animation: gradientMove 3s ease infinite;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.6s ease;
 }
 
 /* Fond intérieur */
@@ -1752,156 +1877,7 @@ footer p {
     margin: 5px 0; /* Espacement autour des paragraphes */
 }
 
-/* Section Tarif des Cours */
-.pricing {
-    padding: 100px 20px;
-    background: linear-gradient(120deg, #112240 0%, #0a192f 100%);
-    position: relative;
-    overflow: hidden;
-}
 
-/* Effet de fond animé */
-.pricing::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 30%, rgba(100, 255, 218, 0.03) 0%, transparent 25%),
-        radial-gradient(circle at 80% 70%, rgba(255, 107, 107, 0.03) 0%, transparent 25%);
-    animation: pricingShift 15s infinite alternate;
-}
-
-.pricing h2 {
-    color: #64ffda;
-    font-size: 3.5em;
-    text-align: center;
-    margin-bottom: 70px;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    position: relative;
-    text-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
-}
-
-.pricing-table {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.pricing-item {
-    background: rgba(17, 34, 64, 0.6);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(100, 255, 218, 0.1);
-    border-radius: 20px;
-    padding: 40px;
-    width: 300px;
-    text-align: center;
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    position: relative;
-    overflow: visible; /* Changé de 'hidden' à 'visible' */
-    z-index: 1; /* Ajout d'un z-index */
-}
-
-/* Icône */
-.pricing-item i {
-    font-size: 3em;
-    color: #64ffda;
-    margin-bottom: 25px;
-    transition: all 0.5s ease;
-}
-
-/* Titre du tarif */
-.pricing-item h4 {
-    color: #ccd6f6;
-    font-size: 1.8em;
-    margin: 20px 0;
-    transition: all 0.4s ease;
-}
-
-/* Prix */
-.pricing-item p {
-    color: #64ffda;
-    font-size: 2em;
-    font-weight: bold;
-    margin: 15px 0;
-    transition: all 0.4s ease;
-}
-
-/* Effet au survol */
-.pricing-item:hover {
-    transform: translateY(-15px) scale(1.03);
-    border-color: rgba(100, 255, 218, 0.3);
-    box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.4),
-        0 0 40px rgba(100, 255, 218, 0.2);
-}
-
-.pricing-item:hover i {
-    transform: scale(1.2);
-    color: #ff6b6b;
-}
-
-/* Animation d'apparition */
-@keyframes priceItemAppear {
-    0% {
-        opacity: 0;
-        transform: translateY(50px) scale(0.8);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.pricing-item {
-    animation: priceItemAppear 0.8s cubic-bezier(0.23, 1, 0.32, 1) backwards;
-}
-
-.pricing-item:nth-child(1) { animation-delay: 0.2s; }
-.pricing-item:nth-child(2) { animation-delay: 0.4s; }
-.pricing-item:nth-child(3) { animation-delay: 0.6s; }
-
-/* Effet de brillance */
-.pricing-item::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        125deg, 
-        transparent 0%, 
-        rgba(100, 255, 218, 0.1) 30%, 
-        transparent 60%
-    );
-    border-radius: 20px;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-}
-
-.pricing-item:hover::after {
-    opacity: 1;
-}
-
-/* Media Queries */
-@media (max-width: 768px) {
-    .pricing-table {
-        gap: 20px;
-    }
-    
-    .pricing-item {
-        width: 280px;
-        padding: 30px;
-    }
-    
-    .pricing h2 {
-        font-size: 2.5em;
-    }
-}
 
 /* Section Horaire des Cours */
 .schedule {
@@ -1972,12 +1948,12 @@ footer p {
     color: #ccd6f6;
     padding: 20px;
     border-bottom: 1px solid rgba(100, 255, 218, 0.1);
-    transition: all 0.3s ease;
+    transition: all 0.6s ease;
 }
 
 /* Effet de survol sur les lignes */
 .schedule-table tbody tr {
-    transition: all 0.3s ease;
+    transition: all 0.6s ease;
 }
 
 .schedule-table tbody tr:hover {
@@ -2140,7 +2116,7 @@ footer p {
     color: #ccd6f6;
     font-size: 1.8em;
     margin: 15px 0;
-    transition: color 0.3s ease;
+    transition: color 0.6s ease;
 }
 
 /* Description */
@@ -2270,7 +2246,7 @@ footer p {
     color: #ccd6f6;
     font-size: 1.6em;
     margin: 20px;
-    transition: color 0.3s ease;
+    transition: color 0.6s ease;
 }
 
 .blog-post p {
@@ -2291,7 +2267,7 @@ footer p {
     border-radius: 30px;
     font-size: 1.1em;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.6s ease;
     position: relative;
     overflow: hidden;
 }
@@ -2409,7 +2385,7 @@ footer {
     background: rgba(17, 34, 64, 0.6);
     color: #ccd6f6;
     font-size: 1em;
-    transition: all 0.3s ease;
+    transition: all 0.6s ease;
 }
 
 .form-group input:focus,
@@ -2428,7 +2404,7 @@ footer {
     border-radius: 30px;
     font-size: 1.1em;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.6s ease;
     margin-top: 20px;
 }
 
@@ -2438,11 +2414,7 @@ footer {
     box-shadow: 0 0 20px rgba(100, 255, 218, 0.4);
 }
 
-/* Style spécifique pour le formulaire */
-.pricing-item form {
-    position: relative;
-    z-index: 2; /* Z-index plus élevé que le parent */
-}
+
 
 /* Assurer que les inputs sont cliquables */
 .form-group {
@@ -2536,3 +2508,113 @@ footer {
 .letter {
     animation: glow 2s ease-in-out infinite;
 }
+
+
+
+/* Styles pour la flèche de retour en haut */
+.scroll-to-top {
+    position: fixed; /* Fixe la position */
+    bottom: 30px; /* Positionner à 30px du bas */
+    right: 30px; /* Positionner à 30px de la droite */
+    background: linear-gradient(135deg, #4a90e2, #6ab7f9); /* Dégradé bleu clair */
+    color: white; /* Couleur du texte */
+    border: none;
+    border-radius: 50%; /* Rendre la flèche ronde */
+    width: 70px; /* Largeur de la flèche */
+    height: 70px; /* Hauteur de la flèche */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer; /* Curseur pointer pour le bouton */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(74, 144, 226, 0.5); /* Ombre pour un effet de profondeur et effet LED */
+    transition: background 0.6s ease, transform 0.6s ease, box-shadow 0.6s ease; /* Transition pour l'effet de survol */
+    z-index: 1000; /* Assurez-vous que la flèche est au-dessus de tous les éléments */
+    display: none; /* Masquer par défaut */
+    font-size: 28px; /* Taille de l'icône */
+}
+
+/* Animation d'explosion au clic */
+@keyframes explode {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Animation de pulsation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(74, 144, 226, 0.5);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 30px rgba(74, 144, 226, 1), 0 0 40px rgba(74, 144, 226, 0.5);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(74, 144, 226, 0.5);
+    }
+}
+
+/* Animation de clignotement LED */
+@keyframes ledGlow {
+    0% {
+        box-shadow: 0 4px 15px rgba(74, 144, 226, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(74, 144, 226, 1), 0 0 40px rgba(74, 144, 226, 0.5);
+    }
+    100% {
+        box-shadow: 0 4px 15px rgba(74, 144, 226, 0.5);
+    }
+}
+
+.scroll-to-top {
+    animation: ledGlow 1s infinite; /* Animation LED par défaut en bleu */
+}
+
+.scroll-to-top:hover {
+    background: linear-gradient(135deg, #ff007f, #ff7f00); /* Teinte flashy au survol */
+    transform: scale(1.1); /* Légère augmentation de la taille au survol */
+    animation: explode 0.5s ease, ledGlowRed 1s infinite; /* Animation d'explosion et clignotement LED au survol */
+}
+
+/* Animation LED rouge au survol */
+@keyframes ledGlowRed {
+    0% {
+        box-shadow: 0 4px 15px rgba(255, 0, 127, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(255, 0, 127, 1), 0 0 40px rgba(255, 0, 127, 0.5);
+    }
+    100% {
+        box-shadow: 0 4px 15px rgba(255, 0, 127, 0.5);
+    }
+}
+
+.scroll-to-top:active {
+    animation: explode 0.5s ease; /* Animation d'explosion au clic */
+    transform: scale(0.95); /* Réduction de la taille lors du clic */
+}
+
+/* Styles pour l'icône */
+.scroll-to-top i {
+    font-size: 32px; /* Taille de l'icône */
+    transition: transform 0.6s ease; /* Transition pour l'icône */
+}
+
+.scroll-to-top:hover i {
+    transform: translateY(-5px) rotate(360deg); /* Légère élévation et rotation de l'icône au survol */
+}
+
+
+

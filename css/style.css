@@ -8,7 +8,7 @@ body {
     line-height: 1.6;
 }
 
-h1 {
+h1,h2 {
     text-align: center;
     margin-top: 30px;
     font-size: 2.5em;
@@ -16,61 +16,78 @@ h1 {
     animation: fadeIn 1.5s ease-out;
 }
 
-h2, h3 {
+.le-h1, .le-h2{
+    padding: 50px;
+}
+
+
+h3 {
     color: #2c3e50; /* Bleu foncé pour un contraste subtil mais clair */
     font-weight: 500;
 }
 
-form {
-    width: 60%;
+/* Styles généraux pour tous les formulaires */
+.form-generic {
+    width: 70%; /* Largeur du formulaire */
     margin: 40px auto;
     padding: 30px;
     border-radius: 10px;
-    background: #ffffff; /* Fond blanc pour contraste doux avec le gris du body */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    animation: slideUp 1s ease-out;
+    background: #ffffff; /* Fond blanc */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre pour profondeur */
+    transition: box-shadow 0.3s ease; /* Transition pour l'ombre */
 }
 
-/* Labels */
-form label {
-    display: block;
+.form-generic:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Ombre plus marquée au survol */
+}
+
+.form-generic label {
+    font-weight: bold; /* Labels en gras */
     margin-top: 15px;
-    font-weight: 600;
-    font-size: 1.1em;
-    color: #34495e; /* Gris-bleu pour garder la lisibilité tout en restant subtil */
+    display: block; /* Afficher les labels en bloc */
+    color: #34495e; /* Couleur des labels */
+    margin-bottom: 5px; /* Espacement inférieur */
 }
 
-/* Inputs */
-form input[type="text"],
-form input[type="time"],
-form input[type="submit"] {
+.form-generic input[type="text"],
+.form-generic input[type="time"],
+.form-generic input[type="submit"],
+.form-generic input[type="date"],
+.form-generic input[type="file"] {
     width: 100%;
     padding: 14px;
     margin-top: 8px;
-    border: 1px solid #d1d8e0; /* Gris très clair pour les bordures */
+    border: 1px solid #d1d8e0; /* Bordure gris clair */
     border-radius: 6px;
     box-sizing: border-box;
     font-size: 1em;
-    background-color: #f7fafc; /* Fond très clair et frais pour les champs */
-    transition: all 0.3s ease-in-out;
+    background-color: #f7fafc; /* Fond très clair */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transition pour les bordures */
 }
 
-form input[type="submit"] {
-    background-color: #1abc9c; /* Vert menthe frais pour le bouton */
+.form-generic input[type="text"]:focus,
+.form-generic input[type="time"]:focus,
+.form-generic input[type="date"]:focus,
+.form-generic input[type="file"]:focus {
+    border-color: #1abc9c; /* Bordure verte au focus */
+    box-shadow: 0 0 5px rgba(26, 188, 156, 0.4); /* Ombre au focus */
+}
+
+.form-generic input[type="submit"] {
+    background-color: #3498db; /* Bleu vif */
     color: white;
     border: none;
     cursor: pointer;
     font-weight: bold;
+    margin-top: 20px; /* Espacement supérieur */
+    padding: 14px; /* Espacement intérieur */
+    border-radius: 6px; /* Coins arrondis */
+    transition: background-color 0.3s ease, transform 0.3s; /* Transition pour l'effet de survol */
 }
 
-form input[type="submit"]:hover {
-    background-color: #16a085; /* Teinte un peu plus foncée pour l'effet de survol */
-}
-
-form input:focus {
-    border-color: #1abc9c;
-    outline: none;
-    box-shadow: 0 0 5px rgba(26, 188, 156, 0.4);
+.form-generic input[type="submit"]:hover {
+    background-color: #2980b9; /* Teinte plus foncée au survol */
+    transform: translateY(-2px); /* Légère élévation au survol */
 }
 
 /* Tables */
@@ -129,14 +146,6 @@ button {
 
 button:hover {
     background: #e67e22; /* Teinte plus foncée de jaune/orange pour l'effet hover */
-}
-
-button#modifier {
-    background: #27ae60; /* Vert clair pour l'action positive */
-}
-
-button#modifier:hover {
-    background: #2ecc71; /* Un vert plus lumineux au survol */
 }
 
 /* Animations */
@@ -204,6 +213,10 @@ button#modifier:hover {
 
 /* Styles pour l'en-tête */
 .header-container {
+    position: fixed; /* Fixe la navbar en haut de l'écran */
+    top: 0;
+    width: 100%; /* Assurez-vous qu'elle prend toute la largeur */
+    z-index: 1000; /* Assurez-vous qu'elle est au-dessus des autres éléments */
     display: flex;
     justify-content: space-between; /* Espace entre les éléments */
     align-items: center; /* Centrer verticalement */
@@ -213,19 +226,12 @@ button#modifier:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre plus marquée pour donner de la profondeur */
     border-radius: 8px; /* Coins arrondis pour un aspect plus doux */
     transition: background 0.3s; /* Transition pour l'effet de survol */
-    position: relative; /* Position relative pour le z-index */
-    z-index: 10; /* Assurez-vous que l'en-tête est au-dessus de la sidebar */
 }
 
+/* Styles pour le texte de bienvenue */
 .user-info {
-    display: flex;
-    align-items: center; /* Centrer verticalement */
-    margin-right: 20px; /* Ajout d'un espace léger à droite de l'utilisateur */
-}
-
-.user-info span {
-    margin-right: 15px; /* Espacement entre le pseudo et le bouton */
-    font-weight: bold; /* Mettre en gras le pseudo */
+    flex-grow: 1; /* Permet au texte de prendre l'espace disponible */
+    text-align: center; /* Centrer le texte horizontalement */
 }
 
 .logout-form {
@@ -291,7 +297,7 @@ button#modifier:hover {
     width: 250px;
     position: fixed; /* Fixe le menu à gauche */
     top: 0;
-    left: -250px; /* Masquer la sidebar en la décalant à gauche */
+    left: -250px; /* Masquer la sidebar en la dcalant à gauche */
     height: 100%;
     background-color: #343a40; /* Couleur de fond du menu */
     color: white; /* Couleur du texte */
@@ -326,10 +332,6 @@ button#modifier:hover {
 .sidebar a:focus {
     outline: none; /* Supprimer le contour par défaut */
     box-shadow: 0 0 5px rgba(26, 188, 156, 0.5); /* Ombre pour le focus */
-}
-
-.content {
-    
 }
 
 /* Styles pour la flèche de retour en haut */
@@ -546,9 +548,49 @@ label {
     margin-top: 20px; /* Espacement supérieur */
 }
 
+.modifier-btn{
+    background-color: green;
+}
+
+.modifier-btn:hover{
+    background-color: rgb(1, 184, 1);
+}
+
 /* Effet de survol sur le bouton */
 .btn-submit:hover {
-    background-color: #16a085; /* Teinte plus foncée au survol */
+    background-color: rgb(22, 160, 133); /* Teinte plus foncée au survol */
+}
+
+.confirmer-btn {
+    background-color: rgb(0, 202, 162);
+}
+
+.confirmer-btn:hover {
+    background-color: rgb(0, 184, 147);
+}
+
+.annuler-btn{
+    background-color: rgb(255, 130, 0);
+}
+
+.annuler-btn:hover {
+    background-color: rgb(255, 150, 64);
+}
+
+.supprimer-btn{
+    background-color: red;
+}
+
+.supprimer-btn:hover {
+    background-color: rgb(255, 64, 64);
+}
+
+.valider-btn{
+    background-color: rgb(0, 118, 197);
+}
+
+.valider-btn:hover{
+    background-color: rgb(0, 140, 210);
 }
 
 /* Styles pour le lien de mot de passe oublié */
@@ -569,6 +611,203 @@ label {
 @media (max-width: 768px) {
     .container-connexion {
         width: 90%; /* Largeur du conteneur sur mobile */
+    }
+}
+
+/* Styles pour le bouton Menu */
+#menu-button {
+    height: 100%; /* Prendre toute la hauteur de la navbar */
+    width: 250px; /* Largeur égale à celle de la sidebar */
+    background-color: transparent; /* Pas de fond */
+    color: white; /* Couleur du texte */
+    border: none; /* Pas de bordure */
+    cursor: pointer; /* Curseur pointer */
+    padding: 0; /* Pas d'espacement intérieur */
+    font-size: 18px; /* Taille de police */
+    text-align: center; /* Centrer le texte */
+    position: absolute; /* Positionner par rapport à la navbar */
+    left: 0; /* Aligné à gauche */
+    top: 0; /* Aligné en haut */
+    z-index: 1; /* S'assurer qu'il est au-dessus des autres éléments */
+}
+
+/* Optionnel : ajouter un effet de survol pour indiquer que c'est cliquable */
+#menu-button:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Légère teinte au survol */
+}
+
+/* Styles pour les inputs de connexion */
+.input-connexion {
+    width: 100%; /* Largeur complète */
+    padding: 12px; /* Espacement intérieur */
+    border: 1px solid #d1d8e0; /* Bordure gris clair */
+    border-radius: 6px; /* Coins arrondis */
+    box-sizing: border-box; /* Inclure le padding dans la largeur */
+    font-size: 1em; /* Taille de police */
+    background-color: #f7fafc; /* Fond très clair */
+    transition: border-color 0.3s ease; /* Transition pour la bordure */
+}
+
+/* Effet de focus sur les inputs de connexion */
+.input-connexion:focus {
+    border-color: #1abc9c; /* Bordure verte au focus */
+    outline: none; /* Supprimer le contour par défaut */
+    box-shadow: 0 0 5px rgba(26, 188, 156, 0.4); /* Ombre au focus */
+}
+
+/* Styles pour le bouton de soumission de connexion */
+.btn-submit-connexion {
+    width: 100%; /* Largeur complète */
+    padding: 12px; /* Espacement intérieur */
+    background-color: #1abc9c; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    border: none; /* Pas de bordure */
+    border-radius: 6px; /* Coins arrondis */
+    cursor: pointer; /* Curseur pointer */
+    font-weight: bold; /* Mettre en gras */
+    transition: background 0.3s ease; /* Transition pour l'effet de survol */
+    margin-top: 20px; /* Espacement supérieur */
+}
+
+/* Effet de survol sur le bouton de soumission de connexion */
+.btn-submit-connexion:hover {
+    background-color: rgb(22, 160, 133); /* Teinte plus foncée au survol */
+}
+
+/* Styles pour le conteneur principal */
+.menu-container {
+    display: flex;
+    gap: 2rem;
+    padding: 1rem;
+    background: #f8f9fa;
+}
+
+/* Styles pour le menu principal */
+.liens {
+    flex: 0 0 250px;
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.menu-section {
+    margin-bottom: 1.5rem;
+}
+
+.menu-section h3 {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #3498db;
+}
+
+.liens a {
+    display: block;
+    padding: 0.6rem 1rem;
+    color: #34495e;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.liens a:hover {
+    background: #3498db;
+    color: white;
+    transform: translateX(5px);
+}
+
+/* Styles pour le dashboard */
+.dashboard {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.info-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.info-section h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #3498db;
+}
+
+/* Styles pour les événements */
+.event-item {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.event-title {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.event-comment {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+}
+
+/* Styles pour les cours */
+.cours-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cours-time {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+/* Styles pour les statistiques */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #3498db;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-top: 0.3rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .menu-container {
+        flex-direction: column;
+    }
+    
+    .liens {
+        flex: none;
+        width: 100%;
     }
 }
 
