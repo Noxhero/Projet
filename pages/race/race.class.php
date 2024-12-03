@@ -53,8 +53,9 @@ class Race
     public function selectRace()
     {
         global $con;
-        $sql = "SELECT *
-                FROM race"; 
+        $sql = "SELECT idrace, librace 
+                FROM race 
+                WHERE afficher = true"; 
         $req = $con->query($sql);
         $races = [];
 

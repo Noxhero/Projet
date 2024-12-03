@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Cours</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  
 </head>
 <body>
 
@@ -18,9 +20,17 @@ $oCours = new Cours(null, null, null, null, null);
 $ReqCours = $oCours->selectCours();
 ?>
 
-<h1>Créer un Cours</h1>
+<div class="container">
+    <nav class="nav-menu">
+        <button class="nav-btn active" data-target="create">Créer un Cours</button>
+        <button class="nav-btn" data-target="list">Liste des Cours</button>
+    </nav>
 
-<form action="cour_traitement.php" method="POST">
+    <div id="create-section" class="form-section section active">
+        <h2><i class="fas fa-book-open"></i> Créer un Cours</h2>
+
+        
+<form action="cours_traitement.php" method="POST">
     <label for="nom">Nom du cours:</label>
     <input type="text" name="nom" required><br>
 
@@ -35,59 +45,86 @@ $ReqCours = $oCours->selectCours();
 
     <input type="submit" value="Créer">
 </form>
+    </div>
 
-<h2>Liste des Cours</h2>
-<table id="CoursTable" class="display">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nom Cours</th>
-            <th>Horaire Début</th>
-            <th>Horaire Fin</th>
-            <th>Jour</th>  
-            <th>Modifier</th>
-            <th>Supprimer</th>  
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($ReqCours as $courstableau) : ?>
-            <tr id="row-<?= $courstableau->getIdCours() ?>">
-                <td><?= htmlspecialchars($courstableau->getIdCours()) ?></td>
-                <td>
-                    <span class="static-field"><?= htmlspecialchars($courstableau->getLibCours()) ?></span>
-                    <input type="text" class="edit-field" name="libcours" value="<?= htmlspecialchars($courstableau->getLibCours()) ?>" style="display:none;">
-                </td>
-                <td>
-                    <span class="static-field"><?= htmlspecialchars($courstableau->getHoraireDebut()) ?></span>
-                    <input type="datetime-local" class="edit-field" name="horairedebut" value="<?= $courstableau->getHoraireDebut() ?>" style="display:none;">
-                </td>
-                <td>
-                    <span class="static-field"><?= htmlspecialchars($courstableau->getHoraireFin()) ?></span>
-                    <input type="datetime-local" class="edit-field" name="horairefin" value="<?= $courstableau->getHoraireFin() ?>" style="display:none;">
-                </td>
-                <td>
-                    <span class="static-field"><?= htmlspecialchars($courstableau->getJour()) ?></span>
-                    <input type="text" class="edit-field" name="jour" value="<?= htmlspecialchars($courstableau->getJour()) ?>" style="display:none;">
-                </td>
-                <td>
-                    <button id="modifier" class="modifier-btn" data-id="<?= $courstableau->getIdCours() ?>">Modifier</button>
-                    <button class="confirmer-btn" data-id="<?= $courstableau->getIdCours() ?>" style="display:none;">Confirmer</button>
-                    <button class="annuler-btn" data-id="<?= $courstableau->getIdCours() ?>" style="display:none;">Annuler</button>
-                </td>
-                <td>
-                    <form action="cour_traitement.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cours?');">
-                        <input type="hidden" name="supprimer" value="<?= $courstableau->getIdCours() ?>">
-                        <button type="submit">Supprimer</button>
-                    </form>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+    <div id="list-section" class="table-section section">
+        <h2><i class="fas fa-list"></i> Liste des Cours</h2>
+        <i class="fas fa-calendar-alt"></i>
+        <i class="fas fa-user-cowboy"></i>
+        <i class="fas fa-map-marker-alt"></i>
+        <i class="fas fa-calendar-check"></i>
+        <i class="fas fa-running"></i>
+        <i class="fas fa-users"></i>
+        <i class="fas fa-home"></i>
+        <i class="fas fa-camera"></i>
+        <i class="fas fa-layer-group"></i>
+        <i class="fas fa-female"></i>
+        <table id="CoursTable" class="display">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom Cours</th>
+                    <th>Horaire Début</th>
+                    <th>Horaire Fin</th>
+                    <th>Jour</th>  
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($ReqCours as $courstableau) : ?>
+                    <tr id="row-<?= $courstableau->getIdCours() ?>">
+                        <td><?= htmlspecialchars($courstableau->getIdCours()) ?></td>
+                        <td>
+                            <span class="static-field"><?= htmlspecialchars($courstableau->getLibCours()) ?></span>
+                            <input type="text" class="edit-field" name="libcours" value="<?= htmlspecialchars($courstableau->getLibCours()) ?>" style="display:none;">
+                        </td>
+                        <td>
+                            <span class="static-field"><?= htmlspecialchars($courstableau->getHoraireDebut()) ?></span>
+                            <input type="datetime-local" class="edit-field" name="horairedebut" value="<?= $courstableau->getHoraireDebut() ?>" style="display:none;">
+                        </td>
+                        <td>
+                            <span class="static-field"><?= htmlspecialchars($courstableau->getHoraireFin()) ?></span>
+                            <input type="datetime-local" class="edit-field" name="horairefin" value="<?= $courstableau->getHoraireFin() ?>" style="display:none;">
+                        </td>
+                        <td>
+                            <span class="static-field"><?= htmlspecialchars($courstableau->getJour()) ?></span>
+                            <input type="text" class="edit-field" name="jour" value="<?= htmlspecialchars($courstableau->getJour()) ?>" style="display:none;">
+                        </td>
+                        <td>
+                            <button id="modifier" class="modifier-btn" data-id="<?= $courstableau->getIdCours() ?>"><i class="fas fa-edit"></i> Modifier</button>
+                            <button class="confirmer-btn" data-id="<?= $courstableau->getIdCours() ?>" style="display:none;"><i class="fas fa-check"></i> Confirmer</button>
+                            <button class="annuler-btn" data-id="<?= $courstableau->getIdCours() ?>" style="display:none;"><i class="fas fa-times"></i> Annuler</button>
+                            <form action="cours_traitement.php" method="POST" style='display:inline;' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cours?');">
+                                <input type="hidden" name="supprimer" value="<?= $courstableau->getIdCours() ?>">
+                                <button type="submit" class="supprimer-btn"><i class="fas fa-trash-alt"></i> Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <script>
     $(document).ready(function() {
         $('#CoursTable').DataTable();
+        
+        // Gestion des onglets
+        document.querySelectorAll('.nav-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // Retire la classe active de tous les boutons et sections
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+                
+                // Ajoute la classe active au bouton cliqué
+                button.classList.add('active');
+                
+                // Affiche la section correspondante
+                const target = button.getAttribute('data-target');
+                document.getElementById(`${target}-section`).classList.add('active');
+            });
+        });
     });
 
     document.querySelectorAll('.modifier-btn').forEach(button => {
@@ -114,7 +151,7 @@ $ReqCours = $oCours->selectCours();
 
             // Soumettre via un formulaire caché
             const form = document.createElement('form');
-            form.action = 'cour_traitement.php';
+            form.action = 'cours_traitement.php';
             form.method = 'POST';
             form.innerHTML = `
                 <input type="hidden" name="idcours" value="${id}">

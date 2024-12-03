@@ -18,59 +18,75 @@ $ReqRace = $oRace->selectRace();
 
 ?>
 
-<h1>Créer une Race</h1>
+<div class="container">
+    <nav class="nav-menu">
+        <button class="nav-btn active" data-target="create">🐎 Créer une Race</button>
+        <button class="nav-btn" data-target="list">📜 Liste des Races</button>
+    </nav>
 
-<form action="race_traitement.php" method="post">
+    <div id="create-section" class="form-section section active">
+        <h2>Créer une Race</h2>
+        <form action="race_traitement.php" method="post">
+            <label for="nom">Nom de la race:</label>
+            <input type="text" name="nom" required><br>
+            <input type="submit">
+        </form>
+    </div>
 
-    <label for="nom">Nom de la race:</label>
+    <div id="list-section" class="table-section section">
+        <h2>Liste des Races</h2>
+        <table id="RaceTable" class="display">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom de la race</th>
+                    <th>Modifier</th>
+                    <th>Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($racetableaux as $racetableau) : ?>
+                <tr id="row-<?= $racetableau['idrace'] ?>">
+                    <td><?= htmlspecialchars($racetableau['idrace']) ?></td>
+                    <td>
+                        <span class="static-field"><?= htmlspecialchars($racetableau['librace']) ?></span>
+                        <input type="text" class="edit-field" name="librace" value="<?= htmlspecialchars($racetableau['librace']) ?>" style="display:none;">
+                    </td>
+                    
+                    <td>
+                        <button id='modifier' class="modifier-btn" data-id="<?= $racetableau['idrace'] ?>">Modifier</button>
+                        <button id='modifier' class="confirmer-btn" data-id="<?= $racetableau['idrace'] ?>" style="display:none;">Confirmer</button>
+                        <button class="annuler-btn" data-id="<?= $racetableau['idrace'] ?>" style="display:none;">Annuler</button>
+                    </td>
+                    <td>
+                    <form action="race_traitement.php" method="POST" style ='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cours?');">
+                            <input type="hidden" name="supprimer" value="<?= $racetableau['idrace'] ?>">
+                            <button type="submit">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-    <input type="text" name="nom" required><br>
-
-   
-
-    <input type="submit">
-
-</form>
-<table id="RaceTable" class="display">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nom de la race</th> 
-                <th>Modifier</th>
-                <th>Supprimer</th>  
-            </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($racetableaux as $racetableau) : ?>
-    <tr id="row-<?= $racetableau['idrace'] ?>">
-        <td><?= htmlspecialchars($racetableau['idrace']) ?></td>
-        <td>
-            <span class="static-field"><?= htmlspecialchars($racetableau['librace']) ?></span>
-            <input type="text" class="edit-field" name="librace" value="<?= htmlspecialchars($racetableau['librace']) ?>" style="display:none;">
-        </td>
-        
-        <td>
-            <button id='modifier' class="modifier-btn" data-id="<?= $racetableau['idrace'] ?>">Modifier</button>
-            <button id='modifier' class="confirmer-btn" data-id="<?= $racetableau['idrace'] ?>" style="display:none;">Confirmer</button>
-            <button class="annuler-btn" data-id="<?= $racetableau['idrace'] ?>" style="display:none;">Annuler</button>
-        </td>
-        <td>
-        <form action="race_traitement.php" method="POST" style ='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cours?');">
-                <input type="hidden" name="supprimer" value="<?= $racetableau['idrace'] ?>">
-                <button type="submit">Supprimer</button>
-            </form>
-        </td>
-    </tr>
-<?php endforeach; ?>
-
-        </tbody>
-    </table>
-   
 <script>
-        // Activation de DataTables sur la table
-        $(document).ready(function() {
-            $('#RaceTable').DataTable();
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.nav-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+                button.classList.add('active');
+                const target = button.getAttribute('data-target');
+                document.getElementById(`${target}-section`).classList.add('active');
+            });
         });
+    });
+    // Activation de DataTables sur la table
+    $(document).ready(function() {
+        $('#RaceTable').DataTable();
+    });
 
     // Quand le bouton "Modifier" est cliqué
     document.querySelectorAll('.modifier-btn').forEach(button => {

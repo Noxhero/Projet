@@ -8,7 +8,23 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="../../css/modal.css">
-    
+    <style>
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .nav-btn.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
@@ -25,28 +41,36 @@ $oCavalerie = new Cavalerie(null, null, null, null, null, null);
 $listeChevaux = $oCavalerie->selectChevaux();
 ?>
 
-<h1>Ajouter un Cheval</h1>
+<div class="container">
+    <nav class="nav-menu">
+        <button class="nav-btn active" data-target="create">🐎 Ajouter un Cheval</button>
+        <button class="nav-btn" data-target="list">📋 Liste des Chevaux</button>
+    </nav>
 
-<form action="traitement.cavalerie.php" method="POST" enctype="multipart/form-data" class="form-generic">
-    <label for="nomcheval">Nom du Cheval:</label>
-    <input type="text" name="nomcheval" required><br>
+    <div id="create-section" class="section active">
+        <div class="le-h1">
+            <h1><i class="fas fa-horse-head"></i> Ajouter un Cheval</h1>
 
-    <label for="datenaissancecheval">Date de Naissance:</label>
-    <input type="date" name="datenaissancecheval" required><br>
+            <form action="traitement_cavalerie.php" method="POST" enctype="multipart/form-data" class="form-generic">
+                <label for="nomcheval">Nom du Cheval:</label>
+                <input type="text" name="nomcheval" required><br>
 
-    <label for="garot">Garot:</label>
-    <input type="text" name="garot" required><br>
+                <label for="datenaissancecheval">Date de Naissance:</label>
+                <input type="date" name="datenaissancecheval" required><br>
 
-    <label for="nomrobe">Robe :</label>
-    <div class="content">
-        <div class="input_container">
-            <input type="text" name='nomrobe' id="nom_idrobe" placeholder="Robe du cheval" onkeyup="autocompletrobe()">
-            <input type="hidden" name='idrobe' id="idrobe" >
-            <ul id="nom_list_idrobe"></ul>
-        </div>
-    </div>
+                <label for="garot">Garot:</label>
+                <input type="text" name="garot" required><br>
 
-    <label for="nomrace">Race :</label>
+                <label for="nomrobe">Robe :</label>
+                <div class="content">
+                    <div class="input_container">
+                        <input type="text" name='nomrobe' id="nom_idrobe" placeholder="Robe du cheval" onkeyup="autocompletrobe()">
+                        <input type="hidden" name='idrobe' id="idrobe" >
+                        <ul id="nom_list_idrobe"></ul>
+                    </div>
+                </div>
+
+                <label for="nomrace">Race :</label>
     <div class="content">
         <div class="input_container">
             <input type="text" name='nomrace' id="nom_idrace" placeholder="Race du cheval" onkeyup="autocompletrace()">
@@ -55,134 +79,152 @@ $listeChevaux = $oCavalerie->selectChevaux();
         </div>
     </div>
 
-    <div class="form-group">
-        <label for="nom_photo">Nom de la photo:</label>
-        <input type="text" name="nom_photo" id="nom_photo" class="form-control" placeholder="Donnez un nom à la photo">
+                <div class="form-group">
+                    <label for="nom_photo">Nom de la photo:</label>
+                    <input type="text" name="nom_photo" id="nom_photo" class="form-control" placeholder="Donnez un nom à la photo">
+                </div>
+
+                <div class="form-group">
+                    <label for="userfile">Fichier photo:</label>
+                    <input type="file" name="userfile" id="userfile" class="form-control">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </form>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label for="userfile">Fichier photo:</label>
-        <input type="file" name="userfile" id="userfile" class="form-control">
-    </div>
-
-    <button type="submit" class="btn btn-primary">Enregistrer</button>
-</form>
-
-<h2>Liste des Chevaux</h2>
-<table id="CavalerieTable" class="display">
-    <thead>
-        <tr>
-            <th>Photo</th>
-            <th>Numéro SIRE</th>
-            <th>Nom</th>
-            <th>Date de Naissance</th>
-            <th>Garot</th>
-            <th>Robe</th>
-            <th>Race</th>
-            <th>Nom de la photo</th>
-            <th>Modifier</th>
-            <th>Supprimer</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($listeChevaux as $cheval) : 
-            $photoUrl = $cheval->getPhoto();
-        ?>
-            <tr id="row-<?= $cheval->getNumsire() ?>">
-                <td>
-                    <?php 
+    <div id="list-section" class="section">
+        <div class="le-h2">
+            <h2><i class="fas fa-list"></i> Liste des Chevaux</h2>
+            <table id="CavalerieTable" class="display">
+                <thead>
+                    <tr>
+                        <th>Photo</th>
+                        <th>Numéro SIRE</th>
+                        <th>Nom</th>
+                        <th>Date de Naissance</th>
+                        <th>Garot</th>
+                        <th>Robe</th>
+                        <th>Race</th>
+                        <th>Nom de la photo</th>
+                        <th>Modifier</th>
+                        <th>Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($listeChevaux as $cheval) : 
                         $photoUrl = $cheval->getPhoto();
-                        // Debug: afficher le chemin brut
-                        echo "<!-- Chemin de la photo: " . $photoUrl . " -->";
-                        if ($photoUrl): 
                     ?>
-                        <img src="<?= htmlspecialchars($photoUrl) ?>" 
-                             alt="Photo du cheval" 
-                             style="max-width: 100px; max-height: 100px; cursor: pointer;"
-                             onerror="console.log('Erreur de chargement de l\'image:', '<?= htmlspecialchars($photoUrl) ?>');"
-                             onclick="openModal(this.src)">
-                    <?php else: ?>
-                        <span>Pas de photo</span>
-                    <?php endif; ?>
-                </td>
-                <td><?= htmlspecialchars($cheval->getNumsire()) ?></td>
-                <td>
-                    <span class="static-field"><?= htmlspecialchars($cheval->getNomcheval()) ?></span>
-                    <input type="text" class="edit-field" name="nomcheval" value="<?= htmlspecialchars($cheval->getNomcheval()) ?>" style="display:none;">
-                </td>
-                <td>
-                    <span class="static-field"><?= htmlspecialchars($cheval->getDatenaissancecheval()) ?></span>
-                    <input type="date" class="edit-field" name="datenaissancecheval" value="<?= htmlspecialchars($cheval->getDatenaissancecheval()) ?>" style="display:none;">
-                </td>
-                <td>
-                    <span class="static-field"><?= htmlspecialchars($cheval->getGarot()) ?></span>
-                    <input type="number" class="edit-field" name="garot" value="<?= htmlspecialchars($cheval->getGarot()) ?>" style="display:none;">
-                </td>
-                <td data-idrobe="<?= $cheval->getIdrobe() ?>"><?= htmlspecialchars($cheval->getRobeLibelle($cheval->getIdrobe())) ?></td>
-                <td data-idrace="<?= $cheval->getIdrace() ?>"><?= htmlspecialchars($cheval->getRaceLibelle($cheval->getIdrace())) ?></td>
-                <td>
-                    <span class="static-field">
-                        <?php
-                        $photo = new Photo();
-                        $photos = $photo->getPhotoByNumSire($cheval->getNumsire());
-                        if (!empty($photos)) {
-                            foreach ($photos as $photo) {
-                                // Enlever l'extension du fichier pour l'affichage
-                                $nomSansExtension = pathinfo($photo->getnom_photo(), PATHINFO_FILENAME);
-                                echo htmlspecialchars($nomSansExtension);
-                                break;
-                            }
-                        } else {
-                            echo 'Aucune photo disponible';
-                        }
-                        ?>
-                    </span>
-                    <span class="edit-field" style="display:none;">
-                        <?php
-                        // Récupérer toutes les photos disponibles
-                        $photo = new Photo();
-                        $allPhotos = $photo->getPhotoByNumSire(0); // 0 pour récupérer toutes les photos
-                        if (!empty($allPhotos)) {
-                            echo '<select class="photo-select" data-numsire="' . $cheval->getNumsire() . '">';
-                            echo '<option value="">Sélectionner une photo</option>';
-                            foreach ($allPhotos as $photo) {
-                                echo '<option value="' . $photo->getIdPhoto() . '">' . 
-                                    htmlspecialchars($photo->getnom_photo()) . 
-                                    '</option>';
-                            }
-                            echo '</select>';
-                            echo '<button class="refresh-btn" data-numsire="' . $cheval->getNumsire() . '">Valider</button>';
-                        } else {
-                            echo '<p>Aucune photo disponible</p>';
-                        }
-                        ?>
-                    </span>
-                </td>
-                <td>
-                    <button class="modifier-btn" data-id="<?= $cheval->getNumsire() ?>">Modifier</button>
-                    <button class="confirmer-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Confirmer</button>
-                    <button class="annuler-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Annuler</button>
-                </td>
-                <td>
-                    <form action="traitement.cavalerie.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cheval?');">
-                        <input type="hidden" name="supprimer" value="<?= $cheval->getNumsire() ?>">
-                        <button class="supprimer-btn" type="submit">Supprimer</button>
-                    </form>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+                        <tr id="row-<?= $cheval->getNumsire() ?>">
+                            <td>
+                                <?php 
+                                    $photoUrl = $cheval->getPhoto();
+                                    // Debug: afficher le chemin brut
+                                    echo "<!-- Chemin de la photo: " . $photoUrl . " -->";
+                                    if ($photoUrl): 
+                                ?>
+                                    <img src="<?= htmlspecialchars($photoUrl) ?>" 
+                                        alt="Photo du cheval" 
+                                        style="max-width: 100px; max-height: 100px; cursor: pointer;"
+                                        onerror="console.log('Erreur de chargement de l\'image:', '<?= htmlspecialchars($photoUrl) ?>');"
+                                        onclick="openModal(this.src)">
+                                <?php else: ?>
+                                    <span>Pas de photo</span>
+                                <?php endif; ?>
+                            </td>
+                            <td><?= htmlspecialchars($cheval->getNumsire()) ?></td>
+                            <td>
+                                <span class="static-field"><?= htmlspecialchars($cheval->getNomcheval()) ?></span>
+                                <input type="text" class="edit-field" name="nomcheval" value="<?= htmlspecialchars($cheval->getNomcheval()) ?>" style="display:none;">
+                            </td>
+                            <td>
+                                <span class="static-field"><?= htmlspecialchars($cheval->getDatenaissancecheval()) ?></span>
+                                <input type="date" class="edit-field" name="datenaissancecheval" value="<?= htmlspecialchars($cheval->getDatenaissancecheval()) ?>" style="display:none;">
+                            </td>
+                            <td>
+                                <span class="static-field"><?= htmlspecialchars($cheval->getGarot()) ?></span>
+                                <input type="number" class="edit-field" name="garot" value="<?= htmlspecialchars($cheval->getGarot()) ?>" style="display:none;">
+                            </td>
+                            <td data-idrobe="<?= $cheval->getIdrobe() ?>"><?= htmlspecialchars($cheval->getRobeLibelle($cheval->getIdrobe())) ?></td>
+                            <td data-idrace="<?= $cheval->getIdrace() ?>"><?= htmlspecialchars($cheval->getRaceLibelle($cheval->getIdrace())) ?></td>
+                            <td>
+                                <span class="static-field">
+                                    <?php
+                                    $photo = new Photo();
+                                    $photos = $photo->getPhotoByNumSire($cheval->getNumsire());
+                                    if (!empty($photos)) {
+                                        foreach ($photos as $photo) {
+                                            // Enlever l'extension du fichier pour l'affichage
+                                            $nomSansExtension = pathinfo($photo->getnom_photo(), PATHINFO_FILENAME);
+                                            echo htmlspecialchars($nomSansExtension);
+                                            break;
+                                        }
+                                    } else {
+                                        echo 'Aucune photo disponible';
+                                    }
+                                    ?>
+                                </span>
+                                <span class="edit-field" style="display:none;">
+                                    <?php
+                                    // Récupérer toutes les photos disponibles
+                                    $photo = new Photo();
+                                    $allPhotos = $photo->getPhotoByNumSire(0); // 0 pour récupérer toutes les photos
+                                    if (!empty($allPhotos)) {
+                                        echo '<select class="photo-select" data-numsire="' . $cheval->getNumsire() . '">';
+                                        echo '<option value="">Sélectionner une photo</option>';
+                                        foreach ($allPhotos as $photo) {
+                                            echo '<option value="' . $photo->getIdPhoto() . '">' . 
+                                                htmlspecialchars($photo->getnom_photo()) . 
+                                                '</option>';
+                                        }
+                                        echo '</select>';
+                                        echo '<button class="valider-btn" data-numsire="' . $cheval->getNumsire() . '">Valider</button>';
+                                    } else {
+                                        echo '<p>Aucune photo disponible</p>';
+                                    }
+                                    ?>
+                                </span>
+                            </td>
+                            <td>
+                                <button class="modifier-btn" data-id="<?= $cheval->getNumsire() ?>">Modifier</button>
+                                <button class="confirmer-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Confirmer</button>
+                                <button class="annuler-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Annuler</button>
+                            </td>
+                            <td>
+                                <form action="traitement_cavalerie.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cheval?');">
+                                    <input type="hidden" name="supprimer" value="<?= $cheval->getNumsire() ?>">
+                                    <button class="supprimer-btn" type="submit">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 <script>
     $(document).ready(function() {
-        $('#CavalerieTable').DataTable({
-            columnDefs: [
-                {
-                    targets: 0, // La colonne des photos (index 0)
-                    width: '120px'
-                }
-            ]
+        // Vérifiez si le DataTable est déjà initialisé
+        if (!$.fn.DataTable.isDataTable('#CavalerieTable')) {
+            $('#CavalerieTable').DataTable({
+                columnDefs: [
+                    {
+                        targets: 0, // La colonne des photos (index 0)
+                        width: '120px'
+                    }
+                ]
+            });
+        }
+        
+        // Gestion des onglets améliorée
+        $('.nav-btn').click(function() {
+            $('.nav-btn').removeClass('active');
+            $(this).addClass('active');
+            $('.section').removeClass('active');
+            $('#' + $(this).data('target') + '-section').addClass('active');
         });
     });
 
@@ -210,7 +252,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
             // Créer le formulaire avec les données
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = 'traitement.cavalerie.php';
+            form.action = 'traitement_cavalerie.php';
 
             // Ajouter les champs cachés
             Object.entries(formData).forEach(([key, value]) => {

@@ -118,6 +118,11 @@
         </div>
     </footer>
 
+    <!-- ... existing code ... -->
+    <button class="scroll-to-top" id="scroll-to-top">
+        <i class="fas fa-arrow-up"></i> <!-- Utilisation d'une icône Font Awesome -->
+    </button>
+    <!-- ... existing code ... -->
     <script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.carousel-image');
@@ -301,6 +306,34 @@
                 letter.style.textShadow = `0 0 20px ${letter.style.color}`;
             });
         }, 1000);
-    </script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollToTopButton = document.getElementById('scroll-to-top');
+
+            // Afficher ou masquer le bouton en fonction du défilement
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) { // Afficher le bouton si on a défilé de plus de 300px
+                    scrollToTopButton.style.display = 'flex';
+                } else {
+                    scrollToTopButton.style.display = 'none';
+                }
+            });
+
+            // Faire défiler vers le haut lorsque le bouton est cliqué
+            scrollToTopButton.addEventListener('click', function() {
+                // Ajouter l'animation d'explosion et de folie
+                scrollToTopButton.classList.add('explode');
+                
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth' // Défilement en douceur
+                });
+
+                // Retirer l'animation après qu'elle soit terminée
+                setTimeout(() => {
+                    scrollToTopButton.classList.remove('explode');
+                }, 1500); // Correspond à la durée de l'animation
+            });
+        });</script>
 </body>
 </html>

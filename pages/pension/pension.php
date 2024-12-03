@@ -16,21 +16,29 @@ $oPension = new Pension(null, null, null, null, null, null);
 $ReqPension = $oPension->PensionAll();
 ?>
 
-<h1>Ajouter une Pension</h1>
-<form action="pension_traitement.php" method="POST">
-    <label for="libpension">Libellé:</label>
-    <input type="text" name="libpension" required><br>
+<div class="container">
+    <nav class="nav-menu">
+        <button class="nav-btn active" data-target="create"> Créer une Pension</button>
+        <button class="nav-btn" data-target="list">📊 Liste des Pensions</button>
+    </nav>
 
-    <label for="tarifpension">Tarif:</label>
-    <input type="number" step="0.01" name="tarifpension" required><br>
+    <div id="create-section" class="form-section section active">
 
-    <label for="datedebut">Date de début:</label>
-    <input type="date" name="datedebut" required><br>
+        <h2>Ajouter une Pension</h2>
+        <form action="pension_traitement.php" method="POST" class="form-generic">
+            <label for="libpension">Libellé:</label>
+            <input type="text" name="libpension" required><br>
 
-    <label for="datefin">Date de fin:</label>
-    <input type="date" name="datefin" required><br>
+            <label for="tarifpension">Tarif:</label>
+            <input type="number" step="0.01" name="tarifpension" required><br>
 
-    <label for="numsire">Cheval:</label>
+            <label for="datedebut">Date de début:</label>
+            <input type="date" name="datedebut" required><br>
+
+            <label for="datefin">Date de fin:</label>
+            <input type="date" name="datefin" required><br>
+
+            <label for="numsire">Cheval:</label>
     <div class="content">
         <div class="input_container">
             <input type="text" name="nom_cheval" id="nom_cheval" 
@@ -41,90 +49,84 @@ $ReqPension = $oPension->PensionAll();
         </div>
     </div>
 
-    <input type="submit" value="Créer">
-</form>
+            <input type="submit" value="Créer">
+        </form>
+    </div>
 
-<h2>Liste des pensions</h2>
-<table id="PensionsTable" class="display">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Libellé</th>
-            <th>Tarif</th>
-            <th>Date début</th>
-            <th>Date fin</th>
-            <th>N° SIRE</th>
-            <th>Modifier</th>
-            <th>Supprimer</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach($ReqPension as $unePension): ?>
-        <tr id="row-<?= $unePension->getIdPension() ?>">
-            <td><?= htmlspecialchars($unePension->getIdPension()) ?></td>
-            <td>
-                <span class="static-field"><?= htmlspecialchars($unePension->getLibPension()) ?></span>
-                <input type="text" class="edit-field" name="libpension" 
-                    value="<?= htmlspecialchars($unePension->getLibPension()) ?>" 
-                    style="display:none;">
-            </td>
-            <td>
-                <span class="static-field"><?= htmlspecialchars($unePension->getTarifPension()) ?></span>
-                <input type="number" step="0.01" class="edit-field" name="tarifpension" 
-                    value="<?= htmlspecialchars($unePension->getTarifPension()) ?>" 
-                    style="display:none;">
-            </td>
-            <td>
-                <span class="static-field"><?= htmlspecialchars($unePension->getDateDebut()) ?></span>
-                <input type="date" class="edit-field" name="datedebut" 
-                    value="<?= htmlspecialchars($unePension->getDateDebut()) ?>" 
-                    style="display:none;">
-            </td>
-            <td>
-                <span class="static-field"><?= htmlspecialchars($unePension->getDateFin()) ?></span>
-                <input type="date" class="edit-field" name="datefin" 
-                    value="<?= htmlspecialchars($unePension->getDateFin()) ?>" 
-                    style="display:none;">
-            </td>
-            <td>
-                <span class="static-field"><?= htmlspecialchars($unePension->getNomCheval()) ?></span>
-                <div class="input_container">
-                    <input type="text" class="edit-field" 
-                        name="nom_cheval_<?= $unePension->getIdPension() ?>" 
-                        id="nom_cheval_<?= $unePension->getIdPension() ?>" 
-                        value="<?= htmlspecialchars($unePension->getNomCheval()) ?>" 
-                        style="display:none;" 
-                        onkeyup="autocompletCheval('<?= $unePension->getIdPension() ?>')">
-                    <input type="hidden" 
-                        name="numsire" 
-                        id="numsire_<?= $unePension->getIdPension() ?>" 
-                        value="<?= $unePension->getNumSire() ?>">
-                    <ul id="nom_list_cheval_<?= $unePension->getIdPension() ?>" style="display:none;"></ul>
-                </div>
-            </td>
-            <td>
-                <button class="modifier-btn" data-id="<?= $unePension->getIdPension() ?>">Modifier</button>
-                <button class="confirmer-btn" data-id="<?= $unePension->getIdPension() ?>" style="display:none;">Confirmer</button>
-                <button class="annuler-btn" data-id="<?= $unePension->getIdPension() ?>" style="display:none;">Annuler</button>
-            </td>
-            <td>
-                <form action="pension_traitement.php" method="POST" style='all:unset' 
-                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette pension ?');">
-                    <input type="hidden" name="supprimer" value="<?= $unePension->getIdPension() ?>">
-                    <input type="submit" value="Supprimer" class="delete-btn">
-                </form>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+    <div id="list-section" class="table-section section">
+        <h2>Liste des pensions</h2>
+        <table id="PensionsTable" class="display">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Libellé</th>
+                    <th>Tarif</th>
+                    <th>Date début</th>
+                    <th>Date fin</th>
+                    <th>N° SIRE</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($ReqPension as $pension) : ?>
+                    <tr id="row-<?= $pension->getIdPension() ?>">
+                        <td><?= htmlspecialchars($pension->getIdPension()) ?></td>
+                        <td>
+                            <span class="static-field"><?= htmlspecialchars($pension->getLibPension()) ?></span>
+                            <input type="text" class="edit-field" name="libpension" value="<?= htmlspecialchars($pension->getLibPension()) ?>" style="display:none;">
+                        </td>
+                        <td>
+                            <span class="static-field"><?= htmlspecialchars($pension->getTarifPension()) ?></span>
+                            <input type="number" step="0.01" class="edit-field" name="tarifpension" value="<?= htmlspecialchars($pension->getTarifPension()) ?>" style="display:none;">
+                        </td>
+                        <td>
+                            <span class="static-field"><?= htmlspecialchars($pension->getDateDebut()) ?></span>
+                            <input type="date" class="edit-field" name="datedebut" value="<?= htmlspecialchars($pension->getDateDebut()) ?>" style="display:none;">
+                        </td>
+                        <td>
+                            <span class="static-field"><?= htmlspecialchars($pension->getDateFin()) ?></span>
+                            <input type="date" class="edit-field" name="datefin" value="<?= htmlspecialchars($pension->getDateFin()) ?>" style="display:none;">
+                        </td>
+                        <td>
+                            <span class="static-field"><?= htmlspecialchars($pension->getNumSire()) ?></span>
+                            <input type="text" class="edit-field" name="numsire" value="<?= htmlspecialchars($pension->getNumSire()) ?>" style="display:none;">
+                        </td>
+                        <td>
+                            <button class="modifier-btn" data-id="<?= $pension->getIdPension() ?>">Modifier</button>
+                            <button class="confirmer-btn" data-id="<?= $pension->getIdPension() ?>" style="display:none;">Confirmer</button>
+                            <button class="annuler-btn" data-id="<?= $pension->getIdPension() ?>" style="display:none;">Annuler</button>
+                            <form action="pension_traitement.php" method="POST" style='display:inline;' 
+                                onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette pension?');">
+                                <input type="hidden" name="supprimer" value="<?= $pension->getIdPension() ?>">
+                                <button type="submit" class="supprimer-btn">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <script>
     $(document).ready(function() {
         $('#PensionsTable').DataTable();
     });
 
-    // Gestionnaire pour le bouton Modifier
+    // Gestion des onglets
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.nav-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+                button.classList.add('active');
+                const target = button.getAttribute('data-target');
+                document.getElementById(`${target}-section`).classList.add('active');
+            });
+        });
+    });
+
+    // Modification
     document.querySelectorAll('.modifier-btn').forEach(button => {
         button.addEventListener('click', function() {
             const row = this.closest('tr');
@@ -136,7 +138,7 @@ $ReqPension = $oPension->PensionAll();
         });
     });
 
-    // Gestionnaire pour le bouton Confirmer
+    // Confirmation
     document.querySelectorAll('.confirmer-btn').forEach(button => {
         button.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
@@ -159,7 +161,7 @@ $ReqPension = $oPension->PensionAll();
         });
     });
 
-    // Gestionnaire pour le bouton Annuler
+    // Annulation
     document.querySelectorAll('.annuler-btn').forEach(button => {
         button.addEventListener('click', function() {
             const row = this.closest('tr');
@@ -170,6 +172,8 @@ $ReqPension = $oPension->PensionAll();
             row.querySelector('.confirmer-btn').style.display = 'none';
         });
     });
+
+   
 </script>
 </body>
 </html>

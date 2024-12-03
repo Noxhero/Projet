@@ -213,10 +213,6 @@ button:hover {
 
 /* Styles pour l'en-tête */
 .header-container {
-    position: fixed; /* Fixe la navbar en haut de l'écran */
-    top: 0;
-    width: 100%; /* Assurez-vous qu'elle prend toute la largeur */
-    z-index: 1000; /* Assurez-vous qu'elle est au-dessus des autres éléments */
     display: flex;
     justify-content: space-between; /* Espace entre les éléments */
     align-items: center; /* Centrer verticalement */
@@ -226,6 +222,8 @@ button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre plus marquée pour donner de la profondeur */
     border-radius: 8px; /* Coins arrondis pour un aspect plus doux */
     transition: background 0.3s; /* Transition pour l'effet de survol */
+    position: relative; /* Position relative pour le z-index */
+    z-index: 10; /* Assurez-vous que l'en-tête est au-dessus de la sidebar */
 }
 
 /* Styles pour le texte de bienvenue */
@@ -809,6 +807,119 @@ label {
         flex: none;
         width: 100%;
     }
+}
+
+/* Styles pour la navigation par onglets */
+.nav-menu {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.nav-btn {
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background-color: #e9ecef;
+}
+
+.nav-btn.active {
+    background-color: #3498db;
+    color: white;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Conteneur principal */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 20px;
+}
+
+/* Styles pour le conteneur d'autocomplétion */
+.input_container {
+    position: relative;
+    width: 100%;
+}
+
+/* Styles pour le champ de saisie d'autocomplétion */
+.input_container input[type="text"] {
+    width: 100%;
+    padding: 14px;
+    margin-top: 8px;
+    border: 1px solid #d1d8e0;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1em;
+    background-color: #f7fafc;
+    transition: all 0.3s ease;
+}
+
+/* Styles pour la liste d'autocomplétion */
+.input_container ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #d1d8e0;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    margin-top: 2px;
+    display: block;
+    list-style: none;
+}
+
+/* Styles pour les éléments de la liste d'autocomplétion */
+.input_container ul li {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #e1e8ee;
+}
+
+/* Effet de survol sur les éléments de la liste */
+.input_container ul li:hover {
+    background-color: #f5f8fa;
+    padding-left: 20px;
+}
+
+/* Style pour le texte en gras dans les suggestions */
+.input_container ul li b {
+    color: #3498db;
+    font-weight: 600;
 }
 
 

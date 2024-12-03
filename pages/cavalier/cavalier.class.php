@@ -184,10 +184,7 @@ class Cavalier
         global $con;
         global $session_idcompte;
 
-        // Vérifier que les objets Commune et Galop sont valides
-        if (!$this->idCommune instanceof Commune || !$this->idGalop instanceof Galop) {
-            throw new Exception("Les objets Commune et Galop doivent être correctement initialisés");
-        }
+
 
         $data = [
             ':nc' => $this->nomCavalier,
@@ -200,25 +197,20 @@ class Cavalier
             ':pw' => $this->password,
             ':nl' => $this->numLicence,
             ':na' => $this->numAssurance,
-            ':idc' => $this->idCommune->getIdCommune(), // Utiliser la méthode getter
-            ':idg' => $this->idGalop->getIdGalop()     // Utiliser la méthode getter
+            ':idc' => $this->idCommune->getIdCommune(),
+            ':idg' => $this->idGalop->getIdGalop()
         ];
 
-        try {
-            $sql = "INSERT INTO cavalier (idcavalier, nomcavalier, prenomcavalier, datenaissancecavalier, 
-                    nomresponsable, rueresponsable, telresponsable, emailresponsable, password, 
-                    numlicence, numassurance, idcommune, idgalop, afficher, iduser) 
-                    VALUES (null, :nc, :pc, :dnc, :nr, :rr, :tr, :er, :pw, :nl, :na, :idc, :idg, true, $session_idcompte)";
-            
-            $stmt = $con->prepare($sql);
+        $sql = "INSERT INTO cavalier (idcavalier, nomcavalier, prenomcavalier, datenaissancecavalier, nomresponsable, rueresponsable, telresponsable, emailresponsable, password, numlicence, numassurance, idcommune, idgalop, afficher, iduser) 
+        VALUES (null, :nc, :pc, :dnc, :nr, :rr, :tr, :er, :pw, :nl, :na, :idc, :idg,true,$session_idcompte);";
+        $stmt = $con->prepare($sql);
 
-            if ($stmt->execute($data)) {
-                return $con->lastInsertId();
-            } else {
-                throw new Exception("Erreur lors de l'insertion : " . implode(", ", $stmt->errorInfo()));
-            }
-        } catch (PDOException $e) {
-            throw new Exception("Erreur lors de l'insertion du cavalier : " . $e->getMessage());
+        if ($stmt->execute($data)) {
+            echo "Bien inséré";
+            return $con->lastInsertId();
+        } else {
+            echo implode(", ", $stmt->errorInfo());
+            return false;
         }
     }
 

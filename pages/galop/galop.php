@@ -16,56 +16,77 @@ $oGalop = new Galop(null, null);
 $ReqGalop = $oGalop->GalopAll();
 ?>
 
-<h1>Ajouter un Galop</h1>
-<form action="galop_traitement.php" method="POST">
-    <label for="libgalop">Libellé du galop:</label>
-    <input type="text" name="libgalop" placeholder="Libellé du galop" required><br>
-    <input type="submit" value="Créer">
-</form>
+<div class="container">
+    <nav class="nav-menu">
+        <button class="nav-btn active" data-target="create">🏆 Créer un Galop</button>
+        <button class="nav-btn" data-target="list">📋 Liste des Galops</button>
+    </nav>
 
-<h2>Liste des galops</h2>
-<table id="GalopsTable" class="display">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Libellé</th>
-            <th>Modifier</th>
-            <th>Supprimer</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach($ReqGalop as $unGalop): ?>
-        <tr id="row-<?= $unGalop->getIdGalop() ?>">
-            <td><?= htmlspecialchars($unGalop->getIdGalop()) ?></td>
-            <td>
-                <span class="static-field"><?= htmlspecialchars($unGalop->getLibGalop()) ?></span>
-                <input type="text" class="edit-field" name="libgalop" 
-                    value="<?= htmlspecialchars($unGalop->getLibGalop()) ?>" 
-                    style="display:none;">
-            </td>
-            <td>
-                <button class="modifier-btn" data-id="<?= $unGalop->getIdGalop() ?>">Modifier</button>
-                <button class="confirmer-btn" data-id="<?= $unGalop->getIdGalop() ?>" style="display:none;">Confirmer</button>
-                <button class="annuler-btn" data-id="<?= $unGalop->getIdGalop() ?>" style="display:none;">Annuler</button>
-            </td>
-            <td>
-                <form action="galop_traitement.php" method="POST" style='all:unset' 
-                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce galop ?');">
-                    <input type="hidden" name="supprimer" value="<?= $unGalop->getIdGalop() ?>">
-                    <input type="submit" value="Supprimer" class="delete-btn">
-                </form>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+    <div id="create-section" class="form-section section active">
+        <h2>Ajouter un Galop</h2>
+        <form action="galop_traitement.php" method="POST" class="form-generic">
+            <label for="libgalop">Libellé du galop:</label>
+            <input type="text" name="libgalop" placeholder="Libellé du galop" required><br>
+            <input type="submit" value="Créer">
+        </form>
+    </div>
+
+    <div id="list-section" class="table-section section">
+        <h2>Liste des galops</h2>
+        <table id="GalopsTable" class="display">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Libellé</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($ReqGalop as $unGalop): ?>
+                <tr id="row-<?= $unGalop->getIdGalop() ?>">
+                    <td><?= htmlspecialchars($unGalop->getIdGalop()) ?></td>
+                    <td>
+                        <span class="static-field"><?= htmlspecialchars($unGalop->getLibGalop()) ?></span>
+                        <input type="text" class="edit-field" name="libgalop" 
+                            value="<?= htmlspecialchars($unGalop->getLibGalop()) ?>" 
+                            style="display:none;">
+                    </td>
+                    <td>
+                        <button class="modifier-btn" data-id="<?= $unGalop->getIdGalop() ?>">Modifier</button>
+                        <button class="confirmer-btn" data-id="<?= $unGalop->getIdGalop() ?>" style="display:none;">Confirmer</button>
+                        <button class="annuler-btn" data-id="<?= $unGalop->getIdGalop() ?>" style="display:none;">Annuler</button>
+                        <form action="galop_traitement.php" method="POST" style='display:inline;' 
+                            onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce galop ?');">
+                            <input type="hidden" name="supprimer" value="<?= $unGalop->getIdGalop() ?>">
+                            <button type="submit" class="supprimer-btn">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <script>
     $(document).ready(function() {
         $('#GalopsTable').DataTable();
     });
 
-    // Gestionnaire pour le bouton Modifier
+    // Gestion des onglets
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.nav-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+                button.classList.add('active');
+                const target = button.getAttribute('data-target');
+                document.getElementById(`${target}-section`).classList.add('active');
+            });
+        });
+    });
+
+    // Modification
     document.querySelectorAll('.modifier-btn').forEach(button => {
         button.addEventListener('click', function() {
             const row = this.closest('tr');
@@ -77,7 +98,7 @@ $ReqGalop = $oGalop->GalopAll();
         });
     });
 
-    // Gestionnaire pour le bouton Confirmer
+    // Confirmation
     document.querySelectorAll('.confirmer-btn').forEach(button => {
         button.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
@@ -97,7 +118,7 @@ $ReqGalop = $oGalop->GalopAll();
         });
     });
 
-    // Gestionnaire pour le bouton Annuler
+    // Annulation
     document.querySelectorAll('.annuler-btn').forEach(button => {
         button.addEventListener('click', function() {
             const row = this.closest('tr');
