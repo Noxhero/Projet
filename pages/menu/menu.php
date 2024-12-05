@@ -15,6 +15,7 @@
                 <a href="../../pages/cavalerie/cavalerie.php">Cavalerie</a>
                 <a href="../../pages/cours/cours.php">Cours</a>
                 <a href="../../pages/pension/pension.php">Pensions</a>
+                 <a href="../../pages/insert/insert.php">Insert</a>
                 <a href="../../pages/calendrier/calendrier.php">Calendrier</a>
             </div>
             
