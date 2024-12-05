@@ -63,7 +63,7 @@ if (isset($_POST['logout'])) {
         <a href="../../pages/cours/cours.php">Cours</a>
         <a href="../../pages/evenement/evenement.php">Événement</a>
         <a href="../../pages/galop/galop.php">Galop</a>
-        <a href="../../pages/participation/participation.php">Participation</a>
+        <a href="../../pages/insert/insert.php">Participation</a>
         <a href="../../pages/pension/pension.php">Pension</a>
         <a href="../../pages/photo/photo.php">Photo</a>
         <a href="../../pages/prend/prend.php">Prend</a>
@@ -79,6 +79,7 @@ if (isset($_POST['logout'])) {
         include '../../pages/cours/cours.class.php';
         include '../../pages/galop/galop.class.php';
         include '../../pages/participation/participation.class.php';
+        include '../../pages/insert/insert.class.php';
         include '../../pages/pension/pension.class.php';
         include '../../pages/photo/photo.class.php';
         include '../../pages/race/race.class.php';
