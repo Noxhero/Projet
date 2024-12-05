@@ -1,37 +1,30 @@
 <?php
-class Inserer
-{
+class Inserer {
     private $idCours;
     private $idCavalier;
 
-    function __construct($idCours, $idCavalier)
-    {
+    function __construct($idCours, $idCavalier) {
         $this->idCours = $idCours;
         $this->idCavalier = $idCavalier;
     }
 
-    public function getIdCours()
-    {
+    public function getIdCours() {
         return $this->idCours;
     }
 
-    public function getIdCavalier()
-    {
+    public function getIdCavalier() {
         return $this->idCavalier;
     }
 
-    public function setIdCours($idCours)
-    {
+    public function setIdCours($idCours) {
         $this->idCours = $idCours;
     }
 
-    public function setIdCavalier($idCavalier)
-    {
+    public function setIdCavalier($idCavalier) {
         $this->idCavalier = $idCavalier;
     }
 
-    public function InsertInserer()
-    {
+    public function InsertInserer() {
         global $con;
 
         $data = [
@@ -39,7 +32,7 @@ class Inserer
             ':idcavalier' => $this->idCavalier
         ];
 
-        $sql = "INSERT INTO inserer (idcours, idcavalier) VALUES (:idcours, :idcavalier)";
+        $sql = "INSERT INTO inserer (idcours, idcavalier,afficher) VALUES (:idcours, :idcavalier,true)";
         $stmt = $con->prepare($sql);
 
         if ($stmt->execute($data)) {
@@ -51,11 +44,10 @@ class Inserer
         }
     }
 
-    public static function InsererAll()
-    {
+    public static function InsererAll() {
         global $con;
 
-        $sql = "SELECT * FROM inserer";
+        $sql = "SELECT * FROM inserer WHERE afficher = true";
         $req = $con->query($sql);
         $inserers = [];
 
@@ -70,11 +62,10 @@ class Inserer
         return $inserers;
     }
 
-    public function DeleteInserer($idCours, $idCavalier)
-    {
+    public function DeleteInserer($idCours, $idCavalier) {
         global $con;
         $data = [':idcours' => $idCours, ':idcavalier' => $idCavalier];
-        $sql = "DELETE FROM inserer WHERE idcours = :idcours AND idcavalier = :idcavalier";
+        $sql = "UPDATE inserer set afficher = false WHERE idcours = :idcours AND idcavalier = :idcavalier";
         $stmt = $con->prepare($sql);
 
         if ($stmt->execute($data)) {
@@ -86,8 +77,7 @@ class Inserer
         }
     }
 
-    public function UpdateInserer()
-    {
+    public function UpdateInserer() {
         global $con;
         $data = [
             ':idcours' => $this->idCours,
