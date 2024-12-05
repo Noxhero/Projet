@@ -36,7 +36,6 @@ class Inserer {
         $stmt = $con->prepare($sql);
 
         if ($stmt->execute($data)) {
-            echo "Bien inséré";
             return $con->lastInsertId();
         } else {
             echo implode(", ", $stmt->errorInfo());

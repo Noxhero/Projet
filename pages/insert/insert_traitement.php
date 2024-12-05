@@ -23,13 +23,8 @@ if (isset($_POST["idcours"]) && !isset($_POST['action'])) {
     $unInserer->InsertInserer();
 
     // Inscrire le cavalier aux 53 séances du cours
-    $sql = "SELECT idcoursassociee FROM calendrier WHERE idcoursbase = :idcoursbase";
-    $stmt = $con->prepare($sql);
-    $stmt->execute([':idcoursbase' => $idCours]);
-    $seances = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($seances as $seance) {
-        $participation = new Participation($idCours, $seance['idcoursassociee'], $idCavalier, 1);
+    for ($i = 1; $i <= 53; $i++) {
+        $participation = new Participation($idCours, $i, $idCavalier, true);
         $participation->InsertParticipation();
     }
 

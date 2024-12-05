@@ -44,22 +44,20 @@ class Participation
     public function InsertParticipation() {
         global $con;
         
-        $sql = "INSERT INTO participation (idcoursbase, idcoursassociee, idcavalier, present) 
-                VALUES (:icb, :ica, :ic, :p)";
-        
-        $stmt = $con->prepare($sql);
         $data = [
-            ':icb' => $this->idCoursbase,
-            ':ica' => $this->idCoursassociee,
-            ':ic' => $this->idcavalier,
-            ':p' => $this->present
+            ':idcoursbase' => $this->idCoursbase,
+            ':idcoursassociee' => $this->idCoursassociee,
+            ':idcavalier' => $this->idcavalier,
+            ':present' => $this->present
         ];
-
+        
+        $sql = "INSERT INTO participation (idcoursbase, idcoursassociee, idcavalier, present) VALUES (:idcoursbase, :idcoursassociee, :idcavalier, :present)";
+        $stmt = $con->prepare($sql);
+        
         if ($stmt->execute($data)) {
-            echo "Participation ajoutée avec succès";
             return true;
         } else {
-            echo "Erreur lors de l'ajout : " . implode(", ", $stmt->errorInfo());
+            echo implode(", ", $stmt->errorInfo());
             return false;
         }
     }
