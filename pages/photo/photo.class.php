@@ -27,18 +27,23 @@ class Photo {
 
     // Nouvelle méthode pour sauvegarder uniquement le lien
     public function saveLink() {
-        try {
-            global $con;
-            $sql = "INSERT INTO photo (nom_photo, lien, numsire, idevenement) VALUES (:nom_photo, :lien, :numsire, 0)";
-            $stmt = $con->prepare($sql);
-            $data = [
-                ':nom_photo' => $this->nom_photo,
-                ':lien' => $this->lien,
-                ':numsire' => $this->numsire
-            ];
-            return $stmt->execute($data);
-        } catch (PDOException $e) {
-            error_log("Erreur lors de l'enregistrement du lien de la photo: " . $e->getMessage());
+        global $con;
+        $data = [
+            ':nom_photo' => $this->nom_photo,
+            ':lien' => $this->lien,
+            ':numsire' => $this->numsire,
+            ':idevenement' => $this->idevenement,
+        ];
+
+        $sql = "INSERT INTO photo (nom_photo, lien, numsire, idevenement) 
+                VALUES (:nom_photo, :lien, :numsire, :idevenement)";
+        
+        $stmt = $con->prepare($sql);
+        
+        if ($stmt->execute($data)) {
+            return true;
+        } else {
+            error_log("Erreur lors de l'insertion de la photo: " . implode(", ", $stmt->errorInfo()));
             return false;
         }
     }
