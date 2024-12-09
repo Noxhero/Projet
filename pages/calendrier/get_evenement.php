@@ -5,7 +5,10 @@ include("../../includes/bdd.inc.php"); // Inclure votre fichier de connexion à 
 
 // Préparer la requête pour récupérer tous les événements du calendrier avec les informations des cours
 $stmt = $con->prepare("
-    SELECT c.idcours, c.libcours, c.horairedebut, c.horairefin, c.jour, c.afficher, cal.datecours
+    SELECT c.idcours, c.libcours, c.horairedebut, c.horairefin, c.jour, 
+           c.afficher as cours_afficher, 
+           cal.afficher as cal_afficher,
+           cal.datecours
     FROM calendrier cal
     JOIN cours c ON cal.idcoursassociee = c.idcours
 ");
@@ -16,9 +19,9 @@ $events = [];
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     // Si l'événement est annulé, ajouter "Cours annulé" au titre
     $title = $row['libcours'];
-    $canDelete = $row['afficher'] == true; // Si l'événement est affiché (non annulé), on permet la suppression
+    $canDelete = $row['cours_afficher'] == true && $row['cal_afficher'] == true;
 
-    if ($row['afficher'] == false) {
+    if ($row['cours_afficher'] == false || $row['cal_afficher'] == false) {
         $title .= " (Cours annulé)";
     }
 

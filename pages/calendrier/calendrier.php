@@ -5,16 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calendrier</title>
   <?php include "../../includes/haut.inc.php"; ?>
-  <script src='../../js/index.global.js'></script>
-
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+  <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js'></script>
+  <link rel="stylesheet" href="../../css/calendrier.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script>
     document.addEventListener('DOMContentLoaded', async function() {
       var calendarEl = document.getElementById('calendar');
-
+      
       var calendar = new FullCalendar.Calendar(calendarEl, {
+        locale: 'fr',
         headerToolbar: {
           left: 'prev,next today',
-          locale: 'fr',
+         
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },

@@ -10,8 +10,8 @@ $data = json_decode(file_get_contents('php://input'), true);
 if (isset($data['eventId'])) {
     $eventId = (int)$data['eventId'];
 
-    // Préparer la requête pour mettre à jour l'événement et le marquer comme non affiché
-    $stmt = $con->prepare("UPDATE cours SET afficher = false WHERE idcours = ?");
+    // Préparer la requête pour mettre à jour l'événement et le marquer comme non affiché dans la table calendrier
+    $stmt = $con->prepare("UPDATE calendrier SET afficher = false WHERE idcoursassociee = ?");
     
     // Exécuter la requête et capturer l'échec potentiel
     if ($stmt->execute([$eventId])) {
