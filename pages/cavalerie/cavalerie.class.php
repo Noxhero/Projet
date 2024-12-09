@@ -127,7 +127,12 @@ class Cavalerie {
                 WHERE numsire = :numsire";
         $stmt = $con->prepare($sql);
 
-        return $stmt->execute($data);
+        if ($stmt->execute($data)) {
+            return true;
+        } else {
+            error_log("Erreur lors de la mise à jour du cheval: " . implode(", ", $stmt->errorInfo()));
+            return false;
+        }
     }
 
     public function getRobeLibelle($idrobe) {
