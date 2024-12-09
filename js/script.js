@@ -101,6 +101,7 @@ function autocompletgalop22(cavalier_id) {
             type: 'POST',
             data: {
                 keyword22: keyword22,
+                type : 'galop',
                 cavalier_id: cavalier_id
             },
             success: function(data) {
@@ -209,52 +210,36 @@ function set_item_cheval(nom, sire) {
     $('#nom_cheval').val(nom);
     $('#numsire').val(sire);
     $('#nom_list_cheval').hide();
-}
-
-function autocompletCours() {
+}function autocompletCours() {
     var min_length = 2;
-    var inputId = $(this).attr('id');
-    var keyword = $(this).val();
+    var keyword = $('#nom_idcours').val();
 
     if (keyword.length >= min_length) {
-        var listId = inputId === 'libcours_base' ? 'nom_list_cours_base' : 'nom_list_cours_associe';
-        var for_type = inputId === 'libcours_base' ? 'base' : 'associe';
-        
         $.ajax({
             url: '../../includes/ajax_refresh.php',
             type: 'POST',
             data: {
                 keyword: keyword,
-                type: 'cours',
-                for: for_type
+                type: 'cours'
             },
             success: function(data) {
-                $('#' + listId).show();
-                $('#' + listId).html(data);
+                $('#nom_list_idcours').show();
+                $('#nom_list_idcours').html(data);
             }
         });
     } else {
-        var listId = inputId === 'libcours_base' ? 'nom_list_cours_base' : 'nom_list_cours_associe';
-        $('#' + listId).hide();
+        $('#nom_list_idcours').hide();
     }
 }
 
-// Ajout des fonctions manquantes
 function set_item_cours_base(libelle, id) {
-    $('#libcours_base').val(libelle);
-    $('#idcoursbase').val(id);
-    $('#nom_list_cours_base').hide();
+    $('#nom_idcours').val(libelle);
+    $('#idcours').val(id);
+    $('#nom_list_idcours').hide();
 }
-
-function set_item_cours_associe(libelle, id) {
-    $('#libcours_associe').val(libelle);
-    $('#idcoursassociee').val(id);
-    $('#nom_list_cours_associe').hide();
-}
-
 function autocompletCavalier() {
     var min_length = 2;
-    var keyword = $('#nom_cavalier').val();
+    var keyword = $('#nomcavalier').val();
 
     if (keyword.length >= min_length) {
         $.ajax({
@@ -265,20 +250,84 @@ function autocompletCavalier() {
                 type: 'cavalier'
             },
             success: function(data) {
-                $('#nom_list_cavalier').show();
-                $('#nom_list_cavalier').html(data);
+                $('#nom_list_idcavalier').show();
+                $('#nom_list_idcavalier').html(data);
             }
         });
     } else {
-        $('#nom_list_cavalier').hide();
+        $('#nom_list_idcavalier').hide();
     }
 }
 
-function set_item_cavalier(nom, id) {
-    $('#nom_cavalier').val(nom);
+function set_item_cavalier(nom, prenom, id) {
+    $('#nomcavalier').val(nom);
+    $('#prenomcavalier').val(prenom);
     $('#idcavalier').val(id);
-    $('#nom_list_cavalier').hide();
+    $('#nom_list_idcavalier').hide();
 }
+
+function autocompletcavalier22(idcavalier) {
+    var nomId22 = 'nom_idcavalier22_' + idcavalier;
+    var nomListId22 = 'nom_list_idcavalier22_' + idcavalier;
+    var min_length = 2;
+    var keyword22 = $('#' + nomId22).val();
+
+    if (keyword22.length >= min_length) {
+        $.ajax({
+            url: '../../includes/ajax_refresh.php',
+            type: 'POST',
+            data: {
+                keyword22: keyword22,
+                type: 'cavalier',
+                idcavalier: idcavalier
+            },
+            success: function(data) {
+                $('#' + nomListId22).show();
+                $('#' + nomListId22).html(data);
+            }
+        });
+    } else {
+        $('#' + nomListId22).hide();
+    }
+}
+
+function set_item_cavalier22(item, item3, idcavalier) {
+    $('#nom_idcavalier22_' + idcavalier).val(item);
+    $('#idcavalier22_' + idcavalier).val(item3);
+    $('#nom_list_idcavalier22_' + idcavalier).hide();
+}
+
+function autocompletcours21(idcours) {
+    var nomId21 = 'nom_idcours21_' + idcours;
+    var nomListId21 = 'nom_list_idcours21_' + idcours;
+    var min_length = 2;
+    var keyword21 = $('#' + nomId21).val();
+
+    if (keyword21.length >= min_length) {
+        $.ajax({
+            url: '../../includes/ajax_refresh.php',
+            type: 'POST',
+            data: {
+                keyword21: keyword21,
+                idcours: idcours
+            },
+            success: function(data) {
+                $('#' + nomListId21).show();
+                $('#' + nomListId21).html(data);
+            }
+        });
+    } else {
+        $('#' + nomListId21).hide();
+    }
+}
+
+function set_item_cours21(item, item3, idcours) {
+    $('#nom_idcours21_' + idcours).val(item);
+    $('#idcours21_' + idcours).val(item3);
+    $('#nom_list_idcours21_' + idcours).hide();
+}
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const menuButton = document.getElementById('menu-button');
