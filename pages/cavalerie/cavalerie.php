@@ -51,7 +51,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
         <div class="le-h1">
             <h1><i class="fas fa-horse-head"></i> Ajouter un Cheval</h1>
 
-            <form action="traitement_cavalerie.php" method="POST" enctype="multipart/form-data" class="form-generic">
+            <form action="traitement.cavalerie.php" method="POST" enctype="multipart/form-data" class="form-generic">
                 <label for="nomcheval">Nom du Cheval:</label>
                 <input type="text" name="nomcheval" required><br>
 
@@ -85,8 +85,8 @@ $listeChevaux = $oCavalerie->selectChevaux();
                 </div>
 
                 <div class="form-group">
-                    <label for="userfile">Fichier photo:</label>
-                    <input type="file" name="userfile" id="userfile" class="form-control">
+                    <label for="userfile">Fichiers photo:</label>
+                    <input type="file" name="userfile[]" id="userfile" class="form-control" multiple>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Enregistrer</button>
@@ -155,9 +155,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
                                     $photos = $photo->getPhotoByNumSire($cheval->getNumsire());
                                     if (!empty($photos)) {
                                         foreach ($photos as $photo) {
-                                            // Enlever l'extension du fichier pour l'affichage
-                                            $nomSansExtension = pathinfo($photo->getnom_photo(), PATHINFO_FILENAME);
-                                            echo htmlspecialchars($nomSansExtension);
+                                            echo htmlspecialchars($photo->getnom_photo());
                                             break;
                                         }
                                     } else {
@@ -166,24 +164,8 @@ $listeChevaux = $oCavalerie->selectChevaux();
                                     ?>
                                 </span>
                                 <span class="edit-field" style="display:none;">
-                                    <?php
-                                    // Récupérer toutes les photos disponibles
-                                    $photo = new Photo();
-                                    $allPhotos = $photo->getPhotoByNumSire(0); // 0 pour récupérer toutes les photos
-                                    if (!empty($allPhotos)) {
-                                        echo '<select class="photo-select" data-numsire="' . $cheval->getNumsire() . '">';
-                                        echo '<option value="">Sélectionner une photo</option>';
-                                        foreach ($allPhotos as $photo) {
-                                            echo '<option value="' . $photo->getIdPhoto() . '">' . 
-                                                htmlspecialchars($photo->getnom_photo()) . 
-                                                '</option>';
-                                        }
-                                        echo '</select>';
-                                        echo '<button class="valider-btn" data-numsire="' . $cheval->getNumsire() . '">Valider</button>';
-                                    } else {
-                                        echo '<p>Aucune photo disponible</p>';
-                                    }
-                                    ?>
+                                    <input type="file" name="new_photo" accept="image/*" required>
+                                    <button type="submit" class="publier-btn" data-id="<?= $cheval->getNumsire() ?>">Publier</button>
                                 </span>
                             </td>
                             <td>
@@ -192,7 +174,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
                                 <button class="annuler-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Annuler</button>
                             </td>
                             <td>
-                                <form action="traitement_cavalerie.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cheval?');">
+                                <form action="traitement.cavalerie.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cheval?');">
                                     <input type="hidden" name="supprimer" value="<?= $cheval->getNumsire() ?>">
                                     <button class="supprimer-btn" type="submit">Supprimer</button>
                                 </form>
@@ -252,7 +234,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
             // Créer le formulaire avec les données
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = 'traitement_cavalerie.php';
+            form.action = 'traitement.cavalerie.php';
 
             // Ajouter les champs cachés
             Object.entries(formData).forEach(([key, value]) => {
@@ -387,6 +369,73 @@ $listeChevaux = $oCavalerie->selectChevaux();
             this.style.display = "none";
         }
     }
+
+    document.querySelectorAll('.confirmer-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const row = document.getElementById('row-' + id);
+
+            // Cacher tous les champs statiques et afficher les champs d'édition
+            row.querySelectorAll('.static-field').forEach(field => field.style.display = 'none');
+            row.querySelectorAll('.edit-field').forEach(field => field.style.display = 'inline');
+
+            const formData = new FormData();
+            formData.append('numsire', id);
+            formData.append('nomcheval', row.querySelector('input[name="nomcheval"]').value);
+            formData.append('datenaissancecheval', row.querySelector('input[name="datenaissancecheval"]').value);
+            formData.append('garot', row.querySelector('input[name="garot"]').value);
+            formData.append('idrobe', row.querySelector('input[name="idrobe"]').value);
+            formData.append('idrace', row.querySelector('input[name="idrace"]').value);
+            formData.append('action', 'modifier');
+
+            const fileInput = row.querySelector('input[name="new_photo"]');
+            if (fileInput.files.length > 0) {
+                formData.append('new_photo', fileInput.files[0]);
+            }
+
+            fetch('traitement.cavalerie.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert('Modification réussie');
+                location.reload(); // Recharge la page pour voir les changements
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Erreur lors de la modification');
+            });
+        });
+    });
+
+    document.querySelectorAll('.publier-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const row = document.getElementById('row-' + id);
+
+            const formData = new FormData();
+            formData.append('numsire', id); // Assurez-vous que l'ID du cheval est passé
+            const fileInput = row.querySelector('input[name="new_photo"]');
+            if (fileInput.files.length > 0) {
+                formData.append('new_photo', fileInput.files[0]); // Ajoutez le fichier photo
+            }
+
+            fetch('traitement.cavalerie.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert('Photo ajoutée avec succès');
+                location.reload(); // Recharge la page pour voir les changements
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Erreur lors de l\'ajout de la photo');
+            });
+        });
+    });
 </script>
 </body>
 </html> 
