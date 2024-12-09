@@ -20,17 +20,25 @@ if(isset($_POST['type']) && $_POST['type'] == 'commune') {
 }
 
 // Pour l'autocomplétion des cavaliers
-elseif (isset($_POST['type']) && $_POST['type'] == 'cavalier') {
-    $keyword = $_POST['keyword'];
-    $sql = "SELECT idcavalier, nomcavalier, prenomcavalier FROM cavalier 
-            WHERE (nomcavalier LIKE :keyword OR prenomcavalier LIKE :keyword) 
-            AND afficher = true";
+elseif (isset($_POST['keyword']) && isset($_POST['type']) && $_POST['type'] == 'cavalier') {
+    $keyword = '%'.$_POST['keyword'].'%';
+    
+    $sql = "SELECT idcavalier, nomcavalier, prenomcavalier 
+            FROM cavalier 
+            WHERE (nomcavalier LIKE :keyword OR prenomcavalier LIKE :keyword)
+            AND afficher = true 
+            ORDER BY nomcavalier ASC";
+    
     $stmt = $con->prepare($sql);
-    $stmt->execute([':keyword' => '%'.$keyword.'%']);
+    $stmt->execute([':keyword' => $keyword]);
     
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $nom_complet = $row['nomcavalier'] . ' ' . $row['prenomcavalier'];
-        echo '<li onclick="set_item_cavalier(\''.$nom_complet.'\', '.$row['idcavalier'].')">'.$nom_complet.'</li>';
+        echo '<li onclick="set_item_cavalier(\''
+            .str_replace("'", "\'", $row['nomcavalier']).'\', \''
+            .str_replace("'", "\'", $row['prenomcavalier']).'\', \''
+            .str_replace("'", "\'", $row['idcavalier']).'\')">'
+            .$nom_complet.'</li>';
     }
 }
 
@@ -57,7 +65,7 @@ elseif(isset($_POST['type']) && $_POST['type'] === 'cheval') {
 }
 
 //commune
-elseif(isset($_POST['keyword']) && !isset($_POST['type'])){
+elseif(isset($_POST['keyword']) && isset($_POST['type']) && $_POST['type'] === 'commune' ){
     $keyword = '%'.$_POST['keyword'].'%';
     
     $sql = "SELECT idcommune, ville, codepostal FROM commune WHERE ville LIKE (:var) OR codepostal LIKE (:var) AND afficher = true ORDER BY ville ASC LIMIT 0, 10";
@@ -100,7 +108,7 @@ elseif(isset($_POST['type']) && $_POST['type'] === 'galop') {
 
 
 // Pour l'autocomplétion des galops en modification
-elseif(isset($_POST['keyword22'])) {
+elseif(isset($_POST['keyword22']) && isset($_POST['type']) && $_POST['type'] == 'galop') {
     $keyword = '%'.$_POST['keyword22'].'%';
     $cavalier_id = $_POST['cavalier_id'];
     
@@ -167,4 +175,82 @@ elseif (isset($_POST['type']) && $_POST['type'] == 'race') {
 }
 
 
+// Pour l'autocomplétion des cours
+elseif (isset($_POST['type']) && $_POST['type'] == 'cours') {
+    $keyword = '%'.$_POST['keyword'].'%';
+    $sql = "SELECT idcours, libcours FROM cours WHERE libcours LIKE :keyword AND afficher = true ORDER BY libcours ASC LIMIT 0, 10";
+    $stmt = $con->prepare($sql);
+    $stmt->execute([':keyword' => $keyword]);
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        echo '<li onclick="set_item_cours_base(\''.str_replace("'", "\'", $row['libcours']).'\', '.$row['idcours'].')">'.$row['libcours'].'</li>';
+    }
+}
+
+
+// Pour l'autocomplétion des cours en modification
+elseif (isset($_POST['keyword21'])) {
+    $keyword = '%'.$_POST['keyword21'].'%';
+    $idcours = $_POST['idcours'];
+
+    $sql = "SELECT idcours, libcours FROM cours WHERE libcours LIKE :keyword AND afficher = true ORDER BY libcours ASC LIMIT 0, 10";
+    $stmt = $con->prepare($sql);
+    $stmt->execute([':keyword' => $keyword]);
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        echo '<li onclick="set_item_cours21(\''.str_replace("'", "\'", $row['libcours']).'\', '.$row['idcours'].', \''.$idcours.'\')">'.$row['libcours'].'</li>';
+    }
+}
+
+
+
+if(isset($_POST['keyword']) && isset($_POST['type']) && $_POST['type'] === 'cavalier') {
+    $keyword = '%'.$_POST['keyword'].'%';
+    
+    $sql = "SELECT idcavalier, nomcavalier FROM cavalier 
+            WHERE nomcavalier LIKE :var 
+            AND afficher = true 
+            ORDER BY nomcavalier ASC LIMIT 0, 10";
+    
+    $req = $con->prepare($sql);
+    $req->bindParam(':var', $keyword, PDO::PARAM_STR);
+    $req->execute();
+    $list = $req->fetchAll();
+    
+    foreach ($list as $res) {
+    
+        //  affichage
+    
+        $Listecav = str_replace($_POST['keyword'], '<b>', $res['nomcavalier']);
+    
+        // sélection
+    
+        echo '<li onclick="set_item_cavalier(\''.str_replace("'", "\'", $res['nomcavalier']).'\',\''
+                                           .str_replace("'", "\'", $res['idcavalier']).'\')">'
+            .$Listecav.'</li>';
+    }
+    
+    }
+
+
+// Pour l'autocomplétion des cavaliers en modification
+elseif (isset($_POST['keyword22']) && isset($_POST['type']) && $_POST['type'] == 'cavalier') {
+    $keyword = '%'.$_POST['keyword22'].'%';
+    $idcavalier = $_POST['idcavalier'];
+
+    $sql = "SELECT idcavalier, nomcavalier, prenomcavalier FROM cavalier
+            WHERE (nomcavalier LIKE :keyword OR prenomcavalier LIKE :keyword)
+            AND afficher = true";
+    $stmt = $con->prepare($sql);
+    $stmt->execute([':keyword' => $keyword]);
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $nom_complet = $row['nomcavalier'] . ' ' . $row['prenomcavalier'];
+        echo '<li onclick="set_item_cavalier22(\''.$nom_complet.'\', '.$row['idcavalier'].', \''.$idcavalier.'\')">'.$nom_complet.'</li>';
+    }
+}
 ?>
+
+
+
+
