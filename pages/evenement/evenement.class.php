@@ -74,7 +74,7 @@ class Evenement
         return $stmt->execute($data);
     }
 
-    public static function GetAllEvenements()
+    public static function selectEvenements()
     {
         global $con;
         $sql = "SELECT * FROM evenement";
