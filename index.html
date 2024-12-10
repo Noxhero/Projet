@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="css/style-front.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="js/script.js"></script>
+    <script src="js/script-front.js"></script>
+    <script src="js/home.js" defer></script>
 </head>
 <body>
     <header>
@@ -14,13 +16,13 @@
             <a href="index.html"><img src="pages-front/images-front/93863d47-8a92-4b31-b3c8-8f9891f6792a-removebg-preview.png" alt="Logo du Centre Équestre" class="logo"></a>
             <nav>
                 <ul>
-                    <li><a href="index.html" onclick="playNavSound()"><i class="fas fa-home"></i> Accueil</a></li>
-                    <li><a href="pages-front/info/info.html" onclick="playNavSound()"><i class="fas fa-info-circle"></i> Info</a></li>
-                    <li><a href="pages-front/services/services.html" onclick="playNavSound()"><i class="fas fa-cogs"></i> Services</a></li>
-                    <li><a href="pages-front/inscription/inscription.html" onclick="playNavSound()"><i class="fas fa-envelope"></i> S'inscrire</a></li>
-                    <li><a href="pages-front/cavalerie/cavalerie.php" onclick="playNavSound()"><i class="fas fa-horse-head"></i> Nos chevaux</a></li>
-                    <li><a href="pages-front/evenements/evenements.php" onclick="playNavSound()"><i class="fas fa-calendar-alt"></i> Évènements</a></li>
-                    <li><a href="pages-front/cours/cours.php" onclick="playNavSound()"><i class="fas fa-chalkboard-teacher"></i> Cours</a></li>
+                    <li><a href="index.html" ><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="pages-front/info/info.html" ><i class="fas fa-info-circle"></i> Info</a></li>
+                    <li><a href="pages-front/services/services.html" ><i class="fas fa-cogs"></i> Services</a></li>
+                    <li><a href="pages-front/inscription/inscription.html" ><i class="fas fa-envelope"></i> S'inscrire</a></li>
+                    <li><a href="pages-front/cavalerie/cavalerie.php" ><i class="fas fa-horse-head"></i> Nos chevaux</a></li>
+                    <li><a href="pages-front/evenements/evenements.php" ><i class="fas fa-calendar-alt"></i> Évènements</a></li>
+                    <li><a href="pages-front/cours/cours.php" ><i class="fas fa-chalkboard-teacher"></i> Cours</a></li>
                 </ul>
             </nav>
         </div>
@@ -90,22 +92,7 @@
 
        
 
-        <section class="gallery">
-            <h2>Galerie</h2>
-            <div class="carousel">
-                <div class="carousel-images">
-                    <img src="pages-front/images-front/a-cheval-sur-les-monts-teyran-banniere.webp" alt="Cheval 1" class="carousel-image">
-                    <img src="pages-front/images-front/3_5_1_9-Pferde-scaled.jpg" alt="Cheval 2" class="carousel-image">
-                    <img src="pages-front/images-front/banniere-odeurs.png" alt="Cheval 3" class="carousel-image">
-                    <img src="pages-front/images-front/banniere-accueil-v2-jpg_5a38ec7698bea.jpg" alt="Cheval 4" class="carousel-image">
-                    <img src="pages-front/images-front/banniere-cheval800-jpg.webp" alt="Cheval 5" class="carousel-image">
-                    <img src="pages-front/images-front/prepa-trans-banniere-site.webp" alt="Cheval 6" class="carousel-image">
-                </div>
-                <button class="carousel-button prev" onclick="moveSlide(-1)">&#10094;</button>
-                <button class="carousel-button next" onclick="moveSlide(1)">&#10095;</button>
-            </div>
-        </section>
-
+        <div style="font-size:640px; color:red">bite dure</div>
       
     </main>
 
@@ -122,222 +109,8 @@
         </div>
     </footer>
 
-    <!-- ... existing code ... -->
     <button class="scroll-to-top" id="scroll-to-top">
         <i class="fas fa-arrow-up"></i> <!-- Utilisation d'une icône Font Awesome -->
     </button>
-    <!-- ... existing code ... -->
-    <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.carousel-image');
-        const totalSlides = slides.length;
-        const carouselImages = document.querySelector('.carousel-images');
-
-        // Cloner les images pour l'effet infini
-        slides.forEach(slide => {
-            const clone = slide.cloneNode(true);
-            carouselImages.appendChild(clone);
-        });
-
-        function showSlide(index) {
-            // Transition fluide
-            carouselImages.style.transition = 'transform 0.5s ease-in-out';
-            carouselImages.style.transform = `translateX(${-index * 100}%)`;
-
-            // Si on arrive à la fin des slides originaux
-            if (index >= totalSlides) {
-                // Attendre la fin de la transition puis revenir au début sans transition
-                setTimeout(() => {
-                    carouselImages.style.transition = 'none';
-                    currentSlide = 0;
-                    carouselImages.style.transform = `translateX(0)`;
-                }, 500);
-                currentSlide = 0;
-            } else if (index < 0) {
-                // Si on va en arrière du premier slide
-                setTimeout(() => {
-                    carouselImages.style.transition = 'none';
-                    currentSlide = totalSlides - 1;
-                    carouselImages.style.transform = `translateX(${-(totalSlides - 1) * 100}%)`;
-                }, 500);
-                currentSlide = totalSlides - 1;
-            } else {
-                currentSlide = index;
-            }
-        }
-
-        function moveSlide(direction) {
-            showSlide(currentSlide + direction);
-        }
-
-        // Fonction d'auto-défilement améliorée
-        function autoSlide() {
-            moveSlide(1);
-        }
-
-        // Démarrer l'auto-défilement
-        let slideInterval = setInterval(autoSlide, 3000);
-
-        // Gestion des événements de survol
-        const carousel = document.querySelector('.carousel');
-        carousel.addEventListener('mouseenter', () => {
-            clearInterval(slideInterval);
-        });
-
-        carousel.addEventListener('mouseleave', () => {
-            slideInterval = setInterval(autoSlide, 3000);
-        });
-
-        // Gestion des événements tactiles
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        carousel.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-            clearInterval(slideInterval);
-        });
-
-        carousel.addEventListener('touchmove', (e) => {
-            touchEndX = e.touches[0].clientX;
-        });
-
-        carousel.addEventListener('touchend', () => {
-            const swipeDistance = touchStartX - touchEndX;
-            if (Math.abs(swipeDistance) > 50) { // Seuil minimum pour considérer comme un swipe
-                if (swipeDistance > 0) {
-                    moveSlide(1);
-                } else {
-                    moveSlide(-1);
-                }
-            }
-            slideInterval = setInterval(autoSlide, 3000);
-        });
-
-        // Initialisation
-        showSlide(currentSlide);
-
-        // Tableau des traductions
-        const welcomeTranslations = [
-            { text: "Bienvenue", lang: "fr", color: "#64ffda", delay: 80 },
-            { text: "Welcome", lang: "en", color: "#ff6b6b", delay: 100 },
-            { text: "Willkommen", lang: "de", color: "#ffd93d", delay: 90 },
-            { text: "Bienvenidos", lang: "es", color: "#6c63ff", delay: 85 },
-            { text: "Benvenuti", lang: "it", color: "#64ffda", delay: 95 },
-            { text: "ようこそ", lang: "jp", color: "#ff6b6b", delay: 120 },
-            { text: "欢迎", lang: "cn", color: "#ffd93d", delay: 150 }
-        ];
-
-        let currentIndex = 0;
-        const welcomeText = document.querySelector('.welcome-text');
-
-        function updateText(newText, oldText) {
-            welcomeText.innerHTML = '';
-            welcomeText.setAttribute('lang', welcomeTranslations[currentIndex].lang);
-            
-            // Transition de couleur fluide
-            welcomeText.style.color = welcomeTranslations[currentIndex].color;
-
-            const maxLength = Math.max(newText.length, oldText.length);
-            const delay = welcomeTranslations[currentIndex].delay;
-
-            for (let i = 0; i < maxLength; i++) {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'letter-wrapper';
-                wrapper.style.animationDelay = `${i * 0.1}s`;
-
-                const currentLetter = document.createElement('span');
-                currentLetter.className = 'letter current';
-                currentLetter.textContent = oldText[i] || ' ';
-
-                const nextLetter = document.createElement('span');
-                nextLetter.className = 'letter next';
-                nextLetter.textContent = newText[i] || ' ';
-
-                wrapper.appendChild(currentLetter);
-                wrapper.appendChild(nextLetter);
-                welcomeText.appendChild(wrapper);
-
-                setTimeout(() => {
-                    currentLetter.classList.remove('current');
-                    currentLetter.classList.add('previous');
-                    nextLetter.classList.remove('next');
-                    nextLetter.classList.add('current');
-                    
-                    // Ajoute un effet de particules lors de la transition
-                    const particle = document.createElement('div');
-                    particle.className = 'particle';
-                    wrapper.appendChild(particle);
-                    setTimeout(() => particle.remove(), 1000);
-                }, i * delay);
-            }
-        }
-
-        function changeWelcomeText() {
-            const oldText = welcomeTranslations[currentIndex].text;
-            currentIndex = (currentIndex + 1) % welcomeTranslations.length;
-            const newText = welcomeTranslations[currentIndex].text;
-            updateText(newText, oldText);
-        }
-
-        // Initialisation avec animation
-        welcomeText.innerHTML = '';
-        welcomeTranslations[0].text.split('').forEach((letter, index) => {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'letter-wrapper';
-            wrapper.style.animationDelay = `${index * 0.1}s`;
-            
-            const span = document.createElement('span');
-            span.className = 'letter current';
-            span.textContent = letter;
-
-            wrapper.appendChild(span);
-            welcomeText.appendChild(wrapper);
-        });
-
-        // Intervalle de changement
-        setInterval(changeWelcomeText, 4000);
-
-        // Ajoute des effets de couleur aléatoires
-        function randomColor() {
-            const colors = ['#64ffda', '#ff6b6b', '#ffd93d', '#6c63ff'];
-            return colors[Math.floor(Math.random() * colors.length)];
-        }
-
-        setInterval(() => {
-            const letters = document.querySelectorAll('.letter');
-            letters.forEach(letter => {
-                letter.style.color = randomColor();
-                letter.style.textShadow = `0 0 20px ${letter.style.color}`;
-            });
-        }, 1000);
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const scrollToTopButton = document.getElementById('scroll-to-top');
-
-            // Afficher ou masquer le bouton en fonction du défilement
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 300) { // Afficher le bouton si on a défilé de plus de 300px
-                    scrollToTopButton.style.display = 'flex';
-                } else {
-                    scrollToTopButton.style.display = 'none';
-                }
-            });
-
-            // Faire défiler vers le haut lorsque le bouton est cliqué
-            scrollToTopButton.addEventListener('click', function() {
-                // Ajouter l'animation d'explosion et de folie
-                scrollToTopButton.classList.add('explode');
-                
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth' // Défilement en douceur
-                });
-
-                // Retirer l'animation après qu'elle soit terminée
-                setTimeout(() => {
-                    scrollToTopButton.classList.remove('explode');
-                }, 1500); // Correspond à la durée de l'animation
-            });
-        });</script>
 </body>
 </html>

@@ -9,20 +9,22 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="../../js/script.js"></script></head>
+    <script src="../../js/script-front.js"></script>
+</head>
+
 <body>
     <header>
         <div class="container">
             <a href="../../index.html"><img src="../../pages-front/images-front/93863d47-8a92-4b31-b3c8-8f9891f6792a-removebg-preview.png" alt="Logo du Centre Équestre" class="logo"></a>
             <nav>
                 <ul>
-                    <li><a href="../../index.html" onclick="playNavSound()"><i class="fas fa-home"></i> Accueil</a></li>
-                    <li><a href="../info/info.html" onclick="playNavSound()"><i class="fas fa-info-circle"></i> Info</a></li>
-                    <li><a href="../services/services.html" onclick="playNavSound()"><i class="fas fa-cogs"></i> Services</a></li>
-                    <li><a href="../inscription/inscription.html" onclick="playNavSound()"><i class="fas fa-envelope"></i> S'inscrire</a></li>
-                    <li><a href="../cavalerie/cavalerie.php" onclick="playNavSound()"><i class="fas fa-horse-head"></i> Nos chevaux</a></li>
-                    <li><a href="evenements.php" class="active" onclick="playNavSound()"><i class="fas fa-calendar-alt"></i> Évènements</a></li>
-                    <li><a href="../cours/cours.php" onclick="playNavSound()"><i class="fas fa-chalkboard-teacher"></i> Cours</a></li>
+                    <li><a href="../../index.html" ><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="../info/info.html" ><i class="fas fa-info-circle"></i> Info</a></li>
+                    <li><a href="../services/services.html" ><i class="fas fa-cogs"></i> Services</a></li>
+                    <li><a href="../inscription/inscription.html" ><i class="fas fa-envelope"></i> S'inscrire</a></li>
+                    <li><a href="../cavalerie/cavalerie.php" ><i class="fas fa-horse-head"></i> Nos chevaux</a></li>
+                    <li><a href="evenements.php" class="active" ><i class="fas fa-calendar-alt"></i> Évènements</a></li>
+                    <li><a href="../cours/cours.php" ><i class="fas fa-chalkboard-teacher"></i> Cours</a></li>
                 </ul>
             </nav>
         </div>
@@ -45,7 +47,7 @@
                         include '../../includes/bdd.inc.php';
                         include '../../pages/evenement/evenement.class.php';
 
-                        $evenements = Evenement::GetAllEvenements();
+                        $evenements = Evenement::selectEvenements();
 
                         foreach ($evenements as $evenement): ?>
                             <tr>
@@ -69,5 +71,25 @@
             });
         });
     </script>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>
+                <span>Email :</span> contact@centreequestre.com | 
+                <span>Téléphone :</span> 01 23 45 67 89
+            </p>
+            <div class="separator"></div>
+            <p class="copyright">
+                &copy; 2024 Centre Équestre. Tous droits réservés.
+            </p>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scroll-to-top">
+        <i class="fas fa-arrow-up"></i> <!-- Utilisation d'une icône Font Awesome -->
+    </button>
+
+
 </body>
 </html> 
