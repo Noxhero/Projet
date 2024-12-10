@@ -16,8 +16,14 @@ Le fichier readme n'a aucune action  particulière a effectuer il donne des info
 
 - 19/11/2024 : Finition de toutes les autocomplétion dans le ajax_refresh et dans le script.js pour chaque page du backend
 
--26/11/2024 : visuel et backend du fullcalendar et des photos dans cavalerie
+- 26/11/2024 : visuel et backend du fullcalendar et des photos dans cavalerie
 
--03/12/2024 : Création de INSERT et participation afin de liée les cavalier au cours et finition du fullcalendar
+- 03/12/2024 : Création de INSERT et participation afin de liée les cavalier au cours et finition du fullcalendar
 
--10/12/2024 : A FOND SUR LE FRONT ET SUR LES DIFFÉRENTE ERREUR LIÉE AU BACKEND.
+- 10/12/2024 : A FOND SUR LE FRONT ET SUR LES DIFFÉRENTE ERREUR LIÉE AU BACKEND.
+
+
+
+
+
+
