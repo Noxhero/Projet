@@ -1,31 +1,3 @@
-window.onload = function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const sonAJouer = urlParams.get('son');
-    
-    if (sonAJouer) {
-        const audio = new Audio('../../assets/sounds/duo.mp3');
-        audio.play().then(() => {
-            urlParams.delete('son');
-            const newUrl = window.location.pathname + '?' + urlParams.toString();
-            window.history.replaceState({}, '', newUrl);
-        }).catch(error => {
-            console.error("Erreur de lecture du son:", error);
-        });
-    }
-}
-
-function playNavSound(lien) {
-    window.location.href = lien + '?son=true';
-    return false;
-}
-
-function playNavSound() {
-    // Marque qu'il faut jouer le son après la redirection
-    localStorage.setItem('playSound', 'true');
-    // La redirection se fera naturellement via le href du lien
-    return true;
-}
-
 function autocompletcommune() {
     var nomId = 'nom_idcommune';
     var nomListId = 'nom_list_idcommune';
@@ -237,7 +209,9 @@ function set_item_cheval(nom, sire) {
     $('#nom_cheval').val(nom);
     $('#numsire').val(sire);
     $('#nom_list_cheval').hide();
-}function autocompletCours() {
+}
+
+function autocompletCours() {
     var min_length = 2;
     var keyword = $('#nom_idcours').val();
 
@@ -264,6 +238,7 @@ function set_item_cours_base(libelle, id) {
     $('#idcours').val(id);
     $('#nom_list_idcours').hide();
 }
+
 function autocompletCavalier() {
     var min_length = 2;
     var keyword = $('#nomcavalier').val();
