@@ -6,17 +6,21 @@
     <title>Centre Équestre</title>
     <link rel="stylesheet" href="css/style-front.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="js/script.js"></script>
 </head>
 <body>
     <header>
         <div class="container">
-            <img src="pages-front/images-front/93863d47-8a92-4b31-b3c8-8f9891f6792a-removebg-preview.png" alt="Logo du Centre Équestre" class="logo">
+            <a href="index.html"><img src="pages-front/images-front/93863d47-8a92-4b31-b3c8-8f9891f6792a-removebg-preview.png" alt="Logo du Centre Équestre" class="logo"></a>
             <nav>
                 <ul>
-                    <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
-                    <li><a href="pages-front/info/info.html"><i class="fas fa-info-circle"></i> Info</a></li>
-                    <li><a href="pages-front/services/services.html"><i class="fas fa-horse-head"></i> Services</a></li>
-                    <li><a href="pages-front/s'inscrire/s'inscrire.html"><i class="fas fa-envelope"></i> S'inscrire</a></li>
+                    <li><a href="index.html" onclick="playNavSound()"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="pages-front/info/info.html" onclick="playNavSound()"><i class="fas fa-info-circle"></i> Info</a></li>
+                    <li><a href="pages-front/services/services.html" onclick="playNavSound()"><i class="fas fa-cogs"></i> Services</a></li>
+                    <li><a href="pages-front/inscription/inscription.html" onclick="playNavSound()"><i class="fas fa-envelope"></i> S'inscrire</a></li>
+                    <li><a href="pages-front/cavalerie/cavalerie.php" onclick="playNavSound()"><i class="fas fa-horse-head"></i> Nos chevaux</a></li>
+                    <li><a href="pages-front/evenements/evenements.php" onclick="playNavSound()"><i class="fas fa-calendar-alt"></i> Évènements</a></li>
+                    <li><a href="pages-front/cours/cours.php" onclick="playNavSound()"><i class="fas fa-chalkboard-teacher"></i> Cours</a></li>
                 </ul>
             </nav>
         </div>
