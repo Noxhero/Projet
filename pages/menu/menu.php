@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
+    
     <div class="menu-container">
         <!-- Menu principal -->
         <nav class="liens">
@@ -15,7 +16,6 @@
                 <a href="../../pages/cavalerie/cavalerie.php">Cavalerie</a>
                 <a href="../../pages/cours/cours.php">Cours</a>
                 <a href="../../pages/pension/pension.php">Pensions</a>
-                 <a href="../../pages/insert/insert.php">Insert</a>
                 <a href="../../pages/calendrier/calendrier.php">Calendrier</a>
             </div>
             
@@ -35,8 +35,11 @@
                 <h3>Derniers événements</h3>
                 <div class="event-list">
                     <?php
-                    $events = Evenement::GetAllEvenements();
-                    $recentEvents = array_slice($events, 0, 3); // 3 derniers événements
+                    include '../../pages/evenement/evenement.class.php';
+                    include '../../pages/cours/cours.class.php';
+                    include '../../includes/bdd.inc.php';
+                    $events = Evenement::selectEvenements();
+                    $recentEvents = array_slice($events, 0, 5); // 3 derniers événements
                     foreach($recentEvents as $event): ?>
                         <div class="event-item">
                             <span class="event-title"><?= htmlspecialchars($event->getTitreEvenement()) ?></span>
@@ -50,36 +53,13 @@
                 <h3>Prochains cours</h3>
                 <?php
                 $oCours = new Cours(null, null, null, null, null);
-                $prochainsCours = array_slice($oCours->selectCours(), 0, 3); // 3 prochains cours
+                $prochainsCours = array_slice($oCours->selectCours(), 0, 5); // 3 prochains cours
                 foreach($prochainsCours as $cours): ?>
                     <div class="cours-item">
                         <span class="cours-title"><?= htmlspecialchars($cours->getLibCours()) ?></span>
                         <span class="cours-time"><?= htmlspecialchars($cours->getHoraireDebut()) ?></span>
                     </div>
                 <?php endforeach; ?>
-            </div>
-
-            <div class="info-section">
-                <h3>Statistiques</h3>
-                <?php
-                // Compter les cavaliers actifs
-                $oCavalier = new Cavalier(null, null, null, null, null, null, null, null, null, null, null, null, null);
-                $nbCavaliers = count($oCavalier->CavalierAll());
-                
-                // Compter les chevaux
-                $oCavalerie = new Cavalerie(null, null, null, null, null, null);
-                $nbChevaux = count($oCavalerie->selectChevaux());
-                ?>
-                <div class="stats">
-                    <div class="stat-item">
-                        <span class="stat-value"><?= $nbCavaliers ?></span>
-                        <span class="stat-label">Cavaliers actifs</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value"><?= $nbChevaux ?></span>
-                        <span class="stat-label">Chevaux</span>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
