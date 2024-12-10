@@ -2,9 +2,9 @@ Le fichier readme n'a aucune action  particulière a effectuer il donne des info
 
 
 
-- 19/09/2024 Création du fichier Readme et ajout des employee (esclave) au git
+- 19/09/2024 : Création du fichier Readme et ajout des employee (esclave) au git
   
-- 10/10/2024  Création de la structure de site
+- 10/10/2024 : Création de la structure de site
 
 - 17/10/2024 : début du backend du site création des pages : cours,cavalerie,robe,race,commune,cavalier
 
