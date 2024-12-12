@@ -169,5 +169,13 @@ class Cavalerie {
         $stmt->execute([':numsire' => $numsire]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getPhotos($numsire) {
+        global $con;
+        $sql = "SELECT lien FROM photo WHERE numsire = :numsire";
+        $stmt = $con->prepare($sql);
+        $stmt->execute([':numsire' => $numsire]);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
 }
 ?>
