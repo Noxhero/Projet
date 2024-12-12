@@ -30,7 +30,7 @@
 <?php
 include "../../includes/haut.inc.php";
 
-$oCavalier = new Cavalier(null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+$oCavalier = new Cavalier(null, null, null, null, null, null, null, null, null, null, null, null, null);
 $ReqCavalier = $oCavalier->CavalierAll();
 ?>
 
