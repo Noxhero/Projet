@@ -218,10 +218,10 @@ class Cavalier
     {
         global $con;
 
-        // Requête SQL avec jointure pour inclure les données de la table commune
         $sql = "SELECT cavalier.idcavalier, cavalier.nomcavalier, cavalier.prenomcavalier, cavalier.datenaissancecavalier, 
                     cavalier.nomresponsable, cavalier.rueresponsable, cavalier.telresponsable, cavalier.emailresponsable, 
-                    cavalier.numlicence, cavalier.numassurance, cavalier.idcommune, cavalier.idgalop, commune.ville AS nomcommune, galop.libgalop AS nomGalop
+                    cavalier.numlicence, cavalier.numassurance, cavalier.idcommune, cavalier.idgalop, 
+                    commune.ville AS nomcommune, galop.libgalop AS nomgalop
                 FROM cavalier 
                 JOIN commune ON cavalier.idcommune = commune.idcommune
                 JOIN galop ON cavalier.idgalop = galop.idgalop
@@ -231,9 +231,8 @@ class Cavalier
         $cavaliers = [];
 
         foreach ($req->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            // Construction de l'objet Cavalier avec les données de la base
             $commune = new Commune($row['idcommune'], $row['nomcommune'], null);
-            $galop = new Galop($row['idgalop'], $row['nomGalop']);    
+            $galop = new Galop($row['idgalop'], $row['nomgalop']);    
             $cavalier = new Cavalier(
                 $row['idcavalier'], 
                 $row['nomcavalier'], 
@@ -246,12 +245,9 @@ class Cavalier
                 null,
                 $row['numlicence'], 
                 $row['numassurance'], 
-                $commune,  // Objet Commune
-                $galop    // Objet Galop
+                $commune,  
+                $galop    
             );
-            // Associer également le nom de la commune si souhaité
-            $cavalier->nomCommune = $row['nomcommune'];
-            $cavalier->nomGalop = $row['nomGalop'];
 
             $cavaliers[] = $cavalier;
         }
