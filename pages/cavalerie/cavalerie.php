@@ -51,7 +51,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
         <div class="le-h1">
             <h1><i class="fas fa-horse-head"></i> Ajouter un Cheval</h1>
 
-            <form action="traitement.cavalerie.php" method="POST" enctype="multipart/form-data" class="form-generic">
+            <form action="traitement_cavalerie.php" method="POST" enctype="multipart/form-data" class="form-generic">
                 <label for="nomcheval">Nom du Cheval:</label>
                 <input type="text" name="nomcheval" required><br>
 
@@ -174,7 +174,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
                                 <button class="annuler-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Annuler</button>
                             </td>
                             <td>
-                                <form action="traitement.cavalerie.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cheval?');">
+                                <form action="traitement_cavalerie.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cheval?');">
                                     <input type="hidden" name="supprimer" value="<?= $cheval->getNumsire() ?>">
                                     <button class="supprimer-btn" type="submit">Supprimer</button>
                                 </form>
@@ -234,7 +234,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
             // Créer le formulaire avec les données
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = 'traitement.cavalerie.php';
+            form.action = 'traitement_cavalerie.php';
 
             // Ajouter les champs cachés
             Object.entries(formData).forEach(([key, value]) => {
@@ -267,7 +267,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
             formData.append('photo_url', photoUrl);
             formData.append('action', 'ajouter_photo');
 
-            fetch('traitement.cavalerie.php', {
+            fetch('traitement_cavalerie.php', {
                 method: 'POST',
                 body: formData
             })
@@ -290,7 +290,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
             if (!idphoto) return;
 
             $.ajax({
-                url: 'traitement.cavalerie.php',
+                url: 'traitement_cavalerie.php',
                 method: 'POST',
                 data: {
                     action: 'update_photo_numsire',
@@ -327,7 +327,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
             }
 
             $.ajax({
-                url: 'traitement.cavalerie.php',
+                url: 'traitement_cavalerie.php',
                 method: 'POST',
                 data: {
                     action: 'update_photo_numsire',
@@ -393,7 +393,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
                 formData.append('new_photo', fileInput.files[0]);
             }
 
-            fetch('traitement.cavalerie.php', {
+            fetch('traitement_cavalerie.php', {
                 method: 'POST',
                 body: formData
             })
@@ -421,7 +421,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
                 formData.append('new_photo', fileInput.files[0]); // Ajoutez le fichier photo
             }
 
-            fetch('traitement.cavalerie.php', {
+            fetch('traitement_cavalerie.php', {
                 method: 'POST',
                 body: formData
             })
