@@ -124,26 +124,23 @@ function set_item22(item, item3, cavalier_id) {
 
 
 function autocompletrobe() {
-    var nomId = 'nom_idrobe';
-    var nomListId = 'nom_list_idrobe';
     var min_length = 2;
-    var keyword = $('#' + nomId).val();
-
+    var keyword = $('#nom_idrobe').val();
     if (keyword.length >= min_length) {
         $.ajax({
             url: '../../includes/ajax_refresh.php',
             type: 'POST',
             data: {
                 keyword: keyword,
-                type: 'robe' // Ajoutez le type ici
+                type: 'robe'
             },
             success: function(data) {
-                $('#' + nomListId).show();
-                $('#' + nomListId).html(data);
+                $('#nom_list_idrobe').show();
+                $('#nom_list_idrobe').html(data);
             }
         });
     } else {
-        $('#' + nomListId).hide();
+        $('#nom_list_idrobe').hide();
     }
 }
 
@@ -154,26 +151,23 @@ function set_item3(item, item3) {
 }
 
 function autocompletrace() {
-    var nomId = 'nom_idrace';
-    var nomListId = 'nom_list_idrace';
     var min_length = 2;
-    var keyword = $('#' + nomId).val();
-
+    var keyword = $('#nom_idrace').val();
     if (keyword.length >= min_length) {
         $.ajax({
             url: '../../includes/ajax_refresh.php',
             type: 'POST',
             data: {
                 keyword: keyword,
-                type: 'race' // Ajoutez le type ici
+                type: 'race'
             },
             success: function(data) {
-                $('#' + nomListId).show();
-                $('#' + nomListId).html(data);
+                $('#nom_list_idrace').show();
+                $('#nom_list_idrace').html(data);
             }
         });
     } else {
-        $('#' + nomListId).hide();
+        $('#nom_list_idrace').hide();
     }
 }
 
@@ -329,7 +323,67 @@ function set_item_cours21(item, item3, idcours) {
     $('#nom_list_idcours21_' + idcours).hide();
 }
 
+// Autocomplétion pour la robe en mode édition
+function autocompletrobe_edit(numsire) {
+    var min_length = 2;
+    var keyword = $('#nom_idrobe_' + numsire).val();
 
+    if (keyword.length >= min_length) {
+        $.ajax({
+            url: '../../includes/ajax_refresh.php',
+            type: 'POST',
+            data: {
+                keyword: keyword,
+                type: 'robe_list',
+                numsire: numsire
+            },
+            success: function(data) {
+                $('#nom_list_idrobe_' + numsire).show();
+                $('#nom_list_idrobe_' + numsire).html(data);
+            }
+        });
+    } else {
+        $('#nom_list_idrobe_' + numsire).hide();
+    }
+}
+
+// Set item pour la robe en mode édition
+function set_item_robe_edit(item, item3, numsire) {
+    $('#nom_idrobe_' + numsire).val(item);
+    $('#idrobe_' + numsire).val(item3);
+    $('#nom_list_idrobe_' + numsire).hide();
+}
+
+// Autocomplétion pour la race en mode édition
+function autocompletrace_edit(numsire) {
+    var min_length = 2;
+    var keyword = $('#nom_idrace_' + numsire).val();
+
+    if (keyword.length >= min_length) {
+        $.ajax({
+            url: '../../includes/ajax_refresh.php',
+            type: 'POST',
+            data: {
+                keyword: keyword,
+                type: 'race_list',
+                numsire: numsire
+            },
+            success: function(data) {
+                $('#nom_list_idrace_' + numsire).show();
+                $('#nom_list_idrace_' + numsire).html(data);
+            }
+        });
+    } else {
+        $('#nom_list_idrace_' + numsire).hide();
+    }
+}
+
+// Set item pour la race en mode édition
+function set_item_race_edit(item, item3, numsire) {
+    $('#nom_idrace_' + numsire).val(item);
+    $('#idrace_' + numsire).val(item3);
+    $('#nom_list_idrace_' + numsire).hide();
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     const menuButton = document.getElementById('menu-button');
