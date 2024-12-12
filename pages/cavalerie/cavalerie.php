@@ -43,11 +43,11 @@ $listeChevaux = $oCavalerie->selectChevaux();
 
 <div class="container">
     <nav class="nav-menu">
-        <button class="nav-btn active" data-target="create">🐎 Ajouter un Cheval</button>
-        <button class="nav-btn" data-target="list">📋 Liste des Chevaux</button>
+        <button class="nav-btn" data-target="create">🐎 Ajouter un Cheval</button>
+        <button class="nav-btn active" data-target="list">📋 Liste des Chevaux</button>
     </nav>
 
-    <div id="create-section" class="section active">
+    <div id="create-section" class="section">
         <div class="le-h1">
             <h1><i class="fas fa-horse-head"></i> Ajouter un Cheval</h1>
 
@@ -94,7 +94,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
         </div>
     </div>
 
-    <div id="list-section" class="section">
+    <div id="list-section" class="section active">
         <div class="le-h2">
             <h2><i class="fas fa-list"></i> Liste des Chevaux</h2>
             <table id="CavalerieTable" class="display">
@@ -146,8 +146,32 @@ $listeChevaux = $oCavalerie->selectChevaux();
                                 <span class="static-field"><?= htmlspecialchars($cheval->getGarot()) ?></span>
                                 <input type="number" class="edit-field" name="garot" value="<?= htmlspecialchars($cheval->getGarot()) ?>" style="display:none;">
                             </td>
-                            <td data-idrobe="<?= $cheval->getIdrobe() ?>"><?= htmlspecialchars($cheval->getRobeLibelle($cheval->getIdrobe())) ?></td>
-                            <td data-idrace="<?= $cheval->getIdrace() ?>"><?= htmlspecialchars($cheval->getRaceLibelle($cheval->getIdrace())) ?></td>
+                            <td data-idrobe="<?= $cheval->getIdrobe() ?>">
+                                <span class="static-field"><?= htmlspecialchars($cheval->getRobeLibelle($cheval->getIdrobe())) ?></span>
+                                <div class="edit-field" style="display:none;">
+                                    <input type="text" id="nom_idrobe_<?= $cheval->getNumsire() ?>" 
+                                           name="nom_idrobe" 
+                                           value="<?= htmlspecialchars($cheval->getRobeLibelle($cheval->getIdrobe())) ?>" 
+                                           onkeyup="autocompletrobe_edit(<?= $cheval->getNumsire() ?>)">
+                                    <div id="nom_list_idrobe_<?= $cheval->getNumsire() ?>"></div>
+                                    <input type="hidden" id="idrobe_<?= $cheval->getNumsire() ?>" 
+                                           name="idrobe" 
+                                           value="<?= $cheval->getIdrobe() ?>">
+                                </div>
+                            </td>
+                            <td data-idrace="<?= $cheval->getIdrace() ?>">
+                                <span class="static-field"><?= htmlspecialchars($cheval->getRaceLibelle($cheval->getIdrace())) ?></span>
+                                <div class="edit-field" style="display:none;">
+                                    <input type="text" id="nom_idrace_<?= $cheval->getNumsire() ?>" 
+                                           name="nom_idrace" 
+                                           value="<?= htmlspecialchars($cheval->getRaceLibelle($cheval->getIdrace())) ?>" 
+                                           onkeyup="autocompletrace_edit(<?= $cheval->getNumsire() ?>)">
+                                    <div id="nom_list_idrace_<?= $cheval->getNumsire() ?>"></div>
+                                    <input type="hidden" id="idrace_<?= $cheval->getNumsire() ?>" 
+                                           name="idrace" 
+                                           value="<?= $cheval->getIdrace() ?>">
+                                </div>
+                            </td>
                             <td>
                                 <span class="static-field">
                                     <?php
@@ -170,8 +194,17 @@ $listeChevaux = $oCavalerie->selectChevaux();
                             </td>
                             <td>
                                 <button class="modifier-btn" data-id="<?= $cheval->getNumsire() ?>">Modifier</button>
-                                <button class="confirmer-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Confirmer</button>
+                                <button class="confirmer-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;" onclick="updateHiddenFields(<?= $cheval->getNumsire() ?>)">Valider</button>
                                 <button class="annuler-btn" data-id="<?= $cheval->getNumsire() ?>" style="display:none;">Annuler</button>
+                                <form id="form-<?= $cheval->getNumsire() ?>" action="traitement_cavalerie.php" method="POST">
+                                    <input type="hidden" name="numsire" value="<?= $cheval->getNumsire() ?>">
+                                    <input type="hidden" name="nomcheval" id="nomcheval_<?= $cheval->getNumsire() ?>" value="<?= htmlspecialchars($cheval->getNomcheval()) ?>">
+                                    <input type="hidden" name="datenaissancecheval" id="datenaissancecheval_<?= $cheval->getNumsire() ?>" value="<?= htmlspecialchars($cheval->getDatenaissancecheval()) ?>">
+                                    <input type="hidden" name="garot" id="garot_<?= $cheval->getNumsire() ?>" value="<?= htmlspecialchars($cheval->getGarot()) ?>">
+                                    <input type="hidden" name="idrobe" id="idrobe_<?= $cheval->getNumsire() ?>" value="<?= $cheval->getIdrobe() ?>">
+                                    <input type="hidden" name="idrace" id="idrace_<?= $cheval->getNumsire() ?>" value="<?= $cheval->getIdrace() ?>">
+                                    <input type="hidden" name="action" value="modifier">
+                                </form>
                             </td>
                             <td>
                                 <form action="traitement_cavalerie.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cheval?');">
@@ -436,6 +469,84 @@ $listeChevaux = $oCavalerie->selectChevaux();
             });
         });
     });
+
+    $(document).ready(function() {
+        // Gestion des boutons modifier
+        $('.modifier-btn').on('click', function(e) {
+            e.preventDefault();
+            const row = $(this).closest('tr');
+            row.find('.static-field').hide();
+            row.find('.edit-field').show();
+            $(this).hide();
+            row.find('.confirmer-btn, .annuler-btn').show();
+        });
+    });
+
+    // Autocomplétion pour la robe en mode édition
+    function autocompletrobe_edit(numsire) {
+        var nomId = 'nom_idrobe_' + numsire;
+        var nomListId = 'nom_list_idrobe_' + numsire;
+        var min_length = 2;
+        var keyword = $('#' + nomId).val();
+
+        if (keyword.length >= min_length) {
+            $.ajax({
+                url: '../../includes/ajax_refresh.php',
+                type: 'POST',
+                data: {
+                    keyword: keyword,
+                    type: 'robe',
+                    numsire: numsire
+                },
+                success: function(data) {
+                    $('#' + nomListId).show();
+                    $('#' + nomListId).html(data);
+                }
+            });
+        } else {
+            $('#' + nomListId).hide();
+        }
+    }
+
+    // Set item pour la robe en mode édition
+    function set_item_robe_edit(item, item3, numsire) {
+        $('#nom_idrobe_' + numsire).val(item);
+        $('#idrobe_' + numsire).val(item3);
+        $('#nom_list_idrobe_' + numsire).hide();
+    }
+
+    // Autocomplétion pour la race en mode édition
+    function autocompletrace_edit(numsire) {
+        var nomId = 'nom_idrace_' + numsire;
+        var nomListId = 'nom_list_idrace_' + numsire;
+        var min_length = 2;
+        var keyword = $('#' + nomId).val();
+
+        if (keyword.length >= min_length) {
+            $.ajax({
+                url: '../../includes/ajax_refresh.php',
+                type: 'POST',
+                data: {
+                    keyword: keyword,
+                    type: 'race',
+                    numsire: numsire
+                },
+                success: function(data) {
+                    $('#' + nomListId).show();
+                    $('#' + nomListId).html(data);
+                }
+            });
+        } else {
+            $('#' + nomListId).hide();
+        }
+    }
+
+    // Set item pour la race en mode édition
+    function set_item_race_edit(item, item3, numsire) {
+        $('#nom_idrace_' + numsire).val(item);
+        $('#idrace_' + numsire).val(item3);
+        $('#nom_list_idrace_' + numsire).hide();
+    }
 </script>
 </body>
 </html> 
