@@ -150,11 +150,11 @@ $ReqCavalier = $oCavalier->CavalierAll();
                     <td> 
                     <div class="content">
                         <div class="input_container">
-                            <span class="static-field"><?= htmlspecialchars($unCavalier->getNomCommune()) ?></span>
+                            <span class="static-field"><?= htmlspecialchars($unCavalier->nomCommune) ?></span>
                             <input type="text" class="edit-field" 
                                 name="nom_idcommune21_<?= $unCavalier->getIdCavalier() ?>" 
                                 id="nom_idcommune21_<?= $unCavalier->getIdCavalier() ?>" 
-                                value="<?= htmlspecialchars($unCavalier->getNomCommune()) ?>" 
+                                value="<?= htmlspecialchars($unCavalier->nomCommune) ?>" 
                                 style="display:none;" 
                                 onkeyup="autocompletcommune21('<?= $unCavalier->getIdCavalier() ?>')">
                             <input type="hidden" 
@@ -168,11 +168,11 @@ $ReqCavalier = $oCavalier->CavalierAll();
                 <td>
                     <div class="content">
                         <div class="input_container">
-                            <span class="static-field"><?= htmlspecialchars($unCavalier->getNomGalop()) ?></span>
+                            <span class="static-field"><?= htmlspecialchars($unCavalier->nomGalop) ?></span>
                             <input type="text" class="edit-field" 
                                 name="nom_idgalop22_<?= $unCavalier->getIdCavalier() ?>" 
                                 id="nom_idgalop22_<?= $unCavalier->getIdCavalier() ?>" 
-                                value="<?= htmlspecialchars($unCavalier->getNomGalop()) ?>" 
+                                value="<?= htmlspecialchars($unCavalier->nomGalop) ?>" 
                                 style="display:none;" 
                                 onkeyup="autocompletgalop22('<?= $unCavalier->getIdCavalier() ?>')">
                             <input type="hidden" 
