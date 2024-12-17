@@ -12,7 +12,11 @@
 <body>
     <?php
     include "../../includes/haut.inc.php";
- 
+// Afficher le message d'erreur s'il existe
+if (isset($_SESSION['error_message'])) {
+    echo '<script>alert("' . addslashes(htmlspecialchars($_SESSION['error_message'])) . '");</script>';
+    unset($_SESSION['error_message']); // Supprimer le message après l'affichage
+}
     $oInserer = new Inserer(null, null);
     $ReqInserer = $oInserer->InsererAll();
     ?>
@@ -165,7 +169,7 @@
             });
         });
 
-        // Emp��cher la propagation du clic dans les champs d'édition
+        // Empêcher la propagation du clic dans les champs d'édition
         document.querySelectorAll('.edit-field').forEach(field => {
             field.addEventListener('click', function(event) {
                 event.stopPropagation();
