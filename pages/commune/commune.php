@@ -20,11 +20,11 @@ $ReqCommune = $oCommune->selectCommune();
 
 <div class="container">
     <nav class="nav-menu">
-        <button class="nav-btn active" data-target="create">🏘️ Créer une Commune</button>
-        <button class="nav-btn" data-target="list">📍 Liste des Communes</button>
+        <button class="nav-btn" data-target="create">🏘️ Créer une Commune</button>
+        <button class="nav-btn active" data-target="list">📍 Liste des Communes</button>
     </nav>
 
-    <div id="create-section" class="form-section section active">
+    <div id="create-section" class="section ">
         <h2>Créer une Commune</h2>
         <form action="commune_traitement.php" method="POST" class="form-generic">
             <label for="nom">Nom de la commune:</label>
@@ -37,7 +37,7 @@ $ReqCommune = $oCommune->selectCommune();
         </form>
     </div>
 
-    <div id="list-section" class="table-section section">
+    <div id="list-section" class="table-section section active">
         <h2>Liste des Communes</h2>
         <table id="CommuneTable" class="display">
             <thead>
