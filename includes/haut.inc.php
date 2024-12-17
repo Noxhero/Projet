@@ -63,7 +63,7 @@ if (isset($_POST['logout'])) {
         <a href="../../pages/cours/cours.php">Cours</a>
         <a href="../../pages/evenement/evenement.php">Événement</a>
         <a href="../../pages/galop/galop.php">Galop</a>
-        <a href="../../pages/insert/insert.php">Participation</a>
+        <a href="../../pages/insert/insert.php">Insert</a>
         <a href="../../pages/pension/pension.php">Pension</a>
         <a href="../../pages/photo/photo.php">Photo</a>
         <a href="../../pages/race/race.php">Race</a>
