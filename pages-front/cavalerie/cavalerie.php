@@ -46,7 +46,7 @@
                 $chevaux = $cavalerie->selectChevaux();
 
                 foreach ($chevaux as $cheval): 
-                    $photos = $cheval->getPhoto();
+                    $photos = $cheval->getPhotos($cheval->getNumsire());
                     $race = $cheval->getRaceLibelle($cheval->getIdRace());
                     $dateNaissance = $cheval->getDateNaissanceCheval();
                 ?>
