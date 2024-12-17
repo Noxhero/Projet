@@ -2,6 +2,7 @@
 
 include '../../includes/haut.inc.php';
 
+
 // Modification d'un cavalier
 if (isset($_POST['action']) && $_POST['action'] === 'modifier') {
     $idCavalier = $_POST["idcavalier"];
@@ -14,12 +15,9 @@ if (isset($_POST['action']) && $_POST['action'] === 'modifier') {
     $emailResponsable = $_POST["emailresponsable"];
     $numLicence = $_POST["numlicence"];
     $numAssurance = $_POST["numassurance"];
-    
-    // Création des objets pour la modification
-    $idcommune = $_POST["idcommune"];
-    $commune = new Commune($idcommune, null, null);
+    $idcommune = $_POST["idcommune"]; 
     $idGalop = $_POST["idgalop"];
-    $galop = new Galop($idGalop, null);
+
 
     // Création du cavalier avec les bons paramètres
     $unCavalier = new Cavalier(
@@ -34,8 +32,8 @@ if (isset($_POST['action']) && $_POST['action'] === 'modifier') {
         null, // password n'est pas modifié lors d'une mise à jour
         $numLicence,
         $numAssurance,
-        $commune,
-        $galop
+        $idcommune,
+        $idGalop
     );
     
     $unCavalier->UpdateCavalier();
@@ -44,7 +42,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'modifier') {
 }
 
 // Ajout d'un nouveau cavalier
-if (isset($_POST['action']) && $_POST['action'] === 'ajouter') {
+if (isset($_POST["nomcavalier"]) && !isset($_POST['action'])) {
     $nomCavalier = $_POST["nomcavalier"];
     $prenomCavalier = $_POST["prenomcavalier"];
     $dateNaissanceCavalier = $_POST["datenaissancecavalier"];
@@ -56,8 +54,8 @@ if (isset($_POST['action']) && $_POST['action'] === 'ajouter') {
     $numLicence = $_POST["numlicence"];
     $numAssurance = $_POST["numassurance"];
     
-    // Création des objets pour l'ajout
-    $idcommune = $_POST["idcommune"];
+    // Création des objets Commune et Galop
+    $idcommune = $_POST["idcommune"]; 
     $commune = new Commune($idcommune, null, null);
     $idGalop = $_POST["idgalop"];
     $galop = new Galop($idGalop, null);
@@ -87,7 +85,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'ajouter') {
 // Suppression d'un cavalier
 if (isset($_POST["supprimer"])) {
     $idCavalier = $_POST["supprimer"]; 
-    $unCavalier = new Cavalier($idCavalier, null, null, null, null, null, null, null, null, null, null, null, null); 
+    $unCavalier = new Cavalier($idCavalier, null, null, null, null, null, null, null, null, null,null,null,null); 
     $unCavalier->DeleteCavalier($idCavalier);
     
     header("Location: cavalier.php");
