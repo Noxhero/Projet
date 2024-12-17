@@ -22,11 +22,11 @@ $ReqCours = $oCours->selectCours();
 
 <div class="container">
     <nav class="nav-menu">
-        <button class="nav-btn active" data-target="create">Créer un Cours</button>
-        <button class="nav-btn" data-target="list">Liste des Cours</button>
+        <button class="nav-btn " data-target="create">Créer un Cours</button>
+        <button class="nav-btn active" data-target="list">Liste des Cours</button>
     </nav>
 
-    <div id="create-section" class="form-section section active">
+    <div id="create-section" class="section ">
         <h2><i class="fas fa-book-open"></i> Créer un Cours</h2>
 
         
@@ -47,7 +47,7 @@ $ReqCours = $oCours->selectCours();
 </form>
     </div>
 
-    <div id="list-section" class="table-section section">
+    <div id="list-section" class="table-section section active">
         <h2><i class="fas fa-list"></i> Liste des Cours</h2>
         <i class="fas fa-calendar-alt"></i>
         <i class="fas fa-user-cowboy"></i>
