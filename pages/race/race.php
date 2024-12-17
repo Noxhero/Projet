@@ -20,11 +20,11 @@ $ReqRace = $oRace->selectRace();
 
 <div class="container">
     <nav class="nav-menu">
-        <button class="nav-btn active" data-target="create">🐎 Créer une Race</button>
-        <button class="nav-btn" data-target="list">📜 Liste des Races</button>
+        <button class="nav-btn" data-target="create">🐎 Créer une Race</button>
+        <button class="nav-btn active" data-target="list">📜 Liste des Races</button>
     </nav>
 
-    <div id="create-section" class="form-section section active">
+    <div id="create-section" class="section">
         <h2>Créer une Race</h2>
         <form action="race_traitement.php" method="post">
             <label for="nom">Nom de la race:</label>
@@ -33,7 +33,7 @@ $ReqRace = $oRace->selectRace();
         </form>
     </div>
 
-    <div id="list-section" class="table-section section">
+    <div id="list-section" class="table-section section active">
         <h2>Liste des Races</h2>
         <table id="RaceTable" class="display">
             <thead>
