@@ -16,11 +16,11 @@ $robetableaux = $oRobe->selectRobe();
 
 <div class="container">
     <nav class="nav-menu">
-        <button class="nav-btn active" data-target="create">🎨 Créer une Robe</button>
-        <button class="nav-btn" data-target="list">📋 Liste des Robes</button>
+        <button class="nav-btn" data-target="create">🎨 Créer une Robe</button>
+        <button class="nav-btn active" data-target="list">📋 Liste des Robes</button>
     </nav>
 
-    <div id="create-section" class="form-section section active">
+    <div id="create-section" class="section">
         <h2>Créer une Robe</h2>
         <form action="robe_traitement.php" method="post" class="form-generic">
             <label for="nom">Nom de la robe:</label>
@@ -29,7 +29,7 @@ $robetableaux = $oRobe->selectRobe();
         </form>
     </div>
 
-    <div id="list-section" class="table-section section">
+    <div id="list-section" class="table-section section active">
         <h2>Liste des Robes</h2>
         <table id="RobeTable" class="display">
             <thead>
