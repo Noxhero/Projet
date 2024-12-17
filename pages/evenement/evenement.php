@@ -2,7 +2,7 @@
 include '../../includes/haut.inc.php';
 include 'evenement.class.php';
 
-$evenements = Evenement::GetAllEvenements();
+$evenements = Evenement::selectEvenements();
 ?>
 
 <h1>Liste des Événements</h1>
