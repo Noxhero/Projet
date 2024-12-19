@@ -35,88 +35,92 @@ if (isset($_POST['action']) && $_POST['action'] === 'modifier') {
     }
 }
 
+
 // Ajout d'un nouveau cheval avec photo
 if (isset($_POST["nomcheval"]) && !isset($_POST['action'])) {
-    try {
-        $nomcheval = $_POST["nomcheval"];
-        $datenaissancecheval = $_POST["datenaissancecheval"];
-        $garot = $_POST["garot"];
-        $idrobe = $_POST["idrobe"];
-        $idrace = $_POST["idrace"];
+    $nomcheval = $_POST["nomcheval"];
+    $datenaissancecheval = $_POST["datenaissancecheval"];
+    $garot = $_POST["garot"];
+    $idrobe = $_POST["idrobe"];
+    $idrace = $_POST["idrace"];
 
-        // Vérifications des IDs
-        $robeExists = $con->prepare("SELECT COUNT(*) FROM robe WHERE idrobe = :idrobe");
-        $robeExists->execute([':idrobe' => $idrobe]);
-        $idrobeValid = $robeExists->fetchColumn() > 0;
+    // Vérifiez si idrobe et idrace existent
+    $robeExists = $con->prepare("SELECT COUNT(*) FROM robe WHERE idrobe = :idrobe");
+    $robeExists->execute([':idrobe' => $idrobe]);
+    $idrobeValid = $robeExists->fetchColumn() > 0;
 
-        $raceExists = $con->prepare("SELECT COUNT(*) FROM race WHERE idrace = :idrace");
-        $raceExists->execute([':idrace' => $idrace]);
-        $idraceValid = $raceExists->fetchColumn() > 0;
+    $raceExists = $con->prepare("SELECT COUNT(*) FROM race WHERE idrace = :idrace");
+    $raceExists->execute([':idrace' => $idrace]);
+    $idraceValid = $raceExists->fetchColumn() > 0;
 
-        if (!$idrobeValid || !$idraceValid) {
-            sendJsonResponse(false, "L'ID de la robe ou de la race est invalide.");
-        }
-
-        // Insertion du cheval
-        $unCheval = new Cavalerie(null, $nomcheval, $datenaissancecheval, $garot, $idrobe, $idrace);
-        $numsire = $unCheval->insertCheval();
-
-        // Gestion de la photo
-        if ($numsire && isset($_FILES['userfile'])) {
-            $uploadDir = '../../uploads/photos/';
-            $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-            
-            if (!file_exists($uploadDir)) {
-                mkdir($uploadDir, 0777, true);
-            }
-
-            $uploadedFiles = [];
-            foreach ($_FILES['userfile']['name'] as $key => $originalFileName) {
-                $extension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
-                
-                if (!in_array($extension, $allowed)) {
-                    sendJsonResponse(false, "Format de fichier non autorisé. Utilisez JPG, PNG, GIF ou WebP");
-                }
-
-                $nomPhoto = !empty($_POST['nom_photo']) 
-                    ? preg_replace('/[^A-Za-z0-9_-]/', '', $_POST['nom_photo']) . '_' . $key . '.' . $extension
-                    : uniqid() . '.' . $extension;
-
-                $uploadFile = $uploadDir . $nomPhoto;
-
-                if (move_uploaded_file($_FILES['userfile']['tmp_name'][$key], $uploadFile)) {
-                    $photo = new Photo();
-                    $photo->setNumSire($numsire);
-                    $photo->setIdEvenement(0);
-                    $photo->setnom_photo($nomPhoto);
-                    $photo->setLien('../../uploads/photos/' . $nomPhoto);
-                    $photo->saveLink();
-                    $uploadedFiles[] = $nomPhoto;
-                }
-            }
-            sendJsonResponse(true, "Cheval et photos ajoutés avec succès", ['numsire' => $numsire, 'photos' => $uploadedFiles]);
-        } else {
-            sendJsonResponse(true, "Cheval ajouté avec succès", ['numsire' => $numsire]);
-        }
-    } catch (Exception $e) {
-        sendJsonResponse(false, "Erreur : " . $e->getMessage());
+    if (!$idrobeValid || !$idraceValid) {
+        $_SESSION['error'] = "L'ID de la robe ou de la race est invalide.";
+        header("Location: cavalerie.php");
+        exit();
     }
+
+    // Insérer d'abord le cheval pour obtenir le numsire
+    $unCheval = new Cavalerie(null, $nomcheval, $datenaissancecheval, $garot, $idrobe, $idrace);
+    $numsire = $unCheval->insertCheval();
+
+    // Gestion de la photo
+    if ($numsire && isset($_FILES['userfile'])) {
+        $uploadDir = '../../uploads/photos/';
+        
+        // Définir les extensions de fichiers autorisées
+        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        foreach ($_FILES['userfile']['name'] as $key => $originalFileName) {
+            $extension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
+            
+            // Vérification de l'extension
+            if (!in_array($extension, $allowed)) {
+                $_SESSION['error'] = "Format de fichier non autorisé. Utilisez JPG, PNG, GIF ou WebP";
+                header("Location: cavalerie.php");
+                exit();
+            }
+
+            $nomPhoto = !empty($_POST['nom_photo']) 
+                ? preg_replace('/[^A-Za-z0-9_-]/', '', $_POST['nom_photo']) . '_' . $key . '.' . $extension
+                : uniqid() . '.' . $extension;
+
+            $uploadFile = $uploadDir . $nomPhoto;
+
+            // Déplacement du fichier
+            if (move_uploaded_file($_FILES['userfile']['tmp_name'][$key], $uploadFile)) {
+                // Enregistrement dans la base de données
+                $photo = new Photo();
+                $photo->setNumSire($numsire);
+                $photo->setIdEvenement(0);
+                $photo->setnom_photo($nomPhoto);
+                $photo->setLien('../../uploads/photos/' . $nomPhoto);
+                $photo->saveLink();
+            } else {
+                error_log("Erreur upload : " . error_get_last()['message']);
+            }
+        }
+    }
+
+    header("Location: cavalerie.php");
+    exit();
 }
 
 // Suppression d'un cheval
 if (isset($_POST["supprimer"])) {
     try {
-        $idcavalerie = $_POST["supprimer"]; 
-        $unCavalier = new Cavalerie($idcavalerie, null, null, null, null, null); 
-        $success = $unCavalier->DeleteCavalerie($idcavalerie);
+        $numsire = $_POST["supprimer"]; 
+        $unCavalier = new Cavalerie($numsire, null, null, null, null, null); 
+        $success = $unCavalier->DeleteCavalerie($numsire);
         
-        if ($success) {
-            sendJsonResponse(true, "Cheval supprimé avec succès");
-        } else {
-            sendJsonResponse(false, "Erreur lors de la suppression du cheval");
-        }
+        header('Location: cavalerie.php');
+        exit();
     } catch (Exception $e) {
-        sendJsonResponse(false, "Erreur : " . $e->getMessage());
+        echo "Erreur : " . $e->getMessage();
+        exit();
     }
 }
 
