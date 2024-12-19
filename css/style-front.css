@@ -251,6 +251,9 @@ nav ul li:nth-child(1) { animation-delay: 0.1s; }
 nav ul li:nth-child(2) { animation-delay: 0.2s; }
 nav ul li:nth-child(3) { animation-delay: 0.3s; }
 nav ul li:nth-child(4) { animation-delay: 0.4s; }
+nav ul li:nth-child(5) { animation-delay: 0.5s; }
+nav ul li:nth-child(6) { animation-delay: 0.6s; }
+nav ul li:nth-child(7) { animation-delay: 0.7s; }
 
 /* Effet de scroll */
 header.scrolled {
@@ -637,84 +640,6 @@ header::before {
     transform: scale(1.05);
 }
 
-/* Section Galerie */
-.gallery {
-    padding: 100px 0;
-    background: linear-gradient(120deg, #112240 0%, #0a192f 100%);
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-}
-
-/* Titre de la galerie */
-.gallery h2 {
-    color: #64ffda;
-    font-size: 3.5em;
-    text-align: center;
-    margin-bottom: 70px;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    position: relative;
-    text-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
-}
-
-.gallery h2::after {
-    content: '';
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 120px;
-    height: 4px;
-    background: linear-gradient(90deg, #64ffda, #ff6b6b);
-    border-radius: 4px;
-    box-shadow: 0 0 20px rgba(100, 255, 218, 0.5);
-}
-
-/* Carrousel amélioré */
-.carousel {
-    position: relative;
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.carousel-images {
-    width: 100%;
-    height: 400px;
-    overflow: hidden;
-    border-radius: 10px;
-}
-
-.carousel-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-.carousel-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background: rgba(17, 34, 64, 0.8);
-    border: none;
-    border-radius: 50%;
-    color: #64ffda;
-    font-size: 18px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    z-index: 10;
-}
-
-.carousel-button:hover {
-    background: rgba(100, 255, 218, 0.2);
-    transform: translateY(-50%) scale(1.1);
-}
 
 .prev {
     left: 10px;
@@ -743,119 +668,6 @@ header::before {
 .horse-modal-info span {
     color: #64ffda;
     font-weight: bold;
-}
-
-.carousel:hover {
-    transform: scale(1.02) translateY(-15px) rotateX(2deg);
-    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.4);
-}
-
-/* Container des images */
-.carousel-images {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
-
-.carousel-image {
-    min-width: 100%;
-    height: 800px;
-    object-fit: cover;
-    transition: all 0.5s ease;
-    filter: brightness(0.8);
-}
-
-.carousel:hover .carousel-image {
-    filter: brightness(1);
-    transform: scale(1.02);
-}
-
-/* Boutons de navigation */
-.carousel-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 70px;
-    height: 70px;
-    background: rgba(17, 34, 64, 0.8);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(100, 255, 218, 0.2);
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #64ffda;
-    font-size: 24px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 0;
-    z-index: 10;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    overflow: hidden;
-}
-
-.prev { left: 40px; }
-.next { right: 40px; }
-
-.carousel:hover .carousel-button {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-}
-
-/* Effet de survol sur les boutons */
-.carousel-button:hover {
-    background: rgba(100, 255, 218, 0.2);
-    border-color: #64ffda;
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 
-        0 0 20px rgba(100, 255, 218, 0.4),
-        0 0 30px rgba(100, 255, 218, 0.2);
-}
-
-/* Animation des boutons */
-@keyframes buttonPulse {
-    0% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.4); }
-    70% { box-shadow: 0 0 0 15px rgba(100, 255, 218, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0); }
-}
-
-.carousel-button:hover {
-    animation: buttonPulse 1.5s infinite;
-}
-
-/* Effet de transition des images */
-@keyframes imageTransition {
-    from {
-        opacity: 0.7;
-        transform: scale(1.1);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.carousel-image {
-    animation: imageTransition 0.5s ease-out;
-}
-
-/* Effet de particules en arrière-plan */
-.gallery::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 30%, rgba(100, 255, 218, 0.03) 0%, transparent 20%),
-        radial-gradient(circle at 80% 70%, rgba(255, 107, 107, 0.03) 0%, transparent 20%);
-    animation: galleryShift 15s infinite alternate;
-}
-
-@keyframes galleryShift {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.1); }
 }
 
 /* Footer moderne */
