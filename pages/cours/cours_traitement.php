@@ -62,7 +62,7 @@ if (isset($_POST["nom"]) && isset($_POST["debut"]) && isset($_POST["fin"]) && is
         $date = date("Y-m-d", strtotime("+$i week", strtotime($firstDate)));
 
         // Prepare the SQL statement with placeholders
-        $stmt = $con->prepare("INSERT INTO calendrier (idcoursbase, idcoursassociee, datecours) VALUES (?, ?, ?)");
+        $stmt = $con->prepare("INSERT INTO calendrier (idcoursbase, idcoursassociee, datecours,afficher) VALUES (?, ?, ?,true)");
 
         if ($stmt === false) {
             die('prepare() failed: ' . htmlspecialchars($con->error));
