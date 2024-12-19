@@ -1,7 +1,6 @@
 Le fichier readme n'a aucune action  particulière a effectuer il donne des infos sur les autres codes et peut servir de documentation sur les erreurs et avancées du code exemple
 
 
-
 - 19/09/2024 : Création du fichier Readme et ajout des employés au git
   
 - 10/10/2024 : Création de la structure de site
@@ -22,4 +21,10 @@ Le fichier readme n'a aucune action  particulière a effectuer il donne des info
 
 - 10/12/2024 : Améliorations du front et correction d'erreurs dans le backend.
 
-- 12/12/2024 : 
+- 12/12/2024 : Corrections suite à un retour du professeur sur certains problèmes.
+
+- 17/12/2024 : Réparations multiples ainsi que finalisation de la partie Insert (le dossier insert en globalité).
+
+- 19/12/2024 : Réparations finales du code pour assurer la bonne mise en commun dans le Github avec tout de fonctionnel, améliorations du style dans la partie back-end du site, réparations et améliorations en front-end.
+
+- 
