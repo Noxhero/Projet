@@ -478,7 +478,7 @@ $listeChevaux = $oCavalerie->selectChevaux();
             })
             .then(response => response.text())
             .then(data => {
-                alert('Photo ajoutée avec succès');
+             
                 location.reload(); // Recharge la page pour voir les changements
             })
             .catch(error => {
