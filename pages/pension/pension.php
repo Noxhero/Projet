@@ -18,42 +18,65 @@ $ReqPension = $oPension->PensionAll();
 
 <div class="container">
     <nav class="nav-menu">
-        <button class="nav-btn" data-target="create"> Créer une Pension</button>
-        <button class="nav-btn active" data-target="list">📊 Liste des Pensions</button>
+        <button class="nav-btn" data-target="create">🏠 Créer une Pension</button>
+        <button class="nav-btn active" data-target="list">📋 Liste des Pensions</button>
     </nav>
 
     <div id="create-section" class="section">
-
         <h2>Ajouter une Pension</h2>
         <form action="pension_traitement.php" method="POST" class="form-generic">
-            <label for="libpension">Libellé:</label>
-            <input type="text" name="libpension" required><br>
+            <div class="form-group">
+                <label for="libpension">Libellé:</label>
+                <input type="text" name="libpension" class="input-field" required>
+            </div>
 
-            <label for="tarifpension">Tarif:</label>
-            <input type="number" step="0.01" name="tarifpension" required><br>
+            <div class="form-group">
+                <label for="tarifpension">Tarif:</label>
+                <input type="number" step="0.01" name="tarifpension" class="input-field" required>
+            </div>
 
-            <label for="datedebut">Date de début:</label>
-            <input type="date" name="datedebut" required><br>
+            <div class="form-group">
+                <label for="datedebut">Date de début:</label>
+                <input type="date" name="datedebut" class="input-field" required>
+            </div>
 
-            <label for="datefin">Date de fin:</label>
-            <input type="date" name="datefin" required><br>
+            <div class="form-group">
+                <label for="datefin">Date de fin:</label>
+                <input type="date" name="datefin" class="input-field" required>
+            </div>
 
-            <label for="numsire">Cheval:</label>
-    <div class="content">
-        <div class="input_container">
-            <input type="text" name="nom_cheval" id="nom_cheval" 
-                placeholder="Nom du cheval" 
-                onkeyup="autocompletCheval()">
-            <input type="hidden" name="numsire" id="numsire">
-            <ul id="nom_list_cheval" style="display:none;"></ul>
-        </div>
-    </div>
+            <div class="form-group">
+                <label for="numsire">Cheval:</label>
+                <div class="input_container">
+                    <input type="text" name="nom_cheval" id="nom_cheval" 
+                        class="input-field"
+                        placeholder="Nom du cheval" 
+                        onkeyup="autocompletCheval()">
+                    <input type="hidden" name="numsire" id="numsire">
+                    <ul id="nom_list_cheval" class="autocomplete-list"></ul>
+                </div>
+            </div>
 
-            <input type="submit" value="Créer">
+            <div class="form-group">
+                <label for="cavalier">Cavalier:</label>
+                <div class="input_container">
+                    <input type="text" name="nomcavalier" id="nomcavalier" 
+                        class="input-field"
+                        placeholder="Nom du cavalier" 
+                        onkeyup="autocompletCavalier()">
+                    <input type="text" name="prenomcavalier" id="prenomcavalier" 
+                        class="input-field"
+                        placeholder="Prénom du cavalier">
+                    <input type="hidden" name="idcavalier" id="idcavalier">
+                    <ul id="nom_list_idcavalier" class="autocomplete-list"></ul>
+                </div>
+            </div>
+
+            <input type="submit" value="Créer" class="btn-submit">
         </form>
     </div>
 
-    <div id="list-section" class="table-section section active">
+    <div id="list-section" class="section active">
         <h2>Liste des pensions</h2>
         <table id="PensionsTable" class="display">
             <thead>

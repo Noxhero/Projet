@@ -36,57 +36,87 @@ $ReqCavalier = $oCavalier->CavalierAll();
 
 <div class="container">
     <nav class="nav-menu">
-        <button class="nav-btn active" data-target="create">🏇 Ajouter un Cavalier</button>
-        <button class="nav-btn" data-target="list">📋 Liste des Cavaliers</button>
+        <button class="nav-btn" data-target="create">🏇 Ajouter un Cavalier</button>
+        <button class="nav-btn active" data-target="list">📋 Liste des Cavaliers</button>
     </nav>
 
-    <div id="create-section" class="section active">
-        <h1>Ajouter un Cavalier</h1>
-        <form action="cavalier_traitement.php" method="POST">
-            <label for="nomcavalier">Nom du cavalier:</label>
-            <input type="text" name="nomcavalier" placeholder="Nom du cavalier" required><br>
-            <label for="prenomcavalier">Prénom du cavalier:</label>
-            <input type="text" name="prenomcavalier" placeholder="Prénom du cavalier" required><br>
-            <label for="datenaissancecavalier">Date de naissance du cavalier:</label>
-            <input type="date" name="datenaissancecavalier" placeholder="Date de naissance" required><br>
-            <label for="nomresponsable">Nom du responsable:</label>
-            <input type="text" name="nomresponsable" placeholder="Nom du responsable"><br>
-            <label for="rueresponsable">Rue du responsable:</label>
-            <input type="text" name="rueresponsable" placeholder="Rue du responsable"><br>
-            <label for="telresponsable">Téléphone du responsable:</label>
-            <input type="text" name="telresponsable" placeholder="Téléphone du responsable"><br>
-            <label for="emailresponsable">Email du responsable:</label>
-            <input type="email" name="emailresponsable" placeholder="Email du responsable"><br>
-            <label for="password">Mot de passe:</label>
-            <input type="password" name="password" placeholder="Mot de passe"><br>
-            <label for="numlicence">Numéro de licence:</label>
-            <input type="text" name="numlicence" placeholder="Numéro de licence"><br>
-            <label for="numassurance">Numéro de l'assurance:</label>
-            <input type="text" name="numassurance" placeholder="Numéro d'assurance"><br>
-            <label for="nomcommune">Nom de la Commune et Code postal:</label>
-<div class="content">
-    <div class="input_container">
-        <input type="text" name="nom_idcommune" id="nom_idcommune" placeholder="Commune" onkeyup="autocompletcommune()">
-        <input type="text" name="cp" id="cp" placeholder="Code Postal">
-        <input type="hidden" name="idcommune" id="idcommune">
-        <ul id="nom_list_idcommune"></ul>
-    </div>
-</div>
+    <div id="create-section" class="section">
+        <h2>Ajouter un Cavalier</h2>
+        <form action="cavalier_traitement.php" method="POST" class="form-generic">
+            <div class="form-group">
+                <label for="nomcavalier">Nom du cavalier:</label>
+                <input type="text" name="nomcavalier" class="input-field" placeholder="Nom du cavalier" required>
+            </div>
 
-            <label for="idgalop">Niveau de Galop:</label>
-<div class="content">
-    <div class="input_container">
-        <input type="text" name='nomgalop' id="nom_idgalop" placeholder="Galop maitrisé" onkeyup="autocompletgalop()">
-        <input type="hidden" name='idgalop' id="idgalop" value>
-        <ul id="nom_list_idgalop"></ul>
-    </div>
-</div>
+            <div class="form-group">
+                <label for="prenomcavalier">Prénom du cavalier:</label>
+                <input type="text" name="prenomcavalier" class="input-field" placeholder="Prénom du cavalier" required>
+            </div>
 
-            <input type="submit" value="Créer">
+            <div class="form-group">
+                <label for="datenaissancecavalier">Date de naissance du cavalier:</label>
+                <input type="date" name="datenaissancecavalier" class="input-field" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nomresponsable">Nom du responsable:</label>
+                <input type="text" name="nomresponsable" class="input-field" placeholder="Nom du responsable">
+            </div>
+
+            <div class="form-group">
+                <label for="rueresponsable">Rue du responsable:</label>
+                <input type="text" name="rueresponsable" class="input-field" placeholder="Rue du responsable">
+            </div>
+
+            <div class="form-group">
+                <label for="telresponsable">Téléphone du responsable:</label>
+                <input type="text" name="telresponsable" class="input-field" placeholder="Téléphone du responsable">
+            </div>
+
+            <div class="form-group">
+                <label for="emailresponsable">Email du responsable:</label>
+                <input type="email" name="emailresponsable" class="input-field" placeholder="Email du responsable">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mot de passe:</label>
+                <input type="password" name="password" class="input-field" placeholder="Mot de passe">
+            </div>
+
+            <div class="form-group">
+                <label for="numlicence">Numéro de licence:</label>
+                <input type="text" name="numlicence" class="input-field" placeholder="Numéro de licence">
+            </div>
+
+            <div class="form-group">
+                <label for="numassurance">Numéro de l'assurance:</label>
+                <input type="text" name="numassurance" class="input-field" placeholder="Numéro d'assurance">
+            </div>
+
+            <div class="form-group">
+                <label for="nomcommune">Nom de la Commune et Code postal:</label>
+                <div class="input_container">
+                    <input type="text" name="nom_idcommune" id="nom_idcommune" class="input-field" placeholder="Commune" onkeyup="autocompletcommune()">
+                    <input type="text" name="cp" id="cp" class="input-field" placeholder="Code Postal">
+                    <input type="hidden" name="idcommune" id="idcommune">
+                    <ul id="nom_list_idcommune"></ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="idgalop">Niveau de Galop:</label>
+                <div class="input_container">
+                    <input type="text" name='nomgalop' id="nom_idgalop" class="input-field" placeholder="Galop maitrisé" onkeyup="autocompletgalop()">
+                    <input type="hidden" name='idgalop' id="idgalop">
+                    <ul id="nom_list_idgalop"></ul>
+                </div>
+            </div>
+
+            <input type="submit" value="Créer" class="btn-submit">
         </form>
     </div>
 
-    <div id="list-section" class="section">
+    <div id="list-section" class="section active">
         <h1>Liste des cavaliers</h1>
         <table id="CavaliersTable" class="display">
             <thead>
@@ -186,7 +216,11 @@ $ReqCavalier = $oCavalier->CavalierAll();
 
                         <td>
                             <button class="modifier-btn" data-id="<?= $unCavalier->getIdCavalier() ?>">Modifier</button>
-                            <button class="confirmer-btn" data-id="<?= $unCavalier->getIdCavalier() ?>" style="display:none;">Confirmer</button>
+                            <form action="cavalier_traitement.php" method="POST" style="display:none;" class="edit-form">
+                                <input type="hidden" name="action" value="modifier">
+                                <input type="hidden" name="idcavalier" value="<?= $unCavalier->getIdCavalier() ?>">
+                                <button type="submit" class="confirmer-btn" data-id="<?= $unCavalier->getIdCavalier() ?>">Confirmer</button>
+                            </form>
                             <button class="annuler-btn" data-id="<?= $unCavalier->getIdCavalier() ?>" style="display:none;">Annuler</button>
                         </td>
                         <td>
@@ -204,110 +238,102 @@ $ReqCavalier = $oCavalier->CavalierAll();
 
 <script>
     $(document).ready(function() {
-        $('#CavaliersTable').DataTable();
-        
-        // Gestion des onglets améliorée
-        $('.nav-btn').click(function() {
-            $('.nav-btn').removeClass('active');
-            $(this).addClass('active');
-            $('.section').removeClass('active');
-            $('#' + $(this).data('target') + '-section').addClass('active');
-        });
-    });
-
-    // Gestionnaire de clic extérieur
-    document.addEventListener('click', function(event) {
-        const rows = document.querySelectorAll('tr[id^="row-"]');
-        rows.forEach(row => {
-            if (row.contains(event.target)) return;
-            
-            if (row.querySelector('.confirmer-btn').style.display === 'inline') {
-                resetRow(row);
+        // Initialisation de DataTable
+        const table = $('#CavaliersTable').DataTable({
+            stateSave: true,
+            drawCallback: function() {
+                attachEventHandlers();
             }
         });
-    });
 
-    // Fonction pour réinitialiser une ligne
-    function resetRow(row) {
-        row.querySelector('.modifier-btn').style.display = 'inline';
-        row.querySelector('.confirmer-btn').style.display = 'none';
-        row.querySelector('.annuler-btn').style.display = 'none';
-    }
+        function attachEventHandlers() {
+            // Gestion des boutons modifier
+            $('.modifier-btn').off('click').on('click', function() {
+                const row = $(this).closest('tr');
+                row.find('.static-field').hide();
+                row.find('.edit-field').show();
+                $(this).hide();
+                row.find('.edit-form').show();
+                row.find('.annuler-btn').show();
+            });
 
-    // Quand le bouton "Modifier" est cliqué
-    document.querySelectorAll('.modifier-btn').forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.stopPropagation();
-            const id = this.getAttribute('data-id');
-            const row = document.getElementById('row-' + id);
+            // Gestion des boutons annuler
+            $('.annuler-btn').off('click').on('click', function() {
+                const row = $(this).closest('tr');
+                row.find('.static-field').show();
+                row.find('.edit-field').hide();
+                row.find('.modifier-btn').show();
+                row.find('.edit-form').hide();
+                $(this).hide();
+            });
 
-            row.querySelectorAll('.static-field').forEach(field => field.style.display = 'none');
-            row.querySelectorAll('.edit-field').forEach(field => field.style.display = 'inline');
+            // Gestion de la soumission du formulaire de modification
+            $('.edit-form').on('submit', function(e) {
+                const row = $(this).closest('tr');
+                // Ajout des valeurs des champs au formulaire avant soumission
+                $(this).append(`
+                    <input type="hidden" name="nomcavalier" value="${row.find('input[name="nomcavalier"]').val()}">
+                    <input type="hidden" name="prenomcavalier" value="${row.find('input[name="prenomcavalier"]').val()}">
+                    <input type="hidden" name="datenaissancecavalier" value="${row.find('input[name="datenaissancecavalier"]').val()}">
+                    <input type="hidden" name="nomresponsable" value="${row.find('input[name="nomresponsable"]').val()}">
+                    <input type="hidden" name="rueresponsable" value="${row.find('input[name="rueresponsable"]').val()}">
+                    <input type="hidden" name="telresponsable" value="${row.find('input[name="telresponsable"]').val()}">
+                    <input type="hidden" name="emailresponsable" value="${row.find('input[name="emailresponsable"]').val()}">
+                    <input type="hidden" name="numlicence" value="${row.find('input[name="numlicence"]').val()}">
+                    <input type="hidden" name="numassurance" value="${row.find('input[name="numassurance"]').val()}">
+                    <input type="hidden" name="idcommune" value="${row.find('input[id^="idcommune21_"]').val()}">
+                    <input type="hidden" name="idgalop" value="${row.find('input[id^="idgalop22_"]').val()}">
+                `);
+            });
+        }
 
-            this.style.display = 'none';
-            row.querySelector('.confirmer-btn').style.display = 'inline';
-            row.querySelector('.annuler-btn').style.display = 'inline';
+        // Modification du gestionnaire de suppression
+        $(document).on('submit', 'form', function(e) {
+            if ($(this).find('input[name="supprimer"]').length) {
+                e.preventDefault();
+                if (confirm('Êtes-vous sûr de vouloir supprimer ce cavalier ?')) {
+                    const formData = new FormData(this);
+                    
+                    $.ajax({
+                        url: 'cavalier_traitement.php',
+                        method: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            try {
+                                const data = JSON.parse(response);
+                                if (data.success) {
+                                    table.ajax.reload(null, false);
+                                    alert('Suppression réussie');
+                                } else {
+                                    alert('Erreur lors de la suppression: ' + data.message);
+                                }
+                            } catch (e) {
+                                console.error('Erreur:', e);
+                                alert('Erreur lors du traitement de la réponse');
+                            }
+                        }
+                    });
+                }
+            }
         });
-    });
-    
-    document.querySelectorAll('.confirmer-btn').forEach(button => {
-    button.addEventListener('click', function() {
-        const id = this.getAttribute('data-id');
-        const row = document.getElementById('row-' + id);
 
-        // Récupérer les valeurs modifiées
-        const nomcavalier = row.querySelector('input[name="nomcavalier"]').value;
-        const prenomcavalier = row.querySelector('input[name="prenomcavalier"]').value;
-        const datenaissancecavalier = row.querySelector('input[name="datenaissancecavalier"]').value;
-        const nomresponsable = row.querySelector('input[name="nomresponsable"]').value;
-        const rueresponsable = row.querySelector('input[name="rueresponsable"]').value;
-        const telresponsable = row.querySelector('input[name="telresponsable"]').value;
-        const emailresponsable = row.querySelector('input[name="emailresponsable"]').value;
-        const numlicence = row.querySelector('input[name="numlicence"]').value;
-        const numassurance = row.querySelector('input[name="numassurance"]').value;
-        const idcommune21 = row.querySelector('input[name="idcommune21"]').value;
-        const idgalop22 = row.querySelector('input[name="idgalop22"]').value;
-
-        // Soumettre via un formulaire caché
-        const form = document.createElement('form');
-        form.action = 'cavalier_traitement.php';
-        form.method = 'POST';
-        form.innerHTML = `
-            <input type="hidden" name="idcavalier" value="${id}">
-            <input type="hidden" name="nomcavalier" value="${nomcavalier}">
-            <input type="hidden" name="prenomcavalier" value="${prenomcavalier}">
-            <input type="hidden" name="datenaissancecavalier" value="${datenaissancecavalier}">
-            <input type="hidden" name="nomresponsable" value="${nomresponsable}">
-            <input type="hidden" name="rueresponsable" value="${rueresponsable}">
-            <input type="hidden" name="telresponsable" value="${telresponsable}">
-            <input type="hidden" name="emailresponsable" value="${emailresponsable}">
-            <input type="hidden" name="numlicence" value="${numlicence}">
-            <input type="hidden" name="numassurance" value="${numassurance}">
-            <input type="hidden" name="idcommune" value="${idcommune21}">
-            <input type="hidden" name="idgalop" value="${idgalop22}">
-            <input type="hidden" name="action" value="modifier">
-        `;
-        document.body.appendChild(form);
-        form.submit();
-    });
-});
-
-    // Quand le bouton "Annuler" est cliqué
-    document.querySelectorAll('.annuler-btn').forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.stopPropagation();
-            const id = this.getAttribute('data-id');
-            const row = document.getElementById('row-' + id);
-            resetRow(row);
-        });
-    });
-
-    // Empêcher la propagation du clic dans les champs d'édition
-    document.querySelectorAll('.edit-field').forEach(field => {
-        field.addEventListener('click', function(event) {
-            event.stopPropagation();
+        // Gestion des onglets
+        $('.nav-btn').on('click', function() {
+            // Retire la classe active de tous les boutons et sections
+            $('.nav-btn').removeClass('active');
+            $('.section').removeClass('active');
+            
+            // Ajoute la classe active au bouton cliqué
+            $(this).addClass('active');
+            
+            // Affiche la section correspondante
+            const target = $(this).data('target');
+            $(`#${target}-section`).addClass('active');
         });
     });
 </script>
+
 </body>
 </html>

@@ -34,12 +34,13 @@ if (isset($_POST['action']) && $_POST['action'] === 'modifier') {
 }
 
 // Ajout d'une nouvelle pension
-if (isset($_POST['libpension']) && !isset($_POST['action'])) {
+if (isset($_POST["libpension"]) && !isset($_POST['action'])) {
     $libPension = $_POST['libpension'];
     $tarifPension = $_POST['tarifpension'];
     $dateDebut = $_POST['datedebut'];
     $dateFin = $_POST['datefin'];
     $numSire = $_POST['numsire'];
+    $idCavalier = $_POST['idcavalier'];
 
     $unePension = new Pension(
         null,
@@ -51,6 +52,11 @@ if (isset($_POST['libpension']) && !isset($_POST['action'])) {
     );
     
     if($unePension->InsertPension()) {
+        $idPension = $con->lastInsertId();
+        $sql = "INSERT INTO prend (idcavalier, idpension) VALUES (:idcavalier, :idpension)";
+        $stmt = $con->prepare($sql);
+        $stmt->execute([':idcavalier' => $idCavalier, ':idpension' => $idPension]);
+        
         header('Location: pension.php');
         exit();
     } else {

@@ -202,7 +202,7 @@ class Cavalier
         ];
 
         $sql = "INSERT INTO cavalier (idcavalier, nomcavalier, prenomcavalier, datenaissancecavalier, nomresponsable, rueresponsable, telresponsable, emailresponsable, password, numlicence, numassurance, idcommune, idgalop, afficher, iduser) 
-        VALUES (null, :nc, :pc, :dnc, :nr, :rr, :tr, :er, :pw, :nl, :na, :idc, :idg,true,$session_idcompte);";
+                VALUES (null, :nc, :pc, :dnc, :nr, :rr, :tr, :er, :pw, :nl, :na, :idc, :idg,true,$session_idcompte);";
         $stmt = $con->prepare($sql);
 
         if ($stmt->execute($data)) {

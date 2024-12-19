@@ -26,22 +26,23 @@ $ReqRace = $oRace->selectRace();
 
     <div id="create-section" class="section">
         <h2>Créer une Race</h2>
-        <form action="race_traitement.php" method="post">
-            <label for="nom">Nom de la race:</label>
-            <input type="text" name="nom" required><br>
-            <input type="submit">
+        <form action="race_traitement.php" method="post" class="form-generic">
+            <div class="form-group">
+                <label for="nom">Nom de la race:</label>
+                <input type="text" name="nom" class="input-field" required>
+            </div>
+            <input type="submit" value="Créer" class="btn-submit">
         </form>
     </div>
 
-    <div id="list-section" class="table-section section active">
+    <div id="list-section" class="section active">
         <h2>Liste des Races</h2>
         <table id="RaceTable" class="display">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nom de la race</th>
-                    <th>Modifier</th>
-                    <th>Supprimer</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,18 +51,17 @@ $ReqRace = $oRace->selectRace();
                     <td><?= htmlspecialchars($racetableau['idrace']) ?></td>
                     <td>
                         <span class="static-field"><?= htmlspecialchars($racetableau['librace']) ?></span>
-                        <input type="text" class="edit-field" name="librace" value="<?= htmlspecialchars($racetableau['librace']) ?>" style="display:none;">
+                        <input type="text" class="edit-field input-field" name="librace" 
+                            value="<?= htmlspecialchars($racetableau['librace']) ?>" style="display:none;">
                     </td>
-                    
                     <td>
-                        <button id='modifier' class="modifier-btn" data-id="<?= $racetableau['idrace'] ?>">Modifier</button>
-                        <button id='modifier' class="confirmer-btn" data-id="<?= $racetableau['idrace'] ?>" style="display:none;">Confirmer</button>
+                        <button class="modifier-btn" data-id="<?= $racetableau['idrace'] ?>">Modifier</button>
+                        <button class="confirmer-btn" data-id="<?= $racetableau['idrace'] ?>" style="display:none;">Confirmer</button>
                         <button class="annuler-btn" data-id="<?= $racetableau['idrace'] ?>" style="display:none;">Annuler</button>
-                    </td>
-                    <td>
-                    <form action="race_traitement.php" method="POST" style ='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cours?');">
+                        <form action="race_traitement.php" method="POST" style="display:inline;" 
+                            onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette race?');">
                             <input type="hidden" name="supprimer" value="<?= $racetableau['idrace'] ?>">
-                            <button type="submit">Supprimer</button>
+                            <button type="submit" class="supprimer-btn">Supprimer</button>
                         </form>
                     </td>
                 </tr>

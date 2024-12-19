@@ -112,15 +112,17 @@ if (isset($_POST["nomcheval"]) && !isset($_POST['action'])) {
 // Suppression d'un cheval
 if (isset($_POST["supprimer"])) {
     try {
-        $numsire = $_POST["supprimer"]; 
-        $unCavalier = new Cavalerie($numsire, null, null, null, null, null); 
-        $success = $unCavalier->DeleteCavalerie($numsire);
+        $idcavalerie = $_POST["supprimer"]; 
+        $unCavalier = new Cavalerie($idcavalerie, null, null, null, null, null); 
+        $success = $unCavalier->DeleteCavalerie($idcavalerie);
         
-        header('Location: cavalerie.php');
-        exit();
+        if ($success) {
+            sendJsonResponse(true, "Cheval supprimé avec succès");
+        } else {
+            sendJsonResponse(false, "Erreur lors de la suppression du cheval");
+        }
     } catch (Exception $e) {
-        echo "Erreur : " . $e->getMessage();
-        exit();
+        sendJsonResponse(false, "Erreur : " . $e->getMessage());
     }
 }
 

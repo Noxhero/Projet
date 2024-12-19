@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -20,85 +19,101 @@ if (isset($_SESSION['error_message'])) {
     $oInserer = new Inserer(null, null);
     $ReqInserer = $oInserer->InsererAll();
     ?>
-    <h1>Ajouter une inscription</h1>
-    <form action="insert_traitement.php" method="POST">
-    <label for="cours">Cours :</label>
-<div class="content">
-    <div class="input_container">
-        <input type="text" name='nomcours' id="nom_idcours" placeholder="nom du cours" onkeyup="autocompletCours()">
-        <input type="hidden" name='idcours' id="idcours">
-        <ul id="nom_list_idcours"></ul>
-    </div>
-</div>
+    <div class="container">
+        <nav class="nav-menu">
+            <button class="nav-btn" data-target="create">➕ Ajouter une Inscription</button>
+            <button class="nav-btn active" data-target="list">📋 Liste des Inscriptions</button>
+        </nav>
 
-<label for="cavalier">Cavalier:</label>
-<div class="content">
-    <div class="input_container">
-        <input type="text" name="nomcavalier" id="nomcavalier" placeholder="nom du cavalier" onkeyup="autocompletCavalier()">
-        <input type="text" name='prenomcavalier' id="prenomcavalier" placeholder="prénom du cavalier">
-        <input type="hidden" name='idcavalier' id="idcavalier" >
-        <ul id="nom_list_idcavalier"></ul>
-        
-    </div>
-</div>
+        <div id="create-section" class="section">
+            <h2>Créer une Inscription</h2>
+            <form action="insert_traitement.php" method="POST" class="form-generic">
+                <label for="cours">Cours :</label>
+                <div class="input_container">
+                    <input type="text" name='nomcours' id="nom_idcours" placeholder="nom du cours" onkeyup="autocompletCours()">
+                    <input type="hidden" name='idcours' id="idcours">
+                    <ul id="nom_list_idcours"></ul>
+                </div>
 
-        <input type="submit" value="Créer">
-    </form>
+                <label for="cavalier">Cavalier:</label>
+                <div class="input_container">
+                    <input type="text" name="nomcavalier" id="nomcavalier" placeholder="nom du cavalier" onkeyup="autocompletCavalier()">
+                    <input type="text" name='prenomcavalier' id="prenomcavalier" placeholder="prénom du cavalier">
+                    <input type="hidden" name='idcavalier' id="idcavalier">
+                    <ul id="nom_list_idcavalier"></ul>
+                </div>
 
-    <h1>Liste des inscriptions</h1>
-    <table id="InsererTable" class="display">
-        <thead>
-            <tr>
-                <th>ID Cours</th>
-                <th>ID Cavalier</th>
-                <th>Modifier</th>
-                <th>Supprimer</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach($ReqInserer as $unInserer): ?>
-                <tr id="row-<?= $unInserer->getIdCours() ?>-<?= $unInserer->getIdCavalier() ?>">
-                    <td>
-                        <div class="content">
-                            <div class="input_container">
-                                <span class="static-field"><?= htmlspecialchars($unInserer->getIdCours()) ?></span>
-                                <input type="text" class="edit-field" name="nom_idcours21_<?= $unInserer->getIdCours() ?>" id="nom_idcours21_<?= $unInserer->getIdCours() ?>" value="<?= htmlspecialchars($unInserer->getIdCours()) ?>" style="display:none;" onkeyup="autocompletcours21('<?= $unInserer->getIdCours() ?>')">
-                                <input type="hidden" name="idcours21" id="idcours21_<?= $unInserer->getIdCours() ?>">
-                                <ul id="nom_list_idcours21_<?= $unInserer->getIdCours() ?>"></ul>
-                            </div>
-                        </div>
-                    </td>
+                <input type="submit" value="Créer">
+            </form>
+        </div>
+
+        <div id="list-section" class="section table-section active">
+            <h2>Liste des Inscriptions</h2>
+            <table id="InsererTable" class="display">
+                <thead>
+                    <tr>
+                        <th>ID Cours</th>
+                        <th>ID Cavalier</th>
+                        <th>Modifier</th>
+                        <th>Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($ReqInserer as $unInserer): ?>
+                        <tr id="row-<?= $unInserer->getIdCours() ?>-<?= $unInserer->getIdCavalier() ?>">
+                            <td>
+                                <div class="content">
+                                    <div class="input_container">
+                                        <span class="static-field"><?= htmlspecialchars($unInserer->getIdCours()) ?></span>
+                                        <input type="text" class="edit-field" name="nom_idcours21_<?= $unInserer->getIdCours() ?>" id="nom_idcours21_<?= $unInserer->getIdCours() ?>" value="<?= htmlspecialchars($unInserer->getIdCours()) ?>" style="display:none;" onkeyup="autocompletcours21('<?= $unInserer->getIdCours() ?>')">
+                                        <input type="hidden" name="idcours21" id="idcours21_<?= $unInserer->getIdCours() ?>">
+                                        <ul id="nom_list_idcours21_<?= $unInserer->getIdCours() ?>"></ul>
+                                    </div>
+                                </div>
+                            </td>
                                         
-                    <td>
-                        <div class="content">
-                            <div class="input_container">
-                                <span class="static-field"><?= htmlspecialchars($unInserer->getIdCavalier()) ?></span>
-                                <input type="text" class="edit-field" name="nom_idcavalier22_<?= $unInserer->getIdCavalier() ?>" id="nom_idcavalier22_<?= $unInserer->getIdCavalier() ?>" value="<?= htmlspecialchars($unInserer->getIdCavalier()) ?>" style="display:none;" onkeyup="autocompletcavalier22('<?= $unInserer->getIdCavalier() ?>')">
-                                <input type="hidden" name="idcavalier22" id="idcavalier22_<?= $unInserer->getIdCavalier() ?>">
-                                <ul id="nom_list_idcavalier22_<?= $unInserer->getIdCavalier() ?>"></ul>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <button class="modifier-btn" data-idcours="<?= $unInserer->getIdCours() ?>" data-idcavalier="<?= $unInserer->getIdCavalier() ?>">Modifier</button>
-                        <button class="confirmer-btn" data-idcours="<?= $unInserer->getIdCours() ?>" data-idcavalier="<?= $unInserer->getIdCavalier() ?>" style="display:none;">Confirmer</button>
-                        <button class="annuler-btn" data-idcours="<?= $unInserer->getIdCours() ?>" data-idcavalier="<?= $unInserer->getIdCavalier() ?>" style="display:none;">Annuler</button>
-                    </td>
-                    <td>
-                        <form action="insert_traitement.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette inscription ?');">
-                            <input type="hidden" name="supprimer" value="<?= $unInserer->getIdCours() ?>-<?= $unInserer->getIdCavalier() ?>">
-                            <input type="submit" value="Supprimer" class="delete-btn">
-                        </form>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+                            <td>
+                                <div class="content">
+                                    <div class="input_container">
+                                        <span class="static-field"><?= htmlspecialchars($unInserer->getIdCavalier()) ?></span>
+                                        <input type="text" class="edit-field" name="nom_idcavalier22_<?= $unInserer->getIdCavalier() ?>" id="nom_idcavalier22_<?= $unInserer->getIdCavalier() ?>" value="<?= htmlspecialchars($unInserer->getIdCavalier()) ?>" style="display:none;" onkeyup="autocompletcavalier22('<?= $unInserer->getIdCavalier() ?>')">
+                                        <input type="hidden" name="idcavalier22" id="idcavalier22_<?= $unInserer->getIdCavalier() ?>">
+                                        <ul id="nom_list_idcavalier22_<?= $unInserer->getIdCavalier() ?>"></ul>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <button class="modifier-btn" data-idcours="<?= $unInserer->getIdCours() ?>" data-idcavalier="<?= $unInserer->getIdCavalier() ?>">Modifier</button>
+                                <button class="confirmer-btn" data-idcours="<?= $unInserer->getIdCours() ?>" data-idcavalier="<?= $unInserer->getIdCavalier() ?>" style="display:none;">Confirmer</button>
+                                <button class="annuler-btn" data-idcours="<?= $unInserer->getIdCours() ?>" data-idcavalier="<?= $unInserer->getIdCavalier() ?>" style="display:none;">Annuler</button>
+                            </td>
+                            <td>
+                                <form action="insert_traitement.php" method="POST" style='all:unset' onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette inscription ?');">
+                                    <input type="hidden" name="supprimer" value="<?= $unInserer->getIdCours() ?>-<?= $unInserer->getIdCavalier() ?>">
+                                    <input type="submit" value="Supprimer" class="delete-btn">
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <script>
-        // Activation de DataTables
         $(document).ready(function() {
             $('#InsererTable').DataTable();
+
+            // Gestion des onglets
+            document.querySelectorAll('.nav-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+                    button.classList.add('active');
+                    const target = button.getAttribute('data-target');
+                    document.getElementById(`${target}-section`).classList.add('active');
+                });
+            });
         });
 
         // Gestionnaire de clic extérieur

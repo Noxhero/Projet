@@ -22,33 +22,39 @@ $ReqCours = $oCours->selectCours();
 
 <div class="container">
     <nav class="nav-menu">
-        <button class="nav-btn active" data-target="create">Créer un Cours</button>
-        <button class="nav-btn" data-target="list">Liste des Cours</button>
+        <button class="nav-btn" data-target="create">🎓 Créer un Cours</button>
+        <button class="nav-btn active" data-target="list">📋 Liste des Cours</button>
     </nav>
 
-    <div id="create-section" class="form-section section active">
-        <h2><i class="fas fa-book-open"></i> Créer un Cours</h2>
+    <div id="create-section" class="section">
+        <h2>Créer un Cours</h2>
+        <form action="cours_traitement.php" method="POST" class="form-generic">
+            <div class="form-group">
+                <label for="nom">Nom du cours:</label>
+                <input type="text" name="nom" class="input-field" placeholder="Nom du cours" required>
+            </div>
 
-        
-<form action="cours_traitement.php" method="POST">
-    <label for="nom">Nom du cours:</label>
-    <input type="text" name="nom" required><br>
+            <div class="form-group">
+                <label for="debut">Début du cours:</label>
+                <input type="time" name="debut" class="input-field" required>
+            </div>
 
-    <label for="debut">Début du cours:</label>
-    <input type="time" name="debut" required><br>
+            <div class="form-group">
+                <label for="fin">Fin du cours:</label>
+                <input type="time" name="fin" class="input-field" required>
+            </div>
 
-    <label for="fin">Fin du cours:</label>
-    <input type="time" name="fin" required><br>
+            <div class="form-group">
+                <label for="Jour">Jour du cours:</label>
+                <input type="text" name="Jour" class="input-field" placeholder="Jour de la semaine" required>
+            </div>
 
-    <label for="Jour">Jour du cours:</label>
-    <input type="text" name="Jour" required><br>
-
-    <input type="submit" value="Créer">
-</form>
+            <input type="submit" value="Créer" class="btn-submit">
+        </form>
     </div>
 
-    <div id="list-section" class="table-section section">
-        <h2><i class="fas fa-list"></i> Liste des Cours</h2>
+    <div id="list-section" class="table-section section active">
+        <h2>Liste des Cours</h2>
         <i class="fas fa-calendar-alt"></i>
         <i class="fas fa-user-cowboy"></i>
         <i class="fas fa-map-marker-alt"></i>

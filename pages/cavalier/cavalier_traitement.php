@@ -2,42 +2,59 @@
 
 include '../../includes/haut.inc.php';
 
+// Ajoutez cette fonction helper au début du fichier
+function sendJsonResponse($success, $message, $data = []) {
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => $success,
+        'message' => $message,
+        'data' => $data
+    ]);
+    exit();
+}
 
 // Modification d'un cavalier
 if (isset($_POST['action']) && $_POST['action'] === 'modifier') {
-    $idCavalier = $_POST["idcavalier"];
-    $nomCavalier = $_POST["nomcavalier"];
-    $prenomCavalier = $_POST["prenomcavalier"];
-    $dateNaissanceCavalier = $_POST["datenaissancecavalier"];
-    $nomResponsable = $_POST["nomresponsable"];
-    $rueResponsable = $_POST["rueresponsable"];
-    $telResponsable = $_POST["telresponsable"];
-    $emailResponsable = $_POST["emailresponsable"];
-    $numLicence = $_POST["numlicence"];
-    $numAssurance = $_POST["numassurance"];
-    $idcommune = $_POST["idcommune"]; 
-    $idGalop = $_POST["idgalop"];
+    try {
+        $idCavalier = $_POST["idcavalier"];
+        $nomCavalier = $_POST["nomcavalier"];
+        $prenomCavalier = $_POST["prenomcavalier"];
+        $dateNaissanceCavalier = $_POST["datenaissancecavalier"];
+        $nomResponsable = $_POST["nomresponsable"];
+        $rueResponsable = $_POST["rueresponsable"];
+        $telResponsable = $_POST["telresponsable"];
+        $emailResponsable = $_POST["emailresponsable"];
+        $numLicence = $_POST["numlicence"];
+        $numAssurance = $_POST["numassurance"];
+        $idcommune = $_POST["idcommune"]; 
+        $idGalop = $_POST["idgalop"];
 
-
-    // Création du cavalier avec les bons paramètres
-    $unCavalier = new Cavalier(
-        $idCavalier,
-        $nomCavalier,
-        $prenomCavalier,
-        $dateNaissanceCavalier,
-        $nomResponsable,
-        $rueResponsable,
-        $telResponsable,
-        $emailResponsable,
-        null, // password n'est pas modifié lors d'une mise à jour
-        $numLicence,
-        $numAssurance,
-        $idcommune,
-        $idGalop
-    );
+        $unCavalier = new Cavalier(
+            $idCavalier,
+            $nomCavalier,
+            $prenomCavalier,
+            $dateNaissanceCavalier,
+            $nomResponsable,
+            $rueResponsable,
+            $telResponsable,
+            $emailResponsable,
+            null, // password n'est pas modifié
+            $numLicence,
+            $numAssurance,
+            $idcommune,
+            $idGalop
+        );
+        
+        if ($unCavalier->UpdateCavalier()) {
+            $_SESSION['success'] = "Cavalier modifié avec succès";
+        } else {
+            $_SESSION['error'] = "Erreur lors de la modification du cavalier";
+        }
+    } catch (Exception $e) {
+        $_SESSION['error'] = "Erreur : " . $e->getMessage();
+    }
     
-    $unCavalier->UpdateCavalier();
-    header('Location: cavalier.php');
+    header("Location: cavalier.php");
     exit();
 }
 
@@ -84,12 +101,19 @@ if (isset($_POST["nomcavalier"]) && !isset($_POST['action'])) {
 
 // Suppression d'un cavalier
 if (isset($_POST["supprimer"])) {
-    $idCavalier = $_POST["supprimer"]; 
-    $unCavalier = new Cavalier($idCavalier, null, null, null, null, null, null, null, null, null,null,null,null); 
-    $unCavalier->DeleteCavalier($idCavalier);
-    
-    header("Location: cavalier.php");
-    exit(); 
+    try {
+        $idCavalier = $_POST["supprimer"]; 
+        $unCavalier = new Cavalier($idCavalier, null, null, null, null, null, null, null, null, null, null, null, null); 
+        $success = $unCavalier->DeleteCavalier($idCavalier);
+        
+        if ($success) {
+            sendJsonResponse(true, "Cavalier supprimé avec succès");
+        } else {
+            sendJsonResponse(false, "Erreur lors de la suppression du cavalier");
+        }
+    } catch (Exception $e) {
+        sendJsonResponse(false, "Erreur : " . $e->getMessage());
+    }
 }
 
 ?>

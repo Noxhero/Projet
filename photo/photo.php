@@ -3,37 +3,26 @@ include '../../includes/haut.inc.php';
 
 try {
     $photo = new Photo();
-    
-    // Récupération et affichage des photos existantes
     $photos = $photo->getPhotoByNumSire();
+?>
+    <div class="container">
+        <h2>Galerie des photos</h2>
+        
+        <div class="gallery-container">
+            <?php if (empty($photos)): ?>
+                <p class="no-photos">Aucune photo n'est disponible.</p>
+            <?php else: ?>
+                <?php foreach ($photos as $photo): ?>
+                    <div class="photo-container">
+                        <?php echo $photo->afficherPhoto(); ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </div>
 
-    echo "<h2>Galerie des photos</h2>";
-    
-    echo "<style>
-        .photo-container {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            text-align: center;
-        }
-        .photo-container img {
-            margin-bottom: 10px;
-            max-width: 300px;
-            height: auto;
-        }
-    </style>";
-
-    if (empty($photos)) {
-        echo "<p>Aucune photo n'est disponible.</p>";
-    } else {
-        foreach ($photos as $photo) {
-            echo $photo->afficherPhoto();
-        }
-    }
-
+<?php
 } catch (Exception $e) {
-    echo "Erreur : " . $e->getMessage();
+    echo "<div class='error-message'>Erreur : " . $e->getMessage() . "</div>";
 }
 ?> 
